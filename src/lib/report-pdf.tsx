@@ -106,6 +106,38 @@ function Issues({ title, items }: { title: string; items: { problema: string; po
   );
 }
 
+
+const REVIEW_TEXT = {
+  preliminar: "PRELIMINAR - aún no ha sido revisada ni aprobada por un docente.",
+  aprobada: "APROBADA por el docente.",
+  ajustada: "APROBADA CON AJUSTES del docente.",
+  devuelta: "DEVUELTA por el docente con comentarios; esta estimación no fue aprobada.",
+} as const;
+
+function ReviewBlock({ d }: { d: ReportData }) {
+  const r = d.review;
+  return (
+    <View>
+      <T style={[s.h2, { color: r.status === "aprobada" || r.status === "ajustada" ? "#047857" : C.slate }]}>{`Estado de la revisión docente: ${REVIEW_TEXT[r.status]}`}</T>
+      {r.reviewer && <T style={s.p}>{`Revisó: ${r.reviewer}${r.at ? ` el ${fmtDate(r.at)}` : ""}.`}</T>}
+      {r.finalGrade != null && (
+        <T style={{ fontSize: 14, fontFamily: "Helvetica-Bold", color: "#047857" }}>{`Nota final tras la revisión: ${r.finalGrade} / ${d.scaleMax} (${r.finalPercent} %)`}</T>
+      )}
+      {r.adjustments.length > 0 && (
+        <View style={{ marginTop: 4 }}>
+          <T style={s.h2}>Ajustes realizados por el docente</T>
+          <Table
+            head={["Criterio", "IA", "Docente", "Justificación"]}
+            widths={[30, 10, 12, 48]}
+            rows={r.adjustments.map((a) => [a.criterion, `${a.original_percent} %`, `${a.adjusted_percent} %`, a.justification])}
+          />
+        </View>
+      )}
+      {r.comment ? <T style={s.p}>{`Comentario del docente: ${r.comment}`}</T> : null}
+    </View>
+  );
+}
+
 export function ReportDocument({ d }: { d: ReportData }) {
   const issuesCount = d.feedback.errores_conceptuales.length + d.feedback.errores_tecnicos.length + d.feedback.procedimientos_incorrectos.length;
   const citedFiles = new Map<string, number>();
@@ -238,7 +270,7 @@ export function ReportDocument({ d }: { d: ReportData }) {
         <Section n={14} title="Nota final orientativa">
           <T style={{ fontSize: 16, fontFamily: "Helvetica-Bold", color: C.indigo }}>{`${d.grade} / ${d.scaleMax}`}</T>
           <T style={[s.p, { marginTop: 4 }]}>{GRADE_DISCLAIMER}</T>
-          <T style={[s.p, s.small]}>La nota es preliminar: aún no ha sido revisada ni aprobada por el docente.</T>
+          <ReviewBlock d={d} />
         </Section>
 
         <Section n={15} title="Fortalezas">

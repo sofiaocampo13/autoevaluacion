@@ -10,6 +10,8 @@ import type { InventoryEntry } from "@/lib/evidence";
 import type { CodeReport } from "@/lib/code-check";
 import { reconcileInfographic } from "@/lib/infographic-data";
 import { Tabs } from "@/components/tabs";
+import { REVIEW_LABEL, STATE_LABEL, linkState } from "@/lib/review-logic";
+import { ReviewLinkPanel, type LinkRow } from "./review-panel";
 import { Infographic, type InfographicData } from "@/components/infographic";
 
 type Issue = { problema: string; por_que: string; como_corregir: string };
@@ -75,6 +77,65 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
   const inventory = (ev.evidence_inventory ?? []) as InventoryEntry[];
   const code = ev.test_results as CodeReport | null;
   const done = ev.status === "completada";
+  const reviewed = ev.review_status === "aprobada" || ev.review_status === "ajustada";
+
+  // Enlaces de revisión del estudiante. Se nombran las columnas: el hash del enlace no es legible ni siquiera para su dueño.
+  const [{ data: linkRows }, { data: review }] = await Promise.all([
+    supabase.from("review_links").select("id, created_at, expires_at, revoked_at, used_at, last_viewed_at").eq("evaluation_id", evalId).order("created_at", { ascending: false }),
+    supabase.from("teacher_reviews").select("*").eq("evaluation_id", evalId).order("created_at", { ascending: false }).limit(1).maybeSingle(),
+  ]);
+  const links: LinkRow[] = (linkRows ?? []).map((l) => {
+    const state = linkState(l);
+    return { id: l.id, createdAt: l.created_at, expiresAt: l.expires_at, state, label: STATE_LABEL[state], lastViewedAt: l.last_viewed_at };
+  });
+  const adjustments = (review?.adjustments ?? []) as { criterion: string; original_percent: number; adjusted_percent: number; justification: string }[];
+
+  const reviewTab = (
+    <div className="space-y-6">
+      <div className={card}>
+        <h2 className="mb-1 text-lg font-medium">Estado de la revisión</h2>
+        <p className="mb-3 text-sm font-medium text-slate-800">{REVIEW_LABEL[ev.review_status as keyof typeof REVIEW_LABEL]}</p>
+        {review ? (
+          <div className="space-y-2 text-sm text-slate-700">
+            <p>
+              <b>{review.reviewer_name}</b>{review.reviewer_email ? ` (${review.reviewer_email})` : ""} · {new Date(review.created_at).toLocaleString("es")}
+            </p>
+            {review.final_grade != null && (
+              <p>
+                Nota final: <b>{review.final_grade} / {ev.grade_scale_max}</b> ({review.final_percent} %) · estimación de la IA: {ev.estimated_grade} / {ev.grade_scale_max}
+              </p>
+            )}
+            {review.comment && <p className="rounded-lg bg-slate-50 p-3">{review.comment}</p>}
+            {adjustments.length > 0 && (
+              <div>
+                <p className="mb-1 font-medium">Ajustes del docente</p>
+                <ul className="space-y-2">
+                  {adjustments.map((a, i) => (
+                    <li key={i} className="rounded-lg bg-slate-50 p-3">
+                      <p className="font-medium">{a.criterion}: {a.original_percent} % → {a.adjusted_percent} %</p>
+                      <p className="text-slate-600">{a.justification}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        ) : (
+          <p className="text-sm text-slate-600">
+            Esta nota es una estimación de la IA y todavía no la ha visto un docente. Genera un enlace privado para que tu profesor revise las
+            evidencias, ajuste lo que considere y apruebe la nota. No necesita cuenta.
+          </p>
+        )}
+      </div>
+
+      {done && (
+        <div className={card}>
+          <h2 className="mb-3 text-lg font-medium">Enlaces de revisión</h2>
+          <ReviewLinkPanel evaluationId={evalId} links={links} canCreate={ev.review_status === "preliminar" || ev.review_status === "devuelta"} />
+        </div>
+      )}
+    </div>
+  );
 
   const infographicData: InfographicData = {
     labName: lab?.name ?? "Laboratorio",
@@ -278,12 +339,16 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
         <div className={`${card} mb-4`}>
           <div className="flex flex-wrap items-end gap-6">
             <div>
-              <p className="text-xs uppercase tracking-wide text-slate-500">Calificación orientativa</p>
-              <p className="text-4xl font-semibold text-indigo-700">{ev.estimated_grade} <span className="text-lg text-slate-500">/ {ev.grade_scale_max}</span></p>
+              <p className="text-xs uppercase tracking-wide text-slate-500">{reviewed ? "Nota final (revisada por docente)" : "Calificación orientativa"}</p>
+              <p className="text-4xl font-semibold text-indigo-700">
+                {reviewed ? ev.final_grade : ev.estimated_grade} <span className="text-lg text-slate-500">/ {ev.grade_scale_max}</span>
+              </p>
+              {reviewed && <p className="text-xs text-slate-500">Estimación de la IA: {ev.estimated_grade} / {ev.grade_scale_max}</p>}
             </div>
             <div>
               <p className="text-xs uppercase tracking-wide text-slate-500">Cumplimiento global</p>
-              <p className="text-4xl font-semibold text-slate-800">{ev.overall_percent} %</p>
+              <p className="text-4xl font-semibold text-slate-800">{reviewed ? ev.final_percent : ev.overall_percent} %</p>
+              {reviewed && <p className="text-xs text-slate-500">IA: {ev.overall_percent} %</p>}
             </div>
           </div>
           <div className="mt-3 flex flex-wrap gap-3">
@@ -303,9 +368,21 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
             </a>
           </div>
           <p className="mt-3 rounded-lg bg-slate-100 px-3 py-2 text-xs text-slate-600">{GRADE_DISCLAIMER}</p>
-          <p className="mt-2 text-xs text-slate-500">
-            Nota preliminar: la revisión del docente no está disponible todavía. Calculada por el sistema con los pesos de la rúbrica.
-          </p>
+          {reviewed ? (
+            <div className="mt-3 rounded-lg bg-emerald-50 p-3 text-sm text-emerald-900 ring-1 ring-emerald-200">
+              <p className="font-medium">
+                {REVIEW_LABEL[ev.review_status as keyof typeof REVIEW_LABEL]}: nota final {ev.final_grade} / {ev.grade_scale_max} ({ev.final_percent} %)
+              </p>
+              <p className="text-xs">Revisó {ev.reviewer_name} el {ev.reviewed_at ? new Date(ev.reviewed_at).toLocaleDateString("es") : ""}. La estimación de la IA era {ev.estimated_grade} / {ev.grade_scale_max}.</p>
+            </div>
+          ) : (
+            <p className="mt-2 text-xs text-slate-500">
+              {ev.review_status === "devuelta"
+                ? "El docente devolvió esta evaluación con comentarios (ver la pestaña «Revisión docente»)."
+                : "Nota preliminar: aún no ha sido revisada por un docente. Puedes pedir una revisión en la pestaña «Revisión docente»."}{" "}
+              Calculada por el sistema con los pesos de la rúbrica.
+            </p>
+          )}
         </div>
       )}
 
@@ -322,6 +399,7 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
           { id: "retro", label: "Retroalimentación", content: feedbackTab },
           { id: "infografia", label: "Infografía temática", content: infographicTab },
           { id: "criterios", label: "Detalle por criterio", content: criteriaTab },
+          { id: "revision", label: "Revisión docente", content: reviewTab },
           { id: "tecnica", label: "Verificación y trazabilidad", content: technicalTab },
         ]}
       />

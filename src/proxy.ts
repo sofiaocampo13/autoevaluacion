@@ -1,7 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/login", "/registro", "/recuperar", "/auth"];
+// /revision es la página del docente: no tiene sesión y se protege con su enlace secreto (ver src/lib/review.ts).
+const PUBLIC_PATHS = ["/login", "/registro", "/recuperar", "/auth", "/revision"];
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });

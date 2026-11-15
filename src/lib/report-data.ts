@@ -42,6 +42,16 @@ export type ReportData = {
   inventory: { analyzed: number; total: number; skipped: InventoryEntry[] };
   code: CodeReport | null;
   trace: { provider: string; model: string; promptVersion: string };
+  /** Revisión docente (por enlace). null = nota preliminar sin revisar. */
+  review: {
+    status: "preliminar" | "aprobada" | "ajustada" | "devuelta";
+    reviewer: string | null;
+    at: Date | null;
+    finalGrade: number | null;
+    finalPercent: number | null;
+    comment: string;
+    adjustments: { criterion: string; original_percent: number; adjusted_percent: number; justification: string }[];
+  };
 };
 
 const text = (f: Flag | string) => (typeof f === "string" ? f : f.text);
@@ -52,10 +62,11 @@ export async function loadReportData(supabase: SupabaseClient, labId: string, ev
   const { data: ev } = await supabase.from("evaluations").select("*").eq("id", evaluationId).eq("lab_id", labId).maybeSingle();
   if (!ev || ev.status !== "completada") return null;
 
-  const [{ data: lab }, { data: results }, { data: profile }] = await Promise.all([
+  const [{ data: lab }, { data: results }, { data: profile }, { data: review }] = await Promise.all([
     supabase.from("labs").select("name, description, objectives").eq("id", labId).single(),
     supabase.from("criterion_results").select("*").eq("evaluation_id", evaluationId).order("position"),
     supabase.from("profiles").select("full_name").eq("id", ev.user_id).maybeSingle(),
+    supabase.from("teacher_reviews").select("*").eq("evaluation_id", evaluationId).order("created_at", { ascending: false }).limit(1).maybeSingle(),
   ]);
   if (!lab || !results) return null;
 
@@ -110,5 +121,14 @@ export async function loadReportData(supabase: SupabaseClient, labId: string, ev
     inventory: { analyzed: usable.length, total: inventory.length, skipped: inventory.filter((i) => i.mode === "omitido" || i.mode === "unsupported") },
     code: (ev.test_results ?? null) as CodeReport | null,
     trace: { provider: ev.ai_provider ?? "", model: ev.ai_model ?? "", promptVersion: ev.prompt_version ?? "" },
+    review: {
+      status: ev.review_status ?? "preliminar",
+      reviewer: ev.reviewer_name ?? null,
+      at: ev.reviewed_at ? new Date(ev.reviewed_at) : null,
+      finalGrade: ev.final_grade != null ? Number(ev.final_grade) : null,
+      finalPercent: ev.final_percent != null ? Number(ev.final_percent) : null,
+      comment: review?.comment ?? "",
+      adjustments: (review?.adjustments ?? []) as ReportData["review"]["adjustments"],
+    },
   };
 }
