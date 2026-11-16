@@ -60,7 +60,7 @@ export async function register(formData: FormData) {
     await supabase.from("profiles").update({ ai_consent_at: new Date().toISOString() }).eq("id", data.user!.id);
     redirect("/");
   }
-  back("/login", "Cuenta creada. Revisa tu correo para confirmarla y luego inicia sesión.", "ok");
+  back("/login", "Cuenta creada. Revisa tu correo (y la carpeta de spam) para confirmarla y luego inicia sesión.", "ok");
 }
 
 export async function requestReset(formData: FormData) {
@@ -71,7 +71,7 @@ export async function requestReset(formData: FormData) {
     redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=/perfil`,
   });
   // Misma respuesta exista o no la cuenta (no revela qué correos están registrados).
-  back("/recuperar", "Si el correo está registrado, recibirás un enlace para restablecer la contraseña.", "ok");
+  back("/recuperar", "Si el correo está registrado, recibirás un enlace para restablecer la contraseña. Si no lo ves, revisa la carpeta de spam.", "ok");
 }
 
 export async function logout() {
