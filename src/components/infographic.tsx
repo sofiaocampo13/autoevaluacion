@@ -64,9 +64,9 @@ export function Infographic({ data }: { data: InfographicData }) {
 
       <div ref={ref} className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
         <header className="bg-brand-700 px-6 py-5 text-white">
-          <p className="text-xs uppercase tracking-wide text-brand-100">Infografía temática · {data.date}</p>
-          <h3 className="mt-1 text-xl font-semibold">{data.labName}</h3>
+          <h3 className="text-xl font-semibold">{data.labName}</h3>
           {data.title && <p className="text-sm text-brand-100">{data.title}</p>}
+          <p className="mt-0.5 text-xs text-brand-100">Infografía temática · {data.date}</p>
           <div className="mt-4 flex flex-wrap gap-6">
             <div>
               <p className="text-xs text-brand-100">Calificación orientativa</p>

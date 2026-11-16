@@ -291,8 +291,8 @@ export function MindMapView({ root: full }: { root: MindNode }) {
       </div>
 
       <aside className="rounded-xl bg-white p-4 ring-1 ring-slate-200 lg:max-h-[38rem] lg:overflow-y-auto" aria-live="polite">
-        <p className="text-xs uppercase tracking-wide text-slate-500">{KIND[selected.kind]}</p>
-        <h2 className="mt-0.5 text-base font-semibold text-slate-900">{selected.detail.title}</h2>
+        <h2 className="text-base font-semibold text-slate-900">{selected.detail.title}</h2>
+        <p className="text-xs text-slate-500">{KIND[selected.kind]}</p>
         <p className="mt-1 text-sm">
           {PALETTE[selected.state].name && (
             <span className="rounded-full px-2 py-0.5 text-xs font-medium" style={{ background: PALETTE[selected.state].fill, color: PALETTE[selected.state].text, border: `1px solid ${PALETTE[selected.state].stroke}` }}>

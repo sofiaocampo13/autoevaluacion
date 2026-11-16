@@ -65,9 +65,9 @@ export function SemesterInfographic({ data }: { data: SemesterInfographicData })
 
       <div ref={ref} className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
         <header className="bg-slate-800 px-6 py-5 text-white">
-          <p className="text-xs uppercase tracking-wide text-slate-300">Infografía del semestre · {data.date}</p>
-          <h3 className="mt-1 text-xl font-semibold">{data.subject}</h3>
+          <h3 className="text-xl font-semibold">{data.subject}</h3>
           {data.period && <p className="text-sm text-slate-300">{data.period}</p>}
+          <p className="mt-0.5 text-xs text-slate-300">Infografía del semestre · {data.date}</p>
           <div className="mt-4 flex flex-wrap gap-x-8 gap-y-3">
             <div>
               <p className="text-xs text-slate-300">Promedio orientativo</p>

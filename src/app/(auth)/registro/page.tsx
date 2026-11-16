@@ -7,6 +7,8 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
   const { error } = await searchParams;
   return (
     <form action={register}>
+      <h1 className="mb-1 text-xl font-semibold text-slate-900">Crear cuenta</h1>
+      <p className="mb-6 text-sm text-slate-500">Te enviaremos un correo para confirmarla.</p>
       <Notice error={error} />
       <Field label="Nombre completo" name="fullName" autoComplete="name" required />
       <Field label="Correo" name="email" type="email" autoComplete="email" required />

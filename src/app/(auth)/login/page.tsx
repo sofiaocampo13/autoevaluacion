@@ -11,6 +11,8 @@ export default async function LoginPage({
   const { error, ok } = await searchParams;
   return (
     <form action={login}>
+      <h1 className="mb-1 text-xl font-semibold text-slate-900">Iniciar sesión</h1>
+      <p className="mb-6 text-sm text-slate-500">Entra para ver tus laboratorios.</p>
       <Notice error={error} ok={ok} />
       <Field label="Correo" name="email" type="email" autoComplete="email" required />
       <PasswordField label="Contraseña" name="password" autoComplete="current-password" required />

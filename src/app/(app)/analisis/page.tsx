@@ -5,9 +5,18 @@ import { latestAnalysis, signatureOf } from "@/lib/run-semester";
 import { BAND_LABEL, type MasteryBand } from "@/lib/semester-stats";
 import { GRADE_DISCLAIMER } from "@/lib/scoring";
 import { SemesterInfographic } from "@/components/semester-infographic";
+import { PageHeader } from "@/components/page-header";
+import { Note } from "@/components/ui";
 import { AnalyzeButton } from "./analyze-button";
 
-const card = "rounded-xl bg-white p-5 ring-1 ring-slate-200";
+const card = "scroll-mt-16 rounded-xl bg-white p-6 ring-1 ring-slate-200 shadow-[0_1px_2px_rgba(42,35,64,0.05)]";
+const SECTIONS = [
+  { id: "resumen", label: "Resumen" },
+  { id: "competencias", label: "Competencias" },
+  { id: "brechas", label: "Brechas" },
+  { id: "diagnostico", label: "Diagnóstico y plan" },
+  { id: "informes", label: "Informes y descargas" },
+];
 const BAND_COLOR: Record<MasteryBand, string> = { dominio: "bg-emerald-500", competente: "bg-brand-500", en_desarrollo: "bg-amber-500", inicial: "bg-red-500" };
 const PRIORITY: Record<string, string> = { alta: "bg-red-50 text-red-700 ring-red-200", media: "bg-amber-50 text-amber-800 ring-amber-200", baja: "bg-slate-100 text-slate-700 ring-slate-200" };
 const delta = (d: number | null) => (d == null ? "—" : `${d > 0 ? "+" : ""}${d} pts`);
@@ -30,11 +39,18 @@ export default async function AnalysisPage() {
   const max = subject.grade_scale_max;
 
   return (
-    <section className="max-w-5xl space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Análisis del semestre</h1>
-        <p className="text-slate-500">{subject.name} · {subject.academic_period || "Sin periodo"}</p>
-      </div>
+    <section className="space-y-6">
+      <PageHeader title="Análisis del semestre" description={`${subject.name} · ${subject.academic_period || "Sin periodo"}`} />
+
+      {stats.labsEvaluated > 0 && (
+        <nav aria-label="En esta página" className="sticky top-0 z-10 -mx-4 flex gap-1 overflow-x-auto border-b border-slate-200 bg-slate-50 px-4 md:-mx-10 md:px-10">
+          {SECTIONS.map((x) => (
+            <a key={x.id} href={`#${x.id}`} className="whitespace-nowrap border-b-2 border-transparent px-3 py-3 text-sm font-medium text-slate-600 hover:border-brand-300 hover:text-brand-700">
+              {x.label}
+            </a>
+          ))}
+        </nav>
+      )}
 
       {stats.labsEvaluated === 0 ? (
         <div className={card}>
@@ -42,37 +58,39 @@ export default async function AnalysisPage() {
         </div>
       ) : (
         <>
-          <div className={card}>
-            <div className="flex flex-wrap items-end gap-8">
+          <div id="resumen" className={card}>
+            <div className="flex flex-wrap items-end gap-x-10 gap-y-4">
               <div>
-                <p className="text-xs uppercase tracking-wide text-slate-500">Promedio orientativo</p>
-                <p className="text-4xl font-semibold text-brand-700">{stats.averageGrade} <span className="text-lg text-slate-500">/ {max}</span></p>
+                <p className="text-sm text-slate-500">Promedio orientativo</p>
+                <p className="mt-1 font-display text-4xl font-semibold tracking-tight text-brand-700">{stats.averageGrade} <span className="text-lg font-normal text-slate-500">/ {max}</span></p>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-wide text-slate-500">Cumplimiento</p>
-                <p className="text-4xl font-semibold text-slate-800">{stats.averagePercent} %</p>
+                <p className="text-sm text-slate-500">Cumplimiento</p>
+                <p className="mt-1 font-display text-4xl font-semibold tracking-tight text-slate-800">{stats.averagePercent} %</p>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-wide text-slate-500">Evaluados</p>
-                <p className="text-4xl font-semibold text-slate-800">{stats.labsEvaluated}<span className="text-lg text-slate-500"> de {stats.labsTotal}</span></p>
+                <p className="text-sm text-slate-500">Evaluados</p>
+                <p className="mt-1 font-display text-4xl font-semibold tracking-tight text-slate-800">{stats.labsEvaluated}<span className="text-lg font-normal text-slate-500"> de {stats.labsTotal}</span></p>
               </div>
               {stats.trend && (
                 <div>
-                  <p className="text-xs uppercase tracking-wide text-slate-500">Primero → último</p>
-                  <p className="text-2xl font-semibold text-slate-800">{stats.trend.first} % → {stats.trend.last} %</p>
+                  <p className="text-sm text-slate-500">Primero → último</p>
+                  <p className="mt-1 font-display text-2xl font-semibold tracking-tight text-slate-800">{stats.trend.first} % → {stats.trend.last} %</p>
                 </div>
               )}
             </div>
             {stats.labsEvaluated < 3 && (
-              <p className="mt-3 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900">
+              <p className="mt-5 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900 ring-1 ring-amber-100">
                 Solo hay {stats.labsEvaluated} laboratorio(s) evaluado(s). Con tan pocos datos, las tendencias y los patrones todavía no son concluyentes.
               </p>
             )}
-            <p className="mt-3 rounded-lg bg-blue-50 px-3 py-2 text-xs text-blue-900 ring-1 ring-blue-100">{GRADE_DISCLAIMER} Los números de esta página los calcula el sistema; la IA solo redacta sobre ellos.</p>
+            <div className="mt-3">
+              <Note>{GRADE_DISCLAIMER} Los números de esta página los calcula el sistema; la IA solo redacta sobre ellos.</Note>
+            </div>
           </div>
 
-          <div className={card}>
-            <h2 className="mb-1 text-lg font-medium">{stats.competencies.every((c) => c.derived) ? "Criterios de la rúbrica (de menor a mayor)" : "Competencias (de menor a mayor)"}</h2>
+          <div id="competencias" className={card}>
+            <h2 className="mb-1 text-lg font-semibold text-slate-900">{stats.competencies.every((c) => c.derived) ? "Criterios de la rúbrica (de menor a mayor)" : "Competencias (de menor a mayor)"}</h2>
             {stats.competencies.some((c) => c.derived) && (
               <p className="mb-3 text-xs text-slate-500">Tu rúbrica no define competencias, así que se muestran los criterios tal como aparecen en ella.</p>
             )}
@@ -95,9 +113,9 @@ export default async function AnalysisPage() {
             <p className="mt-3 text-xs text-slate-500">Niveles propios de la plataforma (85 % dominio alto, 70 % competente, 50 % en desarrollo) para resumir; no son los de la rúbrica de tu docente.</p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div id="brechas" className="grid scroll-mt-16 gap-6 md:grid-cols-2">
             <div className={card}>
-              <h2 className="mb-3 text-lg font-medium">Por corte</h2>
+              <h2 className="mb-3 text-lg font-semibold text-slate-900">Por corte</h2>
               <ul className="space-y-1 text-sm text-slate-700">
                 {stats.byCut.map((c) => (
                   <li key={String(c.cut)} className="flex justify-between"><span>{c.cut ? `Corte ${c.cut}` : "Sin corte"} ({c.labs} lab.)</span><b>{c.averagePercent} %</b></li>
@@ -105,7 +123,7 @@ export default async function AnalysisPage() {
               </ul>
             </div>
             <div className={card}>
-              <h2 className="mb-3 text-lg font-medium">Criterios más bajos</h2>
+              <h2 className="mb-3 text-lg font-semibold text-slate-900">Criterios más bajos</h2>
               {stats.gaps.length === 0 ? (
                 <p className="text-sm text-slate-600">Ningún criterio bajo el 85 % ni con evidencia incompleta.</p>
               ) : (
@@ -131,48 +149,8 @@ export default async function AnalysisPage() {
             </div>
           )}
 
-          <div className={card}>
-            <h2 className="mb-1 text-lg font-medium">Informe integrado del semestre (PDF)</h2>
-            <p className="mb-3 text-sm text-slate-600">
-              Reúne la valoración de cada laboratorio, criterios, evolución, brechas y, si ya lo generaste, el diagnóstico y el plan. Se arma con tus datos guardados y no gasta peticiones de IA.
-              {a ? (current ? "" : " Ojo: el diagnóstico guardado está desactualizado y el informe lo marcará así.") : " Aún no generaste el análisis con IA: esa sección saldrá vacía."}
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <a className="rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-900" href="/api/analisis/informe" target="_blank" rel="noreferrer">Ver informe</a>
-              <a className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-slate-500" href="/api/analisis/informe?download=1">Descargar PDF</a>
-            </div>
-          </div>
-
-          <div className={card}>
-            <h2 className="mb-1 text-lg font-medium">Infografía del semestre</h2>
-            <p className="mb-3 text-sm text-slate-600">Resume tus cifras reales del semestre en una imagen descargable. No usa la IA: sale solo de tus evaluaciones.</p>
-            <SemesterInfographic
-              data={{
-                subject: subject.name,
-                period: subject.academic_period || "",
-                date: new Date().toLocaleDateString("es"),
-                grade: stats.averageGrade,
-                scaleMax: Number(max),
-                percent: stats.averagePercent,
-                evaluated: stats.labsEvaluated,
-                total: stats.labsTotal,
-                reviewed: stats.reviewedLabs,
-                points: stats.points.map((p) => ({ name: p.name, percent: p.percent, reviewed: p.reviewed })),
-                byCut: stats.byCut.map((c) => ({ label: c.cut ? `Corte ${c.cut}` : "Sin corte", percent: c.averagePercent, labs: c.labs })),
-                competenciesTitle: stats.competencies.every((c) => c.derived) ? "Cumplimiento por criterio" : "Cumplimiento por competencia",
-                competencies: [...stats.competencies].reverse().map((c) => ({ name: c.competency, percent: c.percent })),
-                conceptCounts: stats.concepts.reduce((a, c) => ({ ...a, [c.current]: a[c.current] + 1 }), { demostrado: 0, parcial: 0, refuerzo: 0 }),
-                toReinforce: stats.concepts.filter((c) => c.current === "refuerzo").map((c) => ({ name: c.name, recurrent: c.recurrent })),
-                strengths: stats.recurringStrengths,
-                weaknesses: stats.recurringWeaknesses,
-                pending: stats.pendingLabs,
-                disclaimer: `${GRADE_DISCLAIMER} Generada por la plataforma a partir de tus evaluaciones.`,
-              }}
-            />
-          </div>
-
-          <div className={card}>
-            <h2 className="mb-1 text-lg font-medium">Diagnóstico y plan personalizado</h2>
+          <div id="diagnostico" className={card}>
+            <h2 className="mb-1 text-lg font-semibold text-slate-900">Diagnóstico y plan personalizado</h2>
             {saved && (
               <p className="mb-3 text-xs text-slate-500">
                 Generado el {new Date(saved.createdAt).toLocaleString("es")} con {saved.labsCount} laboratorio(s) · modelo {saved.model || "no registrado"}.{" "}
@@ -247,6 +225,47 @@ export default async function AnalysisPage() {
               </div>
             </>
           )}
+          <div id="informes" className="scroll-mt-16 space-y-6">
+          <div className={card}>
+            <h2 className="mb-1 text-lg font-semibold text-slate-900">Informe integrado del semestre (PDF)</h2>
+            <p className="mb-3 text-sm text-slate-600">
+              Reúne la valoración de cada laboratorio, criterios, evolución, brechas y, si ya lo generaste, el diagnóstico y el plan. Se arma con tus datos guardados y no gasta peticiones de IA.
+              {a ? (current ? "" : " Ojo: el diagnóstico guardado está desactualizado y el informe lo marcará así.") : " Aún no generaste el análisis con IA: esa sección saldrá vacía."}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a className="rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-900" href="/api/analisis/informe" target="_blank" rel="noreferrer">Ver informe</a>
+              <a className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-slate-500" href="/api/analisis/informe?download=1">Descargar PDF</a>
+            </div>
+          </div>
+
+          <div className={card}>
+            <h2 className="mb-1 text-lg font-semibold text-slate-900">Infografía del semestre</h2>
+            <p className="mb-3 text-sm text-slate-600">Resume tus cifras reales del semestre en una imagen descargable. No usa la IA: sale solo de tus evaluaciones.</p>
+            <SemesterInfographic
+              data={{
+                subject: subject.name,
+                period: subject.academic_period || "",
+                date: new Date().toLocaleDateString("es"),
+                grade: stats.averageGrade,
+                scaleMax: Number(max),
+                percent: stats.averagePercent,
+                evaluated: stats.labsEvaluated,
+                total: stats.labsTotal,
+                reviewed: stats.reviewedLabs,
+                points: stats.points.map((p) => ({ name: p.name, percent: p.percent, reviewed: p.reviewed })),
+                byCut: stats.byCut.map((c) => ({ label: c.cut ? `Corte ${c.cut}` : "Sin corte", percent: c.averagePercent, labs: c.labs })),
+                competenciesTitle: stats.competencies.every((c) => c.derived) ? "Cumplimiento por criterio" : "Cumplimiento por competencia",
+                competencies: [...stats.competencies].reverse().map((c) => ({ name: c.competency, percent: c.percent })),
+                conceptCounts: stats.concepts.reduce((a, c) => ({ ...a, [c.current]: a[c.current] + 1 }), { demostrado: 0, parcial: 0, refuerzo: 0 }),
+                toReinforce: stats.concepts.filter((c) => c.current === "refuerzo").map((c) => ({ name: c.name, recurrent: c.recurrent })),
+                strengths: stats.recurringStrengths,
+                weaknesses: stats.recurringWeaknesses,
+                pending: stats.pendingLabs,
+                disclaimer: `${GRADE_DISCLAIMER} Generada por la plataforma a partir de tus evaluaciones.`,
+              }}
+            />
+          </div>
+          </div>
         </>
       )}
     </section>

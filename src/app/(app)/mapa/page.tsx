@@ -4,6 +4,8 @@ import { loadSemesterBundle } from "@/lib/semester-data";
 import { latestAnalysis } from "@/lib/run-semester";
 import { buildMindMap, countNodes } from "@/lib/mindmap-data";
 import { MindMapView } from "./mindmap-view";
+import { PageHeader } from "@/components/page-header";
+import { Note } from "@/components/ui";
 
 export default async function MindMapPage() {
   const supabase = await createClient();
@@ -21,23 +23,18 @@ export default async function MindMapPage() {
   const tree = buildMindMap(subject.name, stats, details, saved?.analysis ?? null);
 
   return (
-    <section className="max-w-6xl space-y-4">
-      <div>
-        <h1 className="text-2xl font-semibold">Mapa mental</h1>
-        <p className="text-slate-500">
-          {subject.name} · {stats.labsEvaluated} de {stats.labsTotal} laboratorios evaluados · {countNodes(tree)} nodos
-        </p>
-      </div>
+    <section className="space-y-4">
+      <PageHeader title="Mapa mental" description={`${subject.name} · ${stats.labsEvaluated} de ${stats.labsTotal} laboratorios evaluados · ${countNodes(tree)} nodos`} />
       {stats.labsEvaluated === 0 ? (
         <div className="rounded-xl bg-white p-5 ring-1 ring-slate-200 text-slate-700">
           Todavía no hay laboratorios evaluados, así que el mapa solo tendría la asignatura. Evalúa uno en <Link className="text-brand-700 underline" href="/laboratorios">Mis laboratorios</Link>.
         </div>
       ) : (
         <>
-          <p className="rounded-lg bg-blue-50 px-3 py-2 text-xs text-blue-900 ring-1 ring-blue-100">
+          <Note>
             Cada nodo sale de tus evaluaciones reales: temas de las infografías, niveles de dominio de los criterios y las citas del trabajo. Los laboratorios sin evaluar aparecen aparte y no cuentan.
             Son estimaciones orientativas, no notas oficiales.
-          </p>
+          </Note>
           <MindMapView root={tree} />
         </>
       )}

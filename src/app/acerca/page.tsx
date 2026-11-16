@@ -43,9 +43,9 @@ export default function AboutPage() {
         </p>
 
         <header className="mb-8">
-          <p className="text-xs uppercase tracking-wide text-slate-500">Proyecto final · Profundización I · Inteligencia Artificial</p>
-          <h1 className="mt-1 text-3xl font-semibold text-slate-900">Asesor pedagógico inteligente</h1>
-          <p className="mt-1 text-lg text-slate-600">Autoevaluación de laboratorios con IA, explicable y verificable</p>
+          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Asesor pedagógico inteligente</h1>
+          <p className="mt-2 text-lg text-slate-600">Autoevaluación de laboratorios con IA, explicable y verificable</p>
+          <p className="mt-1 text-sm text-slate-500">Proyecto final · Profundización I · Inteligencia Artificial</p>
         </header>
 
         <section className="mb-8 rounded-2xl bg-white p-6 ring-1 ring-slate-200">
