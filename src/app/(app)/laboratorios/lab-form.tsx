@@ -12,7 +12,6 @@ type Lab = {
   repo_url: string | null;
   instructions_material_id: string | null;
   rubric_material_id: string | null;
-  mindmap_topics: string[];
 };
 
 const input = "mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900";
@@ -90,16 +89,6 @@ export function LabForm({
           poder asociarlas.
         </p>
       )}
-      <label className="mb-4 block text-sm font-medium text-slate-700">
-        Temas del mapa mental que debe demostrar (uno por línea)
-        <textarea
-          name="topics"
-          defaultValue={lab?.mindmap_topics.join("\n")}
-          rows={4}
-          placeholder={"Ej.\nLey de Ohm\nCircuitos en serie"}
-          className={input}
-        />
-      </label>
       <SubmitButton>{submitLabel}</SubmitButton>
     </form>
   );

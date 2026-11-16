@@ -19,6 +19,7 @@ export default async function LoginPage({
         <Link className="text-indigo-700 hover:underline" href="/registro">Crear cuenta</Link>
         <Link className="text-indigo-700 hover:underline" href="/recuperar">Olvidé mi contraseña</Link>
       </p>
+      <p className="mt-3 text-center text-sm"><Link className="text-slate-500 hover:underline" href="/acerca">Acerca del proyecto y el equipo</Link></p>
     </form>
   );
 }

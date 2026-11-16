@@ -26,7 +26,6 @@ const labSchema = z.object({
   ),
   instructions: optUuid,
   rubric: optUuid,
-  topics: z.string().max(4000).default(""),
 });
 
 function parseLab(fd: FormData) {
@@ -39,12 +38,8 @@ function parseLab(fd: FormData) {
     repo: fd.get("repo"),
     instructions: fd.get("instructions"),
     rubric: fd.get("rubric"),
-    topics: fd.get("topics") ?? "",
   });
 }
-
-const toTopics = (s: string) =>
-  [...new Set(s.split(/\r?\n/).map((t) => t.trim()).filter(Boolean))].slice(0, 60).map((t) => t.slice(0, 120));
 
 /** RLS solo deja ver materiales propios o precargados: si no aparece, no se puede usar. */
 async function materialUsable(
@@ -81,7 +76,6 @@ export async function createLab(formData: FormData) {
       repo_url: d.repo,
       instructions_material_id: d.instructions,
       rubric_material_id: d.rubric,
-      mindmap_topics: toTopics(d.topics),
     })
     .select("id")
     .single();
@@ -146,7 +140,6 @@ export async function updateLab(formData: FormData) {
       repo_url: d.repo,
       instructions_material_id: d.instructions,
       rubric_material_id: d.rubric,
-      mindmap_topics: toTopics(d.topics),
       updated_at: new Date().toISOString(),
     })
     .eq("id", id.data);

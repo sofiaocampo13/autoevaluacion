@@ -14,13 +14,13 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 | ID | Prueba | Requisito | Estado |
 |---|---|---|---|
 | T01 | Registro e inicio de sesión | C5 autenticación | Manual — reportada |
-| T02 | Recuperación de contraseña con enlace a la URL pública | C5 | Manual — por ejecutar |
+| T02 | Recuperación de contraseña con enlace a la URL pública | C5 | Manual — reportada (16/11/2026) |
 | T03 | Aislamiento de datos entre usuarios | C5 / protección de datos | Anterior (11/11, Fase 1) |
-| T04 | Crear asignatura y laboratorio (descripción, objetivos, corte) | F1 | Manual — por ejecutar |
+| T04 | Crear asignatura y laboratorio (descripción, objetivos, corte) | F1 | Manual — reportada, con observaciones de usabilidad |
 | T05 | Carga de archivos, carpetas y ZIP; formatos y tamaños | F2 | Anterior (ZIP) + manual por ejecutar |
 | T06 | Entrega como repositorio de GitHub | F2 | Anterior |
-| T07 | Interpretación de la rúbrica con IA y detección de inconsistencias | F3 | Anterior + manual por ejecutar |
-| T08 | Confirmación y bloqueo de la rúbrica (versión inmutable) | F3 / C6 | Manual — por ejecutar |
+| T07 | Interpretación de la rúbrica con IA y detección de inconsistencias | F3 | Anterior + manual reportada (con un fallo corregido) |
+| T08 | Confirmación y bloqueo de la rúbrica (versión inmutable) | F3 / C6 | Manual — reportada (16/11/2026) |
 | T09 | Evaluación completa de un laboratorio en la URL pública | F4 | Manual — reportada |
 | T10 | Citas verificadas: una evidencia inventada no cuenta | F4 / C2 | **Automática superada** (18/18, 16/11/2026) |
 | T11 | La nota la calcula el backend con los pesos de la rúbrica | C2 | **Automática superada** (incluida en T10) |
@@ -30,16 +30,15 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 | T15 | Informe PDF del laboratorio | F4 / C6 | Anterior + manual por ejecutar |
 | T16 | Revisión docente por enlace: ajuste, nota recalculada, un solo uso | F4 / C6 | **Automática superada** (lógica 14/14) + base real anterior (15/15) |
 | T17 | Análisis del semestre: estadísticas, diagnóstico y plan sin cifras inventadas | F5 | **Automática superada** (27 comprobaciones) |
-| T18 | Informe integrado en PDF e infografía del semestre | F5 | **Automática superada** (PDF 2/2) + manual por ejecutar |
+| T18 | Informe integrado en PDF e infografía del semestre | F5 | **Automática superada** (PDF 2/2) + manual reportada (16/11/2026) |
 | T19 | Mapa mental interactivo: navegar, detalle, filtro y descarga | F6 | **Automática superada** (11/11) + manual — reportada |
 | T20 | Límites de uso de la IA y del almacenamiento | C5 / calidad | **Automática superada** (base real, 16/16) |
 
 **Cobertura (algunas pruebas combinan estados; ver cada ficha):**
 - 8 tienen una verificación automática ejecutada el 16/11/2026: T10, T11, T14, T16, T17, T18, T19 y T20.
 - 7 se apoyan en una verificación de una sesión anterior, no repetida hoy: T03, T05, T06, T07, T12, T13 y T15.
-- 2 solo tienen una verificación manual reportada, sin captura: T01 y T09.
-- 3 no se han ejecutado todavía: T02, T04 y T08.
-- Además, T05, T07, T14, T15 y T18 tienen una parte manual en la URL pública por ejecutar.
+- 6 tienen una verificación manual reportada en la URL pública, sin captura: T01, T02, T04, T08, T09 y T18 (T07 y T19 también, combinadas con otras).
+- Todavía no se han ejecutado en la URL pública: la parte manual de T05, T14 y T15.
 
 ## Fichas
 
@@ -51,7 +50,7 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 ### T02 — Recuperación de contraseña
 - **Procedimiento:** «Olvidé mi contraseña» con un correo registrado; abrir el enlace recibido.
 - **Resultado esperado:** el enlace abre `autoevaluacion-kwff.vercel.app` (no `localhost`) y permite fijar una contraseña nueva.
-- **Estado:** Manual — por ejecutar. Depende de que las URL permitidas de Supabase estén configuradas (se configuraron el 15/11/2026).
+- **Estado:** Manual — reportada (16/11/2026): la función trabaja y Supabase envía el correo. No se anotó explícitamente a qué dirección apuntaba el enlace; conviene confirmarlo en la próxima ejecución. Depende de las URL permitidas de Supabase (configuradas el 15/11/2026).
 
 ### T03 — Aislamiento entre usuarios
 - **Procedimiento:** `node --env-file=.env.local scripts/test-isolation.mjs` (crea dos usuarios y comprueba, por tabla y en Storage, que cada uno solo ve y escribe lo suyo).
@@ -61,7 +60,7 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 ### T04 — Crear asignatura y laboratorio
 - **Procedimiento:** registrar la asignatura (nombre, periodo, escala 0–5 o 0–100); crear un laboratorio con nombre, descripción, objetivos y corte; editarlo.
 - **Resultado esperado:** los datos se guardan y aparecen en el listado y en el panel con el corte indicado.
-- **Estado:** Manual — por ejecutar.
+- **Estado:** Manual — reportada (16/11/2026), con una observación de usabilidad: la creación del laboratorio resulta extraña y sería mejor rellenarla a partir de los documentos subidos (propuesta pendiente de diseño). Se retiró el campo «Temas del mapa mental que debe demostrar», que no se usaba.
 
 ### T05 — Carga de archivos, carpetas y ZIP
 - **Procedimiento:** subir un PDF, un archivo de código, una carpeta completa y un ZIP; intentar subir un formato no admitido y un archivo de más de 50 MB; intentar un ZIP con rutas peligrosas.
@@ -76,12 +75,12 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 ### T07 — Interpretación de la rúbrica
 - **Procedimiento:** asociar un documento de rúbrica al laboratorio y pedir su interpretación; revisar competencias, criterios, niveles y pesos; probar con pesos que no suman 100.
 - **Resultado esperado:** quedan criterios con pesos que suman 100 %; si no suman, se muestra el problema y se puede corregir antes de confirmar; la IA no inventa pesos que el documento no trae.
-- **Estado:** Anterior — pesos 15/20/20/20/25 coincidieron con el documento real (`scripts/test-rubric-parse.ts`). En la URL pública: Manual — por ejecutar. **Observación:** la columna «competencia» la completa la IA y puede variar entre lecturas; por eso la plataforma muestra los criterios y usa competencias solo si agrupan 2 o más criterios.
+- **Estado:** Anterior — pesos 15/20/20/20/25 coincidieron con el documento real (`scripts/test-rubric-parse.ts`). En la URL pública: Manual — reportada (16/11/2026): la primera interpretación superó el tiempo máximo de 60 s y la página falló («This page couldn't load»); el límite se subió a 300 s. La segunda funcionó y mostró avisos de criterios con menos de 2 niveles; se añadió una explicación de qué son los niveles de desempeño. **Observación:** la columna «competencia» la completa la IA y puede variar entre lecturas; por eso la plataforma muestra los criterios y usa competencias solo si agrupan 2 o más criterios.
 
 ### T08 — Confirmación y bloqueo de la rúbrica
 - **Procedimiento:** confirmar una rúbrica válida; intentar editarla; crear una versión nueva; evaluar.
 - **Resultado esperado:** una rúbrica confirmada no se puede editar (la base de datos lo impide); cada evaluación guarda una copia exacta y la versión usada.
-- **Estado:** Manual — por ejecutar.
+- **Estado:** Manual — reportada (16/11/2026): la rúbrica confirmada no se puede editar y pide crear una versión nueva. Falta anotar que cada evaluación guarda la copia exacta (verificado en el código y en la base, no en esta ejecución).
 
 ### T09 — Evaluación completa en la URL pública
 - **Procedimiento:** con una rúbrica confirmada y los archivos de un trabajo, lanzar la evaluación y esperar el resultado.
@@ -131,7 +130,7 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 ### T18 — Informe integrado e infografía del semestre
 - **Procedimiento:** «Ver informe» y «Descargar PDF» en el análisis; «Descargar infografía del semestre».
 - **Resultado esperado:** el PDF trae valoraciones, criterios, evolución, brechas y plan (marcando si está desactualizado); la infografía muestra las cifras reales y los laboratorios sin evaluar aparte.
-- **Estado:** **Automática superada** — el PDF se genera con y sin análisis (2/2, 16/11/2026). **Revisión visual del PDF y de la descarga PNG: Manual — por ejecutar** (no se ha visto el resultado).
+- **Estado:** **Automática superada** — el PDF se genera con y sin análisis (2/2, 16/11/2026). **Revisión visual del PDF y de la infografía: Manual — reportada (16/11/2026):** «funciona correctamente, se ve muy bien». Sin captura.
 
 ### T19 — Mapa mental interactivo
 - **Procedimiento:** abrir «Mapa mental»; expandir y contraer; zoom y arrastre; abrir el detalle de un criterio y de un concepto; alternar «Solo fortalezas»; descargar PNG y SVG.
@@ -155,15 +154,10 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 
 ## Registro de ejecución manual
 
-Para las pruebas «por ejecutar», anotar aquí el resultado real (fecha, quién, Pasa/Falla y una captura):
+Para las partes que siguen «por ejecutar», anotar aquí el resultado real (fecha, quién, Pasa/Falla y una captura):
 
 | ID | Fecha | Quién | Resultado | Evidencia |
 |---|---|---|---|---|
-| T02 | | | | |
-| T04 | | | | |
 | T05 | | | | |
-| T07 | | | | |
-| T08 | | | | |
 | T14 | | | | |
 | T15 | | | | |
-| T18 | | | | |

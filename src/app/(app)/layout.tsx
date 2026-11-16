@@ -21,6 +21,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           <Link className={link} href="/mapa">Mapa mental</Link>
           <Link className={link} href="/materiales">Materiales</Link>
           <Link className={link} href="/perfil">Mi perfil</Link>
+          <Link className={link} href="/acerca">Acerca del proyecto</Link>
         </nav>
         <form action={logout} className="mt-4">
           <button className="rounded-lg px-3 py-2 text-sm text-slate-500 hover:bg-slate-100" type="submit">

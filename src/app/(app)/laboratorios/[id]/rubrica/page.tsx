@@ -8,7 +8,7 @@ import type { Criterion } from "@/lib/rubric-validate";
 import { RubricEditor } from "./rubric-editor";
 import { createBlankRubric, deleteDraftRubric, newRubricVersion, parseRubric } from "./actions";
 
-export const maxDuration = 60; // la interpretación con IA puede tardar ~15 s o más
+export const maxDuration = 300; // la interpretación con IA puede tardar más de un minuto si el modelo está saturado
 
 export default async function RubricPage({
   params,
@@ -54,6 +54,24 @@ export default async function RubricPage({
         usará para evaluar.
       </p>
       <Notice error={error} ok={ok} />
+
+      <details className="mb-6 max-w-3xl rounded-xl bg-white p-4 text-sm text-slate-700 ring-1 ring-slate-200" open={selected?.status === "borrador" && criteria.some((c) => c.levels.length < 2)}>
+        <summary className="cursor-pointer font-medium text-slate-900">¿Qué son los niveles de desempeño y por qué importan?</summary>
+        <div className="mt-3 space-y-2">
+          <p>
+            Cada criterio de la rúbrica describe qué se espera del trabajo en varios <b>niveles</b>, por ejemplo «Excelente», «Bueno», «Aceptable» e «Insuficiente». Cada nivel tiene un
+            descriptor: la descripción de cómo se ve un trabajo en ese escalón.
+          </p>
+          <p>
+            <b>La nota no se calcula con los niveles</b>: el sistema la calcula con los pesos (peso × porcentaje de cada criterio, sumados). Pero el <b>porcentaje de cada criterio</b> lo estima la IA
+            comparando tus evidencias con los descriptores de los niveles: elige el nivel que mejor coincide y un porcentaje dentro de su rango. Por eso los niveles influyen en la nota de forma indirecta.
+          </p>
+          <p>
+            Si un criterio tiene <b>menos de 2 niveles</b>, la IA no tiene una escala con la cual comparar y su estimación se vuelve más arbitraria (tiende a los extremos). La plataforma te avisa, pero no te lo impide.
+            Para mejorar la precisión, agrega niveles en el borrador antes de confirmar la rúbrica (al menos dos por criterio, con un descriptor claro cada uno).
+          </p>
+        </div>
+      </details>
 
       <div className="mb-6 flex flex-wrap items-center gap-3">
         <form action={parseRubric}>
