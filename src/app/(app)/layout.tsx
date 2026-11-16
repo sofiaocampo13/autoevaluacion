@@ -1,9 +1,18 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { BrandMark, Icon } from "@/components/icons";
-import { NavLinks } from "@/components/nav-links";
+import { BrandMark } from "@/components/icons";
+import { MobileTabs, SidebarNav } from "@/components/nav-links";
 import { logout } from "../(auth)/actions";
+
+const initialsOf = (name: string) =>
+  name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0])
+    .join("")
+    .toUpperCase();
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -11,31 +20,46 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   if (!data.user) redirect("/login");
   const { data: profile } = await supabase.from("profiles").select("full_name").eq("id", data.user.id).single();
   const name = profile?.full_name || data.user.email || "";
+  const initials = initialsOf(name) || "?";
 
   return (
-    <div className="min-h-screen bg-slate-50 md:flex">
-      <aside className="border-b border-slate-200 bg-white px-4 py-4 md:sticky md:top-0 md:flex md:h-screen md:w-64 md:shrink-0 md:flex-col md:border-b-0 md:border-r md:py-6">
-        <Link href="/" className="mb-4 flex items-center gap-2.5 rounded-lg md:mb-8">
-          <BrandMark />
-          <span className="font-display text-[15px] font-semibold leading-tight text-slate-900">
-            Asesor pedagógico
-            <span className="block text-xs font-normal text-slate-500">Autoevaluación con IA</span>
+    <div className="min-h-screen bg-slate-50 text-slate-800 md:flex">
+      {/* Escritorio: menú lateral de 248 px. */}
+      <aside className="hidden bg-slate-900 px-[18px] py-7 text-[#F4EEFF] md:sticky md:top-0 md:flex md:h-screen md:w-[248px] md:shrink-0 md:flex-col md:gap-7">
+        <Link href="/" className="flex items-center gap-3 px-2">
+          <BrandMark className="h-9 w-9" />
+          <span className="flex flex-col">
+            <span className="font-display text-2xl font-semibold leading-none tracking-tight">Prisma</span>
+            <span className="mt-1 text-[11px] uppercase tracking-[0.08em] text-[#C9BEE0]">Autoevaluación IA</span>
           </span>
         </Link>
-        <NavLinks />
-        <div className="mt-4 flex items-center justify-between gap-2 border-t border-slate-200 pt-4 md:mt-auto">
-          <p className="min-w-0 truncate text-sm text-slate-600" title={data.user.email ?? undefined}>{name}</p>
-          <form action={logout}>
-            <button type="submit" className="flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900">
-              <Icon name="salir" className="h-[18px] w-[18px]" />
-              <span>Salir</span>
-            </button>
-          </form>
+        <SidebarNav />
+        <div className="mt-auto flex items-center gap-3 border-t border-plum-line px-2.5 py-3.5">
+          <div aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-pink-300 font-extrabold text-slate-900">{initials}</div>
+          <div className="flex min-w-0 flex-col">
+            <span className="truncate text-sm font-bold" title={data.user.email ?? undefined}>{name}</span>
+            <span className="flex items-center gap-1.5 text-xs text-[#C9BEE0]">
+              <Link href="/perfil" className="hover:text-white hover:underline">Mi perfil</Link>
+              <span aria-hidden="true">·</span>
+              <form action={logout}>
+                <button type="submit" className="hover:text-white hover:underline">Cerrar sesión</button>
+              </form>
+            </span>
+          </div>
         </div>
       </aside>
-      <div className="min-w-0 flex-1">
-        <div className="mx-auto max-w-6xl px-4 py-6 md:px-10 md:py-10">{children}</div>
-      </div>
+
+      {/* Móvil: barra superior con la marca y tu perfil, y pestañas abajo. */}
+      <header className="flex items-center justify-between px-5 pt-5 md:hidden">
+        <Link href="/" className="flex items-center gap-2.5">
+          <BrandMark className="h-8 w-8" onDark={false} />
+          <span className="font-display text-2xl font-semibold tracking-tight text-slate-800">Prisma</span>
+        </Link>
+        <Link href="/perfil" aria-label="Mi perfil" className="flex h-11 w-11 items-center justify-center rounded-full bg-pink-300 font-extrabold text-slate-900">{initials}</Link>
+      </header>
+
+      <main className="min-w-0 flex-1 px-5 pb-28 pt-5 md:px-12 md:pb-12 md:pt-8">{children}</main>
+      <MobileTabs />
     </div>
   );
 }

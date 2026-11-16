@@ -13,11 +13,11 @@ export function Notice({ error, ok }: { error?: string; ok?: string }) {
 export function Field(props: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
   const { label, ...rest } = props;
   return (
-    <label className="mb-4 block text-sm font-medium text-slate-700">
+    <label className="mb-4 flex flex-col gap-1.5 text-[13px] font-bold text-slate-800">
       {label}
       <input
         {...rest}
-        className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+        className="min-h-12 rounded-[14px] border-[1.5px] border-slate-300 bg-white px-3.5 text-[15px] font-normal text-slate-800 placeholder:text-slate-400 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-200"
       />
     </label>
   );
@@ -27,7 +27,7 @@ export function SubmitButton({ children }: { children: React.ReactNode }) {
   return (
     <button
       type="submit"
-      className="w-full rounded-lg bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-300"
+      className="flex min-h-[52px] w-full items-center justify-center rounded-full bg-brand-600 px-5 text-[15px] font-extrabold text-white hover:bg-brand-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2"
     >
       {children}
     </button>

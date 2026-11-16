@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prisma — Acceso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FAF7FD}
+a{color:#6D3FD9}a:hover{color:#4C24A8}
+input:focus{outline:2px solid #6D3FD9;outline-offset:1px}
+</style>
+</head>
+<body>
+<div style="font-family: Manrope, system-ui, sans-serif; color: #221A35; background: #FAF7FD; min-height: 100vh; display: flex; flex-wrap: wrap">
+
+  <section style="flex: 1 1 480px; background: #1F1633; color: #F4EEFF; padding: clamp(32px, 5vw, 72px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 48px">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <svg width="40" height="40" viewBox="0 0 36 36" aria-hidden="true"><path d="M18 3 L33 30 H3 Z" fill="none" stroke="#F49AC1" stroke-width="2.2" stroke-linejoin="round"></path><path d="M18 3 L22 30" stroke="#B9A2FF" stroke-width="2.2"></path><path d="M10 17 H26" stroke="#8FB0FF" stroke-width="2.2" stroke-linecap="round"></path></svg>
+      <span style="font-family: Fraunces, serif; font-size: 28px; font-weight: 600">Prisma</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 20px; max-width: 520px">
+      <h1 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: clamp(38px, 4vw, 56px); line-height: 1.05; letter-spacing: -0.02em">Descubre qué <em style="color: #F49AC1">dominas</em> y qué te falta, laboratorio por laboratorio.</h1>
+      <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #DCD3EE">Sube tus trabajos del semestre y recibe una autoevaluación con evidencias, basada en la guía, la rúbrica y el mapa mental de tu asignatura.</p>
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 8px">
+        <div style="display: flex; gap: 12px; align-items: center; font-size: 14px"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: #8FB0FF"></span>Cada valoración cita la página o imagen donde está la evidencia</div>
+        <div style="display: flex; gap: 12px; align-items: center; font-size: 14px"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: #B9A2FF"></span>Tu espacio es privado: nadie más ve tus documentos</div>
+        <div style="display: flex; gap: 12px; align-items: center; font-size: 14px"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: #F49AC1"></span>Notas orientativas, nunca oficiales</div>
+      </div>
+    </div>
+    <span style="font-size: 12px; color: #A99CC4">Hecho por ingenieras para estudiantes.</span>
+  </section>
+
+  <section style="flex: 1 1 420px; display: flex; align-items: center; justify-content: center; padding: clamp(24px, 5vw, 64px); box-sizing: border-box">
+    <div style="width: 100%; max-width: 440px; background: #FFFFFF; border: 1px solid #ECE6F5; border-radius: 28px; padding: 36px clamp(22px, 3vw, 40px); box-sizing: border-box; display: flex; flex-direction: column; gap: 22px">
+      <div role="tablist" aria-label="Acceso" style="display: flex; background: #F4EFFB; border-radius: 999px; padding: 5px">
+        <button type="button" role="tab" aria-selected="true" style="flex:1 1 0;min-height:44px;border:0;border-radius:999px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;background:#FFFFFF;color:#221A35;box-shadow:0 1px 3px rgba(31,22,51,0.12)">Iniciar sesión</button>
+        <button type="button" role="tab" aria-selected="false" style="flex:1 1 0;min-height:44px;border:0;border-radius:999px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;background:transparent;color:#5A5170">Crear cuenta</button>
+      </div>
+      <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 30px">Bienvenida de vuelta</h2>
+      <form style="display: flex; flex-direction: column; gap: 16px">
+        
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700">Correo institucional<input type="email" placeholder="nombre@universidad.edu.co" style="min-height: 48px; border: 1.5px solid #DCD3EE; border-radius: 14px; padding: 0 14px; font-family: inherit; font-size: 15px"></label>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700">Contraseña<input type="password" placeholder="Mínimo 10 caracteres" style="min-height: 48px; border: 1.5px solid #DCD3EE; border-radius: 14px; padding: 0 14px; font-family: inherit; font-size: 15px"></label>
+        
+          <a href="#" style="font-size: 13px; font-weight: 700; align-self: flex-end">¿Olvidaste tu contraseña?</a>
+        
+        <a href="panel.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 999px; background: #6D3FD9; color: #FFFFFF; font-weight: 800; font-size: 15px; text-decoration: none; margin-top: 6px">Entrar</a>
+      </form>
+      <p style="margin: 0; font-size: 12px; line-height: 1.5; color: #6B6283; text-align: center">Tus archivos se cifran y solo tú puedes verlos. Puedes eliminarlos cuando quieras desde tu perfil.</p>
+    </div>
+  </section>
+</div>
+</body>
+</html>

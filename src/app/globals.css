@@ -1,36 +1,64 @@
 @import "tailwindcss";
 
 /*
- * Paleta «tecnológica y chic»: orquídea/violeta como color de marca, rosa frambuesa y azul como acentos
- * (clases pink-*, blue-* de Tailwind) y neutros con un matiz violeta en lugar del gris azulado por defecto.
+ * Diseño «Prisma» (mockups/LEEME.md): violeta, rosado y azul sobre neutros con matiz violeta; títulos en Fraunces y texto en Manrope.
  * Todo el color pasa por estos tokens: cambiar la paleta es cambiar este bloque.
  */
 @theme {
-  --color-brand-50: #f6f0fc;
-  --color-brand-100: #ecdff9;
-  --color-brand-200: #dac0f2;
-  --color-brand-300: #c299e8;
-  --color-brand-400: #a56fdb;
-  --color-brand-500: #8a49cc;
-  --color-brand-600: #7436b3;
-  --color-brand-700: #5f2b94;
-  --color-brand-800: #4b2376;
-  --color-brand-900: #361a55;
+  /* Violeta principal (#6D3FD9), con su oscuro de hover (#4C24A8) y su suave (#EFE8FF). */
+  --color-brand-50: #efe8ff;
+  --color-brand-100: #e4d9fc;
+  --color-brand-200: #d9ccfb;
+  --color-brand-300: #b9a2ff;
+  --color-brand-400: #9a78f0;
+  --color-brand-500: #8057e6;
+  --color-brand-600: #6d3fd9;
+  --color-brand-700: #4c24a8;
+  --color-brand-800: #3a1b86;
+  --color-brand-900: #2b1767;
 
-  /* Neutros con matiz violeta (sustituyen a slate). 500 o más oscuro para texto sobre claro: ≥4,5:1. */
-  --color-slate-50: #f9f7fc;
-  --color-slate-100: #f1edf7;
-  --color-slate-200: #e4ddee;
-  --color-slate-300: #cfc6dd;
-  --color-slate-400: #9a8fb0;
-  --color-slate-500: #6a5f85;
-  --color-slate-600: #53496b;
-  --color-slate-700: #3e3555;
-  --color-slate-800: #2a2340;
-  --color-slate-900: #1c1630;
+  /* Rosado (#C2306E), oscuro #9A1F55, suave #FCE7F1, claro sobre oscuro #F49AC1. */
+  --color-pink-50: #fce7f1;
+  --color-pink-100: #f9d0e3;
+  --color-pink-200: #f6b6d4;
+  --color-pink-300: #f49ac1;
+  --color-pink-400: #e56a9f;
+  --color-pink-500: #d44985;
+  --color-pink-600: #c2306e;
+  --color-pink-700: #9a1f55;
+  --color-pink-800: #7a1944;
+  --color-pink-900: #5c1433;
 
-  --font-sans: var(--font-figtree), system-ui, sans-serif;
-  --font-display: var(--font-sora), system-ui, sans-serif;
+  /* Azul (#2E5BD8), oscuro #1E44A8, suave #E6EEFF, claro sobre oscuro #8FB0FF. */
+  --color-blue-50: #e6eeff;
+  --color-blue-100: #d0defe;
+  --color-blue-200: #b3caff;
+  --color-blue-300: #8fb0ff;
+  --color-blue-400: #5f87ef;
+  --color-blue-500: #3f6ae2;
+  --color-blue-600: #2e5bd8;
+  --color-blue-700: #1e44a8;
+  --color-blue-800: #183786;
+  --color-blue-900: #122a66;
+
+  /* Neutros: fondo de página 50, borde 200, secundario 500/600, tinta 800, ciruela 900 (menú y bloques oscuros). */
+  --color-slate-50: #faf7fd;
+  --color-slate-100: #f4effb;
+  --color-slate-200: #ece6f5;
+  --color-slate-300: #dcd3ee;
+  --color-slate-400: #9b90b2;
+  --color-slate-500: #6b6283;
+  --color-slate-600: #5a5170;
+  --color-slate-700: #3d3454;
+  --color-slate-800: #221a35;
+  --color-slate-900: #1f1633;
+  --color-plum-line: #3a2d56;
+  --color-lavanda: #b9a2ff;
+  --color-aviso-bg: #fff4e0;
+  --color-aviso-text: #8a4b00;
+
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 }
 
@@ -57,6 +85,7 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
+  font-weight: 500;
   letter-spacing: -0.01em;
 }
 

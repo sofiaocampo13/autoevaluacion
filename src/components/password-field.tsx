@@ -6,13 +6,13 @@ export function PasswordField(props: React.InputHTMLAttributes<HTMLInputElement>
   const { label, ...rest } = props;
   const [visible, setVisible] = useState(false);
   return (
-    <label className="mb-4 block text-sm font-medium text-slate-700">
+    <label className="mb-4 flex flex-col gap-1.5 text-[13px] font-bold text-slate-800">
       {label}
-      <span className="relative mt-1 block">
+      <span className="relative block">
         <input
           {...rest}
           type={visible ? "text" : "password"}
-          className="block w-full rounded-lg border border-slate-300 py-2 pl-3 pr-11 text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+          className="block min-h-12 w-full rounded-[14px] border-[1.5px] border-slate-300 bg-white pl-3.5 pr-12 text-[15px] font-normal text-slate-800 placeholder:text-slate-400 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-200"
         />
         <button
           type="button"
