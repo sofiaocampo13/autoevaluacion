@@ -1,11 +1,17 @@
 import { Icon } from "./icons";
 
-export function Notice({ error, ok }: { error?: string; ok?: string }) {
-  if (!error && !ok) return null;
-  const cls = error ? "bg-red-50 text-red-700 ring-red-200" : "bg-emerald-50 text-emerald-700 ring-emerald-200";
+/** Aviso de formulario: error (rosado), éxito real (verde) o informativo (azul). */
+export function Notice({ error, ok, info }: { error?: string; ok?: string; info?: string }) {
+  const text = error ?? ok ?? info;
+  if (!text) return null;
+  const cls = error
+    ? "bg-pink-50 text-pink-900"
+    : ok
+      ? "bg-emerald-50 text-emerald-800"
+      : "bg-blue-50 text-blue-900";
   return (
-    <p role={error ? "alert" : "status"} className={`mb-4 rounded-lg px-3 py-2 text-sm ring-1 ${cls}`}>
-      {error ?? ok}
+    <p role={error ? "alert" : "status"} className={`mb-4 rounded-2xl px-4 py-3 text-sm leading-relaxed ${cls}`}>
+      {text}
     </p>
   );
 }

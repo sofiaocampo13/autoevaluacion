@@ -9,6 +9,7 @@ import type { FinalReport } from "@/lib/evaluate-summary";
 import type { InventoryEntry } from "@/lib/evidence";
 import type { CodeReport } from "@/lib/code-check";
 import { reconcileInfographic } from "@/lib/infographic-data";
+import { Note } from "@/components/ui";
 import { PrismaTabs } from "@/components/prisma-tabs";
 import { REVIEW_LABEL, STATE_LABEL, linkState } from "@/lib/review-logic";
 import { ReviewLinkPanel, type LinkRow } from "./review-panel";
@@ -17,11 +18,11 @@ import { Infographic, type InfographicData } from "@/components/infographic";
 type Issue = { problema: string; por_que: string; como_corregir: string };
 type Citation = { location: string; quote: string; supports: string; status: "verificada" | "no_verificable" | "invalida" };
 
-// Solo lo realmente verificado se destaca en verde; lo demás es información, no una alarma.
+// Solo lo verificado se destaca (azul de «demostrado»); lo demás es información, no una alarma.
 const CITE_BADGE: Record<Citation["status"], string> = {
-  verificada: "bg-emerald-50 text-emerald-700 ring-emerald-200",
-  no_verificable: "bg-slate-100 text-slate-600 ring-slate-200",
-  invalida: "bg-slate-100 text-slate-500 ring-slate-200 line-through",
+  verificada: "bg-blue-50 text-blue-800 ring-blue-200",
+  no_verificable: "bg-slate-100 text-slate-700 ring-slate-200",
+  invalida: "bg-brand-50 text-brand-900 ring-brand-200 line-through",
 };
 const CITE_TEXT: Record<Citation["status"], string> = {
   verificada: "verificada en el archivo",
@@ -94,46 +95,51 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
   const adjustments = (review?.adjustments ?? []) as { criterion: string; original_percent: number; adjusted_percent: number; justification: string }[];
 
   const reviewTab = (
-    <div className="space-y-6">
-      <div className={card}>
-        <h2 className="mb-1 text-lg font-medium">Estado de la revisión</h2>
-        <p className="mb-3 text-sm font-medium text-slate-800">{REVIEW_LABEL[ev.review_status as keyof typeof REVIEW_LABEL]}</p>
+    <div className="grid items-start gap-5 [grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))]">
+      <div className={`${card} flex flex-col gap-3`}>
+        <h2 className="text-[26px]">Estado de la revisión</h2>
+        <p className={`self-start rounded-full px-3.5 py-1.5 text-[13px] font-bold ${ev.review_status === "preliminar" ? "bg-aviso-bg text-aviso-text" : ev.review_status === "devuelta" ? "bg-pink-50 text-pink-800" : "bg-blue-50 text-blue-800"}`}>
+          {REVIEW_LABEL[ev.review_status as keyof typeof REVIEW_LABEL]}
+        </p>
         {review ? (
-          <div className="space-y-2 text-sm text-slate-700">
-            <p>
-              <b>{review.reviewer_name}</b>{review.reviewer_email ? ` (${review.reviewer_email})` : ""} · {new Date(review.created_at).toLocaleString("es")}
-            </p>
-            {review.final_grade != null && (
+          <div className="flex flex-col gap-3 border-t border-slate-200 pt-3 text-sm leading-relaxed text-slate-700">
+            <div className="flex flex-col gap-2 rounded-2xl bg-blue-50 p-4">
               <p>
-                Nota final: <b>{review.final_grade} / {ev.grade_scale_max}</b> ({review.final_percent} %) · estimación de la IA: {ev.estimated_grade} / {ev.grade_scale_max}
+                <b className="text-blue-900">{review.reviewer_name}</b>{review.reviewer_email ? ` (${review.reviewer_email})` : ""} · {new Date(review.created_at).toLocaleString("es")}
               </p>
-            )}
-            {review.comment && <p className="rounded-lg bg-slate-50 p-3">{review.comment}</p>}
-            {adjustments.length > 0 && (
-              <div>
-                <p className="mb-1 font-medium">Ajustes del docente</p>
-                <ul className="space-y-2">
-                  {adjustments.map((a, i) => (
-                    <li key={i} className="rounded-lg bg-slate-50 p-3">
-                      <p className="font-medium">{a.criterion}: {a.original_percent} % → {a.adjusted_percent} %</p>
-                      <p className="text-slate-600">{a.justification}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+              {review.final_grade != null && (
+                <p>
+                  Nota final: <b>{fmt(review.final_grade)} / {fmt(ev.grade_scale_max)}</b> ({fmt(review.final_percent)} %) · estimación de la IA: {fmt(ev.estimated_grade)} / {fmt(ev.grade_scale_max)}
+                </p>
+              )}
+              {review.comment && <p className="rounded-xl bg-white p-3">{review.comment}</p>}
+              {adjustments.length > 0 && (
+                <div>
+                  <p className="mb-1.5 font-bold text-slate-800">Ajustes del docente</p>
+                  <ul className="space-y-2">
+                    {adjustments.map((a, i) => (
+                      <li key={i} className="rounded-xl bg-white p-3">
+                        <p className="font-bold text-slate-800">{a.criterion}: {a.original_percent} % → {a.adjusted_percent} %</p>
+                        <p className="text-slate-700">«{a.justification}»</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+            {review.final_grade != null && <Note>{GRADE_DISCLAIMER}</Note>}
           </div>
         ) : (
-          <p className="text-sm text-slate-600">
-            Esta nota es una estimación de la IA y todavía no la ha visto un docente. Genera un enlace privado para que tu profesor revise las
-            evidencias, ajuste lo que considere y apruebe la nota. No necesita cuenta.
+          <p className="text-sm leading-relaxed text-slate-700">
+            Nota preliminar: aún no la ha visto un docente. Genera un enlace privado para que tu profesor revise las evidencias, ajuste lo que
+            considere y apruebe la nota. No necesita cuenta.
           </p>
         )}
       </div>
 
       {done && (
         <div className={card}>
-          <h2 className="mb-3 text-lg font-medium">Enlaces de revisión</h2>
+          <h2 className="mb-3 text-[26px]">Enlaces de revisión</h2>
           <ReviewLinkPanel evaluationId={evalId} links={links} canCreate={ev.review_status === "preliminar" || ev.review_status === "devuelta"} />
         </div>
       )}
@@ -281,61 +287,65 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
   const infographicTab = done ? <Infographic data={infographicData} /> : <p className="text-sm text-slate-500">La infografía estará disponible cuando la evaluación se complete.</p>;
 
   const criteriaTab = (
-    <div className={card}>
-      <h2 className="mb-3 text-lg font-medium">Resultado por criterio</h2>
-      <div className="space-y-4">
-        {(results ?? []).map((r) => {
-          const warnings = flagsOf(r.flags).filter((f) => flagLevel(f) === "aviso");
-          const notes = flagsOf(r.flags).filter((f) => flagLevel(f) === "nota");
-          return (
-            <details key={r.id} className="rounded-lg ring-1 ring-slate-200" open={warnings.length > 0}>
-              <summary className="cursor-pointer px-4 py-3">
-                <span className="font-medium">{r.criterion}</span>
-                <span className="ml-2 text-sm text-slate-500">
-                  peso {r.weight} % · {r.rubric_level} · <b>{r.percent} %</b> · {EVIDENCE_TEXT[r.evidence_level as keyof typeof EVIDENCE_TEXT]} · confianza {r.confidence}
-                </span>
-              </summary>
-              <div className="space-y-3 px-4 pb-4 text-sm text-slate-700">
+    <div className="flex flex-col gap-4">
+      <h2 className="text-[26px]">Resultado por criterio</h2>
+      {(results ?? []).length === 0 && <p className="text-sm text-slate-600">Esta evaluación no tiene criterios registrados.</p>}
+      {(results ?? []).map((r) => {
+        const warnings = flagsOf(r.flags).filter((f) => flagLevel(f) === "aviso");
+        const notes = flagsOf(r.flags).filter((f) => flagLevel(f) === "nota");
+        const citations = (r.citations ?? []) as Citation[];
+        return (
+          <details key={r.id} className="rounded-3xl border border-slate-200 bg-white" open={warnings.length > 0}>
+            <summary className="flex min-h-14 cursor-pointer flex-wrap items-baseline gap-x-3 gap-y-1 rounded-3xl px-5 py-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 sm:px-7">
+              <span className="text-[17px] font-extrabold text-slate-900">{r.criterion}</span>
+              <span className="text-[13px] text-slate-600">
+                peso {fmt(r.weight)} % · {r.rubric_level} · <b className="text-slate-900">{fmt(r.percent)} %</b> · {EVIDENCE_TEXT[r.evidence_level as keyof typeof EVIDENCE_TEXT]} · confianza {r.confidence}
+              </span>
+            </summary>
+            <div className="grid gap-5 px-5 pb-6 text-sm leading-relaxed text-slate-700 sm:px-7 [grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))]">
+              <div className="flex flex-col gap-3">
                 <p>{r.argumentation}</p>
-                {r.recommendation && <p><b>Recomendación:</b> {r.recommendation}</p>}
+                {r.recommendation && <p className="rounded-2xl bg-brand-50 p-3.5 text-slate-800"><b>Recomendación:</b> {r.recommendation}</p>}
                 {warnings.length > 0 && (
-                  <ul className="list-disc rounded-lg bg-amber-50 py-2 pl-7 pr-3 text-amber-900">
+                  <ul className="list-disc rounded-2xl bg-aviso-bg py-3 pl-8 pr-4 text-aviso-text">
                     {warnings.map((f, i) => <li key={i}>{flagText(f)}</li>)}
                   </ul>
                 )}
-                <div>
-                  <p className="mb-1 font-medium">Evidencias citadas</p>
-                  {(r.citations as Citation[]).length === 0 ? (
-                    <p className="text-slate-500">Ninguna.</p>
-                  ) : (
-                    <ul className="space-y-2">
-                      {(r.citations as Citation[]).map((c, i) => (
-                        <li key={i} className="rounded-lg bg-slate-50 p-2">
-                          <p className="text-xs text-slate-500">{c.location}</p>
-                          <p className="whitespace-pre-wrap font-mono text-xs">{c.quote}</p>
-                          <span className={`mt-1 inline-block rounded px-1.5 py-0.5 text-xs ring-1 ${CITE_BADGE[c.status]}`}>{CITE_TEXT[c.status]}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-                {notes.map((f, i) => <p key={i} className="text-xs text-slate-500">ℹ {flagText(f)}</p>)}
-                {r.limitations && <p className="text-xs text-slate-500"><b>Limitaciones:</b> {r.limitations}</p>}
+                {notes.map((f, i) => <p key={i} className="text-xs text-slate-600">ℹ {flagText(f)}</p>)}
+                {r.limitations && <p className="text-xs text-slate-600"><b>Limitaciones:</b> {r.limitations}</p>}
               </div>
-            </details>
-          );
-        })}
-      </div>
+              <div className="flex min-w-0 flex-col gap-2">
+                <p className="font-extrabold text-slate-900">Evidencias citadas</p>
+                {citations.length === 0 ? (
+                  <p className="text-slate-600">Ninguna.</p>
+                ) : (
+                  <ul className="flex flex-col gap-2.5">
+                    {citations.map((c, i) => (
+                      <li key={i} className="flex flex-col gap-1.5 rounded-2xl border border-slate-200 bg-slate-50 p-3.5">
+                        <p className="text-xs text-slate-600">{c.location}</p>
+                        <p className={`whitespace-pre-wrap break-words font-mono text-xs text-slate-800 ${c.status === "invalida" ? "line-through" : ""}`}>{c.quote}</p>
+                        <span className={`self-start rounded-md px-2 py-1 text-xs font-bold ring-1 ${CITE_BADGE[c.status]}`}>{CITE_TEXT[c.status]}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          </details>
+        );
+      })}
     </div>
   );
 
   const technicalTab = (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-5">
       {code ? (
-        <div className={card}>
-          <h2 className="mb-1 text-lg font-medium">Verificación técnica del código</h2>
-          <p className="mb-3 text-xs text-slate-500">Hecha por herramientas ({code.analyzers.join(", ") || "sin analizadores"}), no por IA. El código no se ejecutó.</p>
-          <dl className="mb-3 grid grid-cols-2 gap-3 text-sm sm:grid-cols-5">
+        <div className={`${card} flex flex-col gap-3`}>
+          <div>
+            <h2 className="text-[26px]">Verificación técnica del código</h2>
+            <p className="text-[13px] text-slate-600">Hecha por herramientas ({code.analyzers.join(", ") || "sin analizadores"}), no por IA. El código no se ejecutó.</p>
+          </div>
+          <dl className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr))]">
             {[
               ["Archivos analizados", code.summary.analyzed],
               ["Con errores", code.summary.withErrors],
@@ -343,28 +353,28 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
               ["Avisos", code.summary.warnings],
               ["No analizados", code.summary.skipped],
             ].map(([label, value]) => (
-              <div key={label as string} className="rounded-lg bg-slate-50 p-2">
-                <dt className="text-xs text-slate-500">{label}</dt>
-                <dd className="text-lg font-semibold text-slate-800">{value}</dd>
+              <div key={label as string} className={`flex flex-col gap-1 rounded-2xl p-4 ${label === "Avisos" && Number(value) > 0 ? "bg-aviso-bg" : "bg-brand-50"}`}>
+                <dt className="text-[13px] text-slate-700">{label}</dt>
+                <dd className="font-display text-4xl leading-none text-slate-900">{value}</dd>
               </div>
             ))}
           </dl>
-          <p className="mb-3 text-sm text-slate-700">
-            <b>Pruebas unitarias:</b>{" "}
+          <p className="text-sm text-slate-700">
+            <b className="text-slate-900">Pruebas unitarias:</b>{" "}
             {code.tests.files.length
               ? `se detectaron ${code.tests.files.length} archivo(s) de pruebas (${code.tests.frameworks.join(", ")}); no se ejecutaron.`
               : "no se detectaron archivos de pruebas."}
           </p>
           {code.files.filter((f) => f.status === "con_errores" || f.status === "con_avisos").length === 0 ? (
-            <p className="mb-3 text-sm text-emerald-700">Ningún archivo analizado presentó errores ni avisos relevantes.</p>
+            <p className="text-sm text-blue-800">Ningún archivo analizado presentó errores ni avisos relevantes.</p>
           ) : (
-            <ul className="mb-3 space-y-2 text-sm">
+            <ul className="flex flex-col gap-2 text-sm">
               {code.files.filter((f) => f.status === "con_errores" || f.status === "con_avisos").map((f) => (
-                <li key={f.location} className="rounded-lg bg-slate-50 p-3">
-                  <p className="font-medium text-slate-800">
-                    {f.location} <span className={f.status === "con_errores" ? "text-red-700" : "text-amber-700"}>· {f.status === "con_errores" ? "con errores" : "con avisos"}</span>
+                <li key={f.location} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="break-words font-bold text-slate-900">
+                    {f.location} <span className={f.status === "con_errores" ? "text-pink-700" : "text-aviso-text"}>· {f.status === "con_errores" ? "con errores" : "con avisos"}</span>
                   </p>
-                  <ul className="mt-1 list-disc pl-5 text-xs text-slate-600">
+                  <ul className="mt-1 list-disc pl-5 text-[13px] text-slate-700">
                     {f.diagnostics.filter((d) => d.severity !== "info").map((d, i) => (
                       <li key={i}>línea {d.line} · {d.code}: {d.message}</li>
                     ))}
@@ -373,39 +383,45 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
               ))}
             </ul>
           )}
-          <details className="mb-3 text-xs text-slate-600">
-            <summary className="cursor-pointer">Ver todos los archivos revisados ({code.files.length})</summary>
-            <ul className="mt-2 max-h-56 overflow-auto">
+          <details className="text-[13px] text-slate-700">
+            <summary className="min-h-11 cursor-pointer py-2.5 font-bold text-brand-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600">Ver todos los archivos revisados ({code.files.length})</summary>
+            <ul className="mt-1 max-h-56 space-y-1 overflow-auto">
               {code.files.map((f) => (
-                <li key={f.location}>
-                  {f.status === "no_analizado" ? "—" : f.status === "ok" ? "✓" : "✗"} {f.location} · {f.language} · {f.lines} líneas
+                <li key={f.location} className="break-words">
+                  {f.status === "no_analizado" ? "— " : f.status === "ok" ? "✓ " : "✗ "}{f.location} · {f.language} · {f.lines} líneas
                   {f.note ? ` · ${f.note}` : f.totalDiagnostics ? ` · ${f.totalDiagnostics} observación(es)` : ""}
                 </li>
               ))}
             </ul>
           </details>
-          <ul className="list-disc space-y-0.5 pl-5 text-xs text-slate-500">
+          <ul className="list-disc space-y-0.5 pl-5 text-xs text-slate-600">
             {code.limitations.map((l, i) => <li key={i}>{l}</li>)}
           </ul>
         </div>
       ) : (
-        <p className="text-sm text-slate-500">No hubo código analizable en esta evaluación.</p>
+        <p className="text-sm text-slate-600">No hubo código analizable en esta evaluación.</p>
       )}
 
-      <div className={card}>
-        <h2 className="mb-3 text-lg font-medium">Trazabilidad</h2>
-        <dl className="grid gap-1 text-sm text-slate-700 sm:grid-cols-[180px_1fr]">
-          <dt className="text-slate-500">Proveedor y modelo</dt><dd>{ev.ai_provider} · {ev.ai_model}</dd>
-          <dt className="text-slate-500">Versión de los prompts</dt><dd>{ev.prompt_version}</dd>
-          <dt className="text-slate-500">Rúbrica usada</dt><dd>versión {ev.rubric_version} (copia exacta guardada en la evaluación)</dd>
-          <dt className="text-slate-500">Archivos analizados</dt><dd>{inventory.filter((i) => i.mode === "text" || i.mode === "native").length} de {inventory.length}</dd>
+      <div className={`${card} flex flex-col gap-3`}>
+        <h2 className="text-[26px]">Trazabilidad</h2>
+        <dl className="grid gap-x-6 gap-y-2 text-sm text-slate-900 sm:grid-cols-[200px_1fr]">
+          <dt className="text-slate-600">Proveedor y modelo</dt><dd className="font-bold">{ev.ai_provider} · {ev.ai_model}</dd>
+          <dt className="text-slate-600">Versión de los prompts</dt><dd className="font-bold">{ev.prompt_version}</dd>
+          <dt className="text-slate-600">Rúbrica usada</dt><dd className="font-bold">versión {ev.rubric_version} (copia exacta guardada en la evaluación)</dd>
+          <dt className="text-slate-600">Archivos analizados</dt><dd className="font-bold">{inventory.filter((i) => i.mode === "text" || i.mode === "native").length} de {inventory.length}</dd>
         </dl>
-        <details className="mt-3">
-          <summary className="cursor-pointer text-sm text-brand-700">Ver inventario de archivos</summary>
-          <ul className="mt-2 max-h-64 overflow-auto text-xs text-slate-600">
-            {inventory.map((i, n) => (
-              <li key={n}>{i.mode === "omitido" || i.mode === "unsupported" ? "✗" : "✓"} {i.location} · {i.mode}{i.note ? ` · ${i.note}` : ""}</li>
-            ))}
+        <details open={inventory.length > 0 && inventory.length <= 12}>
+          <summary className="min-h-11 cursor-pointer py-2.5 text-sm font-bold text-brand-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600">Ver inventario de archivos</summary>
+          <ul className="max-h-64 space-y-1 overflow-auto text-[13px] text-slate-700">
+            {inventory.map((i, n) => {
+              const skipped = i.mode === "omitido" || i.mode === "unsupported";
+              return (
+                <li key={n} className="break-words">
+                  <span className={skipped ? "text-slate-600" : "text-blue-700"} aria-hidden="true">{skipped ? "✗" : "✓"}</span>
+                  <span className="sr-only">{skipped ? "Omitido: " : "Analizado: "}</span> {i.location} · {i.mode}{i.note ? ` · ${i.note}` : ""}
+                </li>
+              );
+            })}
           </ul>
         </details>
       </div>

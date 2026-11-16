@@ -43,7 +43,7 @@ export function UploadLabFiles({ labId }: { labId: string }) {
   return (
     <div>
       <p className="mb-3 text-[13px] leading-normal text-slate-600">
-        Sube archivos sueltos o una carpeta completa (se conservan las subcarpetas). Máx. 50 MB por archivo y 300 por carga.
+        Sube archivos sueltos o una carpeta completa (se conservan las subcarpetas) o un ZIP. Máx. 50 MB por archivo y 300 por carga.
       </p>
       <div className="flex flex-wrap gap-2">
         <label className={btn + (busy ? " opacity-50" : "")}>
@@ -75,7 +75,7 @@ export function UploadLabFiles({ labId }: { labId: string }) {
 
       {report && (
         <div className="mt-3 text-sm" aria-live="polite">
-          <p className={report.uploaded > 0 ? "text-emerald-700" : "text-slate-600"}>{report.uploaded} archivo(s) subido(s).</p>
+          <p className={report.uploaded > 0 ? "font-bold text-emerald-700" : "text-slate-600"}>{report.uploaded} archivo(s) subido(s).</p>
           {report.hints.map((h) => (
             <p key={h} className="text-slate-600">{h}</p>
           ))}

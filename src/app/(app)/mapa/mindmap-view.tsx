@@ -5,9 +5,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { countNodes, onlyStrengths, type MindNode, type MindState } from "@/lib/mindmap-data";
 
 const NODE_W = 230;
-const NODE_H = 30;
+const NODE_H = 36;
 const COL = 270;
-const ROW = 40;
+const ROW = 46;
 const PAD = 24;
 
 // Colores como atributos (no clases) para que el SVG descargado se vea igual fuera de la aplicación.
@@ -171,30 +171,32 @@ export function MindMapView({ root: full }: { root: MindNode }) {
     img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(standaloneSvg());
   }
 
-  const btn = "min-h-11 rounded-full border-[1.5px] border-slate-300 bg-white px-4 text-sm font-bold text-slate-800 hover:border-brand-600 hover:text-brand-700";
+  const btn = "min-h-11 rounded-full border-[1.5px] border-slate-200 bg-white px-4 text-[13px] font-extrabold text-slate-800 hover:border-brand-600 hover:text-brand-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300";
+  const segOn = "bg-white text-slate-800 shadow-sm";
+  const segOff = "bg-transparent text-slate-600 hover:text-slate-800";
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[1fr_20rem]">
+    <div className="grid items-start gap-[18px] lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)]">
       <div>
-        <div className="mb-2 flex flex-wrap items-center gap-2">
+        <div role="toolbar" aria-label="Herramientas del mapa" className="mb-4 flex flex-wrap items-center gap-2 rounded-[20px] border border-slate-200 bg-white p-2">
           <button className={btn} onClick={() => setExpanded(new Set(allIds(root)))}>Expandir todo</button>
           <button className={btn} onClick={() => setExpanded(initialExpanded(root))}>Contraer</button>
-          <button className={btn} onClick={() => zoomBy(1.25)} aria-label="Acercar">＋</button>
-          <button className={btn} onClick={() => zoomBy(0.8)} aria-label="Alejar">－</button>
+          <button className={btn + " !w-11 !px-0 text-lg"} onClick={() => zoomBy(1.25)} aria-label="Acercar">＋</button>
+          <button className={btn + " !w-11 !px-0 text-lg"} onClick={() => zoomBy(0.8)} aria-label="Alejar">－</button>
           <button className={btn} onClick={fit}>Ajustar</button>
-          <span className="mx-1 hidden h-5 w-px bg-slate-300 sm:block" />
-          <div role="group" aria-label="Qué mostrar" className="flex overflow-hidden rounded-full border-[1.5px] border-slate-300 text-sm font-bold">
-            <button aria-pressed={!strengthsOnly} onClick={() => setStrengthsOnly(false)} className={`min-h-11 px-4 ${!strengthsOnly ? "bg-slate-800 text-white" : "bg-white text-slate-800 hover:bg-slate-50"}`}>Todo</button>
-            <button aria-pressed={strengthsOnly} onClick={() => setStrengthsOnly(true)} className={`min-h-11 px-4 ${strengthsOnly ? "bg-slate-800 text-white" : "bg-white text-slate-800 hover:bg-slate-50"}`}>Solo fortalezas</button>
+          <span aria-hidden="true" className="mx-1 hidden h-7 w-px bg-slate-200 sm:block" />
+          <div role="group" aria-label="Qué mostrar" className="flex rounded-full bg-slate-100 p-1 text-[13px] font-extrabold">
+            <button aria-pressed={!strengthsOnly} onClick={() => setStrengthsOnly(false)} className={`min-h-[38px] rounded-full px-3.5 ${!strengthsOnly ? segOn : segOff}`}>Todo</button>
+            <button aria-pressed={strengthsOnly} onClick={() => setStrengthsOnly(true)} className={`min-h-[38px] rounded-full px-3.5 ${strengthsOnly ? segOn : segOff}`}>Solo fortalezas</button>
           </div>
-          <span className="mx-1 hidden h-5 w-px bg-slate-300 sm:block" />
-          <button className={btn} onClick={downloadPng}>Descargar PNG</button>
-          <button className={btn} onClick={downloadSvg}>Descargar SVG</button>
+          <span className="hidden flex-1 sm:block" />
+          <button className="min-h-11 rounded-full bg-brand-600 px-4 text-[13px] font-extrabold text-white hover:bg-brand-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2" onClick={downloadPng}>Descargar PNG</button>
+          <button className="min-h-11 rounded-full border-[1.5px] border-brand-600 bg-white px-4 text-[13px] font-extrabold text-brand-600 hover:bg-brand-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300" onClick={downloadSvg}>Descargar SVG</button>
         </div>
 
         <div
           ref={wrap}
-          className="h-[34rem] cursor-grab touch-none overflow-hidden rounded-3xl border border-slate-200 bg-white active:cursor-grabbing"
+          className="h-[34rem] cursor-grab focus:outline-none touch-none overflow-hidden rounded-3xl border border-slate-200 bg-white active:cursor-grabbing"
           onPointerDown={(e) => {
             if ((e.target as Element).closest("[data-node]")) return;
             drag.current = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y };
@@ -241,9 +243,9 @@ export function MindMapView({ root: full }: { root: MindNode }) {
                       }}
                     >
                       <title>{n.label}</title>
-                      <rect x={x} y={y} width={NODE_W} height={NODE_H} rx={8} fill={root ? "#1f1633" : p.fill} stroke={isSel ? "#221a35" : p.stroke} strokeWidth={isSel ? 3 : 1.5} strokeDasharray={p.dash} />
-                      <text x={x + 10} y={y + 19} fontSize={12.5} fontWeight={root || n.kind === "branch" ? 700 : 500} fill={root ? "#ffffff" : p.text}>{label}</text>
-                      {pct && <text x={x + NODE_W - 10} y={y + 19} fontSize={12} textAnchor="end" fill={root ? "#e4ddee" : p.text}>{pct}</text>}
+                      <rect x={x} y={y} width={NODE_W} height={NODE_H} rx={12} fill={root ? "#1f1633" : p.fill} stroke={isSel ? "#221a35" : p.stroke} strokeWidth={isSel ? 3 : 1.5} strokeDasharray={p.dash} />
+                      <text x={x + 10} y={y + 23} fontSize={13} fontWeight={root || n.kind === "branch" ? 700 : 500} fill={root ? "#ffffff" : p.text}>{label}</text>
+                      {pct && <text x={x + NODE_W - 10} y={y + 23} fontSize={12} textAnchor="end" fill={root ? "#e4ddee" : p.text}>{pct}</text>}
                       {n.stats && n.stats.weak > 0 && !open && (
                         <g>
                           <circle cx={x} cy={y} r={9} fill={PALETTE.refuerzo.fill} stroke="#ffffff" strokeWidth={1.5} />
@@ -290,10 +292,10 @@ export function MindMapView({ root: full }: { root: MindNode }) {
         <p className="mt-1 text-[13px] text-slate-600">Arrastra para mover, rueda para acercar. Clic en un nodo: detalle. Botón redondo o barra espaciadora: expandir y contraer.</p>
       </div>
 
-      <aside className="rounded-3xl border border-slate-200 bg-white p-5 lg:max-h-[38rem] lg:overflow-y-auto" aria-live="polite">
-        <h2 className="text-xl text-slate-900">{selected.detail.title}</h2>
-        <p className="text-[13px] text-slate-600">{KIND[selected.kind]}</p>
-        <p className="mt-1 text-sm">
+      <aside className="flex flex-col gap-3 rounded-3xl border border-slate-200 bg-white p-[22px] lg:max-h-[38rem] lg:overflow-y-auto" aria-live="polite">
+        <h2 className="text-2xl leading-tight text-slate-900">{selected.detail.title}</h2>
+        <p className="text-xs font-extrabold uppercase tracking-widest text-slate-600">{KIND[selected.kind]}</p>
+        <p className="text-sm">
           {PALETTE[selected.state].name && (
             <span className="rounded-full px-3 py-1 text-xs font-bold" style={{ background: PALETTE[selected.state].fill, color: PALETTE[selected.state].text, border: `1.5px ${PALETTE[selected.state].dash ? "dashed" : "solid"} ${PALETTE[selected.state].stroke}` }}>
               {PALETTE[selected.state].glyph} {PALETTE[selected.state].name}
@@ -301,31 +303,31 @@ export function MindMapView({ root: full }: { root: MindNode }) {
           )}
         </p>
         {selected.stats && (
-          <p className="mt-3 text-sm text-slate-700">
+          <p className="text-sm text-slate-700">
             {selected.stats.strong} de {selected.stats.total} {selected.stats.unit} demostrados
             {selected.stats.weak > 0 && <span className="font-bold text-pink-700"> · {selected.stats.weak} por reforzar</span>}
           </p>
         )}
         {selected.detail.lines.length > 0 && (
-          <ul className="mt-3 space-y-1 text-sm text-slate-700">
+          <ul className="list-disc space-y-1 pl-5 text-[13.5px] leading-normal text-slate-600">
             {selected.detail.lines.map((l, i) => <li key={i}>{l}</li>)}
           </ul>
         )}
         {selected.detail.deepen.length > 0 && (
-          <div className="mt-3">
-            <p className="text-sm font-medium text-slate-900">Qué profundizar</p>
-            <ul className="mt-1 list-disc space-y-1 pl-5 text-sm text-slate-700">{selected.detail.deepen.map((d, i) => <li key={i}>{d}</li>)}</ul>
+          <div className="rounded-[14px] bg-pink-50 px-3.5 py-3">
+            <p className="text-[13px] font-extrabold text-pink-700">Qué profundizar</p>
+            <ul className="mt-1.5 list-disc space-y-1 pl-5 text-[13.5px] leading-normal text-pink-900">{selected.detail.deepen.map((d, i) => <li key={i}>{d}</li>)}</ul>
           </div>
         )}
         {selected.detail.evidence.length > 0 && (
-          <div className="mt-3">
-            <p className="text-sm font-medium text-slate-900">Evidencias citadas</p>
+          <div>
+            <p className="text-[13px] font-extrabold text-slate-900">Evidencias citadas</p>
             <ul className="mt-1 space-y-2">
               {selected.detail.evidence.map((e, i) => (
-                <li key={i} className="rounded-lg bg-slate-50 p-2">
-                  <p className="text-xs text-slate-500">{e.label}</p>
+                <li key={i} className="rounded-[14px] border border-slate-100 bg-slate-50 px-3 py-2.5">
+                  <p className="text-xs text-slate-600">{e.label}</p>
                   <p className="whitespace-pre-wrap break-words font-mono text-xs text-slate-800">{clip(e.text, 280)}</p>
-                  <span className={`mt-1 inline-block rounded px-1.5 py-0.5 text-xs ring-1 ${e.verified ? "bg-emerald-50 text-emerald-800 ring-emerald-200" : "bg-aviso-bg text-aviso-text ring-amber-200"}`}>
+                  <span className={`mt-1 inline-block rounded-lg px-2 py-0.5 text-xs font-bold ring-1 ${e.verified ? "bg-blue-50 text-blue-800 ring-blue-100" : "bg-aviso-bg text-aviso-text ring-amber-200"}`}>
                     {e.verified ? "Verificada en el archivo" : "No verificable automáticamente"}
                   </span>
                 </li>
@@ -334,9 +336,9 @@ export function MindMapView({ root: full }: { root: MindNode }) {
           </div>
         )}
         {selected.children.length > 0 && !expanded.has(selected.id) && (
-          <button className={btn + " mt-3"} onClick={() => toggle(selected.id)}>Expandir ({selected.children.length})</button>
+          <button className={btn + " self-start"} onClick={() => toggle(selected.id)}>Expandir ({selected.children.length})</button>
         )}
-        {selected.detail.link && <Link className="mt-3 flex min-h-11 items-center text-sm font-bold text-brand-700 underline" href={selected.detail.link.href}>{selected.detail.link.text}</Link>}
+        {selected.detail.link && <Link className="flex min-h-11 items-center text-sm font-extrabold text-brand-700 underline" href={selected.detail.link.href}>{selected.detail.link.text}</Link>}
       </aside>
     </div>
   );

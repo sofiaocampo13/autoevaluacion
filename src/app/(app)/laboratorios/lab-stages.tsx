@@ -1,5 +1,5 @@
 // Etapas reales del proceso de evaluación (las mismas que muestra el panel de evaluación), explicadas antes de empezar.
-const STAGES: { title: string; text: string; color: string }[] = [
+export const STAGES: { title: string; text: string; color: string }[] = [
   { title: "Confirmar la rúbrica", text: "La IA interpreta tu rúbrica; tú la corriges y la confirmas.", color: "bg-pink-200" },
   { title: "Subir tu trabajo", text: "Archivos sueltos o una carpeta completa, o un repositorio público.", color: "bg-lavanda" },
   { title: "Valorar los criterios", text: "Paso 1 de 2: la IA valora cada criterio con citas de tus archivos.", color: "bg-blue-300" },

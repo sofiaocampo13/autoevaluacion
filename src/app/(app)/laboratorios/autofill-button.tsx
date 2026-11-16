@@ -62,15 +62,18 @@ export function AutofillButton({ dailyUnits }: { dailyUnits: number }) {
       </p>
 
       {phase === "confirm" ? (
-        <div role="alertdialog" aria-label="Confirmar uso de IA" className="mt-3 rounded-2xl bg-aviso-bg p-4 text-[13px] leading-normal text-aviso-text">
-          <p>
-            <b>Esto usa la IA y gasta 1 unidad</b> de tu cupo diario ({dailyUnits} unidades cada 24 horas; una evaluación completa gasta 3).
-            Escribir los datos a mano <b>no gasta nada</b>.
-          </p>
-          <p className="mt-1">Solo se rellenan los campos vacíos y nada se guarda hasta que tú lo confirmes. Puede tardar hasta un minuto.</p>
-          <div className="mt-3 flex gap-2">
-            <button type="button" onClick={run} className={`${btn} border-aviso-text bg-aviso-text text-white hover:opacity-90`}>Sí, rellenar con IA</button>
-            <button type="button" onClick={() => setPhase("idle")} className={`${btn} border-slate-300 bg-white text-slate-800 hover:border-slate-400`}>Cancelar</button>
+        <div role="alertdialog" aria-label="Confirmar uso de IA" className="mt-3 flex flex-col gap-3.5 rounded-3xl border border-slate-200 bg-white p-[22px] shadow-[0_16px_40px_rgba(31,22,51,0.10)]">
+          <span className="text-xs font-extrabold uppercase tracking-[0.06em] text-slate-600">Rellenar un laboratorio con IA</span>
+          <div className="flex flex-col gap-1.5 rounded-2xl border-[1.5px] border-[#F2A65A] bg-[#FFF0DC] px-4 py-3.5 text-sm leading-relaxed text-[#5C3300]">
+            <p>
+              <b>Esto usa la IA y gasta 1 unidad</b> de tu cupo diario ({dailyUnits} unidades cada 24 horas; una evaluación completa gasta 3).
+              Escribir los datos a mano <b>no gasta nada</b>.
+            </p>
+            <p>Solo se rellenan los campos vacíos y nada se guarda hasta que tú lo confirmes. Puede tardar hasta un minuto.</p>
+          </div>
+          <div className="flex flex-wrap gap-2.5">
+            <button type="button" onClick={run} className={`${btn} border-pink-600 bg-pink-600 px-[22px] text-sm text-white hover:bg-pink-700`}>Sí, rellenar con IA</button>
+            <button type="button" onClick={() => setPhase("idle")} className={`${btn} border-slate-300 bg-white px-5 text-sm font-bold text-slate-800 hover:border-slate-400`}>Cancelar</button>
           </div>
         </div>
       ) : (
@@ -80,7 +83,7 @@ export function AutofillButton({ dailyUnits }: { dailyUnits: number }) {
       )}
 
       <div aria-live="polite">
-        {message && <p className={`mt-2 text-[13px] ${message.kind === "ok" ? "text-emerald-800" : "text-red-700"}`}>{message.text}</p>}
+        {message && <p className={`mt-2 text-[13px] ${message.kind === "ok" ? "text-emerald-800" : "text-pink-800"}`}>{message.text}</p>}
       </div>
     </div>
   );

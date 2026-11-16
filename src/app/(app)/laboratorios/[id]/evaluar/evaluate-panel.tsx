@@ -40,7 +40,7 @@ function Elapsed() {
   return <>{m > 0 ? `${m} min ${seconds % 60} s` : `${seconds} s`}</>;
 }
 
-export function EvaluatePanel({ labId, blockedReason, inProgress }: { labId: string; blockedReason: string | null; inProgress: boolean }) {
+export function EvaluatePanel({ labId, blockedReason, inProgress, cost }: { labId: string; blockedReason: string | null; inProgress: boolean; cost: number }) {
   const router = useRouter();
   const [phase, setPhase] = useState<Phase>({ kind: "idle" });
   const cancelled = useRef(false);
@@ -77,8 +77,8 @@ export function EvaluatePanel({ labId, blockedReason, inProgress }: { labId: str
     router.refresh();
   }
 
-  const btn = "flex min-h-[52px] w-full items-center justify-center rounded-full bg-pink-700 px-5 text-[14px] font-extrabold tracking-[0.04em] text-white hover:bg-pink-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-300 focus-visible:ring-offset-2 disabled:opacity-50";
-  const spinner = <span className="h-4 w-4 animate-spin rounded-full border-2 border-brand-600 border-t-transparent" aria-hidden="true" />;
+  const btn = "flex min-h-[52px] w-full items-center justify-center rounded-full bg-pink-300 px-5 text-[14px] font-extrabold tracking-[0.04em] text-slate-900 hover:bg-pink-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 disabled:opacity-50";
+  const spinner = <span className="h-4 w-4 animate-spin rounded-full border-2 border-pink-300 border-t-transparent" aria-hidden="true" />;
 
   return (
     <div>
@@ -92,65 +92,69 @@ export function EvaluatePanel({ labId, blockedReason, inProgress }: { labId: str
           <button onClick={begin} disabled={!!blockedReason} className={btn} title={blockedReason ?? ""}>
             {inProgress && !blockedReason ? "RETOMAR EVALUACIÓN" : "EVALUAR LABORATORIO"}
           </button>
-          {blockedReason && <p className="mt-2 text-[13px] text-slate-600">{blockedReason}</p>}
+          {blockedReason ? (
+            <p className="mt-2 text-[13px] text-slate-200">{blockedReason}</p>
+          ) : (
+            <p className="mt-2 text-[12px] text-[#FFE2B8]">Gasta {cost} unidades de tu cupo diario de IA.</p>
+          )}
         </div>
       )}
 
       {phase.kind === "starting" && (
-        <p role="status" className="flex items-center gap-2 text-[14px] text-slate-800">
+        <p role="status" className="flex items-center gap-2 text-[14px] text-white">
           {spinner} Preparando la evaluación…
         </p>
       )}
 
       {phase.kind === "running" && (
-        <div role="status" aria-live="polite">
-          <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 text-[14px] font-bold text-slate-800">
+        <div role="status" aria-live="polite" className="rounded-2xl bg-white/[0.07] p-4">
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 text-[14px] font-bold text-white">
             <span className="flex items-center gap-2">
               {spinner}
               {phase.stage === "assessing"
                 ? `Paso 1 de 2 · Valorando los ${phase.labels.length} criterios con la IA`
                 : "Paso 2 de 2 · Calculando la nota y redactando la retroalimentación"}
             </span>
-            <span className="font-normal text-slate-600"><Elapsed key={phase.stage} /></span>
+            <span className="font-extrabold text-lavanda"><Elapsed key={phase.stage} /></span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-brand-100">
-            <div className="h-full w-1/3 animate-[pending-slide_1.4s_ease-in-out_infinite] rounded-full bg-brand-600" />
+          <div className="h-2 overflow-hidden rounded-full bg-white/15">
+            <div className="h-full w-1/3 animate-[pending-slide_1.4s_ease-in-out_infinite] rounded-full bg-lavanda" />
           </div>
           <ul className="mt-3 space-y-1 text-[13px]">
             {phase.labels.map((label, i) => (
-              <li key={i} className={phase.stage === "finalizing" ? "text-emerald-800" : "text-slate-800"}>
+              <li key={i} className={phase.stage === "finalizing" ? "text-white" : "text-slate-200"}>
                 {phase.stage === "finalizing" ? "✓" : "…"} {label}
               </li>
             ))}
           </ul>
-          <p className="mt-3 text-[12px] leading-normal text-slate-600">
+          <p className="mt-3 text-[12px] leading-normal text-slate-200">
             Se hace una sola petición a la IA con todo tu trabajo; puede tardar de 1 a 5 minutos (la IA gratuita es irregular). No cierres esta
             página; si lo haces, podrás retomar donde quedó.
           </p>
-          <button onClick={() => cancel(phase.evaluationId)} className="mt-2 min-h-11 text-[14px] font-bold text-red-700 hover:underline">
+          <button onClick={() => cancel(phase.evaluationId)} className="mt-3 min-h-11 rounded-full border-[1.5px] border-white/50 px-5 text-[14px] font-bold text-white hover:bg-white/10">
             Cancelar evaluación
           </button>
         </div>
       )}
 
       {phase.kind === "error" && (
-        <div role="alert" className="rounded-2xl bg-red-50 px-4 py-3 text-[14px] text-red-800">
-          <p className="font-medium">No se pudo continuar</p>
+        <div role="alert" className="rounded-2xl bg-[#4E1230] px-4 py-4 text-[14px] text-white">
+          <p className="text-[15px] font-bold">No se pudo continuar</p>
           <p className="mt-1">{phase.message}</p>
-          {phase.allDone && <p className="mt-1 text-xs">La valoración de los criterios ya está guardada; solo falta el cierre.</p>}
-          <div className="mt-3 flex flex-wrap items-center gap-3">
+          {phase.allDone && <p className="mt-2 text-[13px]">La valoración de los criterios ya está guardada; solo falta el cierre.</p>}
+          <div className="mt-3 flex flex-wrap items-center gap-2.5">
             {phase.retryable && phase.evaluationId && (
               <button
                 onClick={() => {
                   cancelled.current = false;
                   run({ evaluationId: phase.evaluationId, labels: phase.labels }, phase.allDone);
                 }}
-                className="min-h-11 rounded-full bg-red-700 px-4 font-bold text-white hover:bg-red-800"
+                className="min-h-11 rounded-full bg-pink-300 px-5 font-bold text-slate-900 hover:bg-pink-200"
               >
                 Reintentar
               </button>
             )}
-            <button onClick={() => (phase.evaluationId ? cancel(phase.evaluationId) : setPhase({ kind: "idle" }))} className="min-h-11 font-bold text-red-700 hover:underline">
+            <button onClick={() => (phase.evaluationId ? cancel(phase.evaluationId) : setPhase({ kind: "idle" }))} className="min-h-11 rounded-full border-[1.5px] border-white/50 px-5 font-bold text-white hover:bg-white/10">
               {phase.evaluationId ? "Cancelar evaluación" : "Cerrar"}
             </button>
           </div>

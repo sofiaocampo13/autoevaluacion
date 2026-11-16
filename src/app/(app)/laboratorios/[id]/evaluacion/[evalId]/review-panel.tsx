@@ -49,7 +49,7 @@ export function ReviewLinkPanel({ evaluationId, links, canCreate }: { evaluation
           <button
             onClick={create}
             disabled={pending}
-            className="min-h-11 rounded-full bg-brand-600 px-5 text-sm font-extrabold text-white hover:bg-brand-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 disabled:opacity-60"
+            className="min-h-12 rounded-full bg-brand-600 px-6 text-[15px] font-extrabold text-white hover:bg-brand-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 disabled:opacity-60"
           >
             {pending ? "Creando…" : "Generar enlace de revisión"}
           </button>
@@ -60,11 +60,11 @@ export function ReviewLinkPanel({ evaluationId, links, canCreate }: { evaluation
       {error && <p role="alert" className="mb-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
 
       {fresh && (
-        <div role="status" className="mb-4 rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-900 ring-1 ring-emerald-200">
-          <p className="font-medium">Enlace creado. Cópialo ahora: por seguridad no se vuelve a mostrar.</p>
-          <input readOnly value={fresh.url} onFocus={(e) => e.currentTarget.select()} aria-label="Enlace de revisión" className="mt-2 block min-h-11 w-full rounded-xl border border-emerald-300 bg-white px-3 font-mono text-xs" />
+        <div role="status" className="mb-4 rounded-2xl bg-blue-50 p-4 text-sm text-blue-900">
+          <p className="font-bold">Enlace creado. Cópialo ahora: por seguridad no se vuelve a mostrar.</p>
+          <input readOnly value={fresh.url} onFocus={(e) => e.currentTarget.select()} aria-label="Enlace de revisión" className="mt-2 block min-h-11 w-full rounded-xl border border-blue-200 bg-white px-3 font-mono text-xs" />
           <div className="mt-2 flex flex-wrap items-center gap-3">
-            <button onClick={copy} className="min-h-11 rounded-full bg-emerald-700 px-5 font-bold text-white hover:bg-emerald-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2">{copied ? "¡Copiado!" : "Copiar enlace"}</button>
+            <button onClick={copy} className="min-h-11 rounded-full bg-blue-700 px-5 font-bold text-white hover:bg-blue-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2">{copied ? "¡Copiado!" : "Copiar enlace"}</button>
             <span className="text-xs">Vence el {new Date(fresh.expiresAt).toLocaleDateString("es")}</span>
           </div>
         </div>
@@ -73,17 +73,17 @@ export function ReviewLinkPanel({ evaluationId, links, canCreate }: { evaluation
       {links.length > 0 && (
         <div>
           <h3 className="mb-1 text-sm font-bold text-slate-800">Enlaces creados</h3>
-          <ul className="divide-y divide-slate-100 text-sm">
+          <ul className="divide-y divide-slate-200 border-t border-slate-200 text-sm">
             {links.map((l) => (
-              <li key={l.id} className="flex flex-wrap items-center justify-between gap-2 py-2">
-                <span className="text-slate-600">
+              <li key={l.id} className="flex flex-wrap items-center justify-between gap-2 py-3">
+                <span className="text-slate-700">
                   Creado {new Date(l.createdAt).toLocaleDateString("es")} · vence {new Date(l.expiresAt).toLocaleDateString("es")}
                   {l.lastViewedAt && ` · abierto por última vez ${new Date(l.lastViewedAt).toLocaleString("es")}`}
                 </span>
                 <span className="flex items-center gap-3">
-                  <span className={l.state === "activo" ? "font-bold text-emerald-700" : "text-slate-600"}>{l.label}</span>
+                  <span className={l.state === "activo" ? "font-bold text-blue-700" : "font-bold text-slate-600"}>{l.label}</span>
                   {l.state === "activo" && (
-                    <button onClick={() => revoke(l.id)} disabled={pending} className="min-h-11 px-2 font-bold text-red-700 hover:underline disabled:opacity-60">Revocar</button>
+                    <button onClick={() => revoke(l.id)} disabled={pending} className="min-h-11 px-2 font-bold text-pink-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 disabled:opacity-60">Revocar</button>
                   )}
                 </span>
               </li>
