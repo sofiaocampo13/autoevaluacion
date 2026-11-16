@@ -53,7 +53,8 @@ export const RUBRIC_GEMINI_SCHEMA = S("OBJECT", {
 const SYSTEM = `Eres un asistente que convierte una rúbrica de evaluación universitaria en datos estructurados.
 Reglas estrictas:
 - Extrae SOLO lo que está escrito en el documento. No inventes criterios, niveles, descriptores ni pesos.
-- Si el documento no contiene una rúbrica de evaluación (criterios con niveles o ponderaciones), devuelve has_rubric=false, criteria=[] y explica en notes qué contiene.
+- Si el documento no contiene NINGÚN criterio de evaluación, devuelve has_rubric=false, criteria=[] y explica en notes qué contiene.
+- Si el documento solo LISTA criterios de evaluación (sin niveles de desempeño o sin pesos), devuelve has_rubric=true con esos criterios, weight_percent=null y levels=[] en lo que falte. Nunca inventes niveles, descriptores ni pesos: la persona los completará después. Dilo en notes (por ejemplo, «el documento lista 7 criterios pero no trae niveles ni pesos»).
 - weight_percent: el peso del criterio como porcentaje del total. Si el documento da puntos sobre un total (p. ej. 20 de 100 puntos), conviértelo a porcentaje proporcional. Si el documento NO indica el peso, devuelve null (no lo repartas tú).
 - levels: los niveles de desempeño tal como aparecen (nombre y descriptor textual). min_percent solo si el documento da un rango o puntaje que permita derivarlo; si no, null.
 - competency: la competencia o categoría a la que pertenece el criterio si el documento la indica; si no, cadena vacía.
