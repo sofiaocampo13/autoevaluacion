@@ -40,7 +40,7 @@ Las 10 migraciones de `supabase/migrations/` se aplican en orden y son aditivas.
 ## 3. Seguridad y privacidad
 
 - **RLS como única barrera de datos.** Cada tabla solo expone las filas del propietario. Las tablas de resultados son de solo lectura para el estudiante; un estudiante no puede ni siquiera insertar una evaluación a su nombre. Se verifica con `scripts/test-isolation-full.mts` (64 comprobaciones sobre las 14 tablas, Storage y funciones).
-- **Storage privado** con carpeta por usuario (`<id>/...`); descargas con enlaces firmados de 60 s.
+- **Storage privado** con carpeta por usuario (`<id>/...`); descargas con enlaces firmados de 60 s (300 s para el docente en la revisión).
 - **Rúbricas inmutables al confirmarse:** la base de datos exige pesos que suman 100 % y bloquea editar una rúbrica confirmada; cada evaluación guarda una copia exacta de la rúbrica usada.
 - **Los trabajos se tratan como datos, no como instrucciones** (defensa contra instrucciones escondidas en los archivos).
 - **Nada de lo entregado se ejecuta.** Los archivos, ZIP y repositorios se leen como texto o imagen, con límites anti-ZIP-bomb y de rutas.
