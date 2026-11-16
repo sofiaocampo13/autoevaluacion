@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { FILE_TYPES, MAX_FILE_BYTES, extOf } from "./files";
+import { getStorageQuota, overHardCap, quotaMessage } from "./storage-quota";
 
 export type Verified = { ok: true; size: number; mime: string } | { ok: false; error: string };
 
@@ -25,6 +26,9 @@ export async function verifyUpload(
   if (error || !data) return { ok: false, error: "No se encontró el archivo subido." };
   const size = data.size ?? 0;
   if (size <= 0 || size > MAX_FILE_BYTES) return fail("El archivo está vacío o supera 50 MB.");
+  // Techo duro de almacenamiento (la política de Storage ya frenó lo que pudo; ver storage-quota.ts).
+  const quota = await getStorageQuota(supabase);
+  if (quota && overHardCap(quota)) return fail(quotaMessage(quota));
   return { ok: true, size, mime: data.contentType ?? "application/octet-stream" };
 }
 
