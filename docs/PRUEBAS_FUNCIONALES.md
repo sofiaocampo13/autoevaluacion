@@ -45,7 +45,7 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 ### T01 — Registro e inicio de sesión
 - **Procedimiento:** en una ventana de incógnito, registrarse con un correo nuevo; cerrar sesión; volver a entrar con las mismas credenciales; intentar entrar con una contraseña errónea.
 - **Resultado esperado:** el registro lleva al panel; el cierre de sesión devuelve al inicio de sesión; la contraseña errónea muestra un error claro y no entra.
-- **Estado:** Manual — reportada (15/11/2026, la usuaria creó una cuenta nueva en la URL pública y entró). Sin captura. **Límite:** el registro no exige confirmar el correo (pendiente de la configuración de correo propio).
+- **Estado:** Manual — reportada (15/11/2026, la usuaria creó una cuenta nueva en la URL pública y entró). Sin captura. Desde el 16/11/2026 el registro exige confirmar el correo (SMTP propio): el correo llegó en segundos a la bandeja, y el enlace abierto desde el celular falló por una limitación del flujo PKCE, corregida con enlaces por `token_hash` (`scripts/test-email-links.mts`, 6/6 contra Supabase). La confirmación completa desde el celular en la URL pública: Manual — por ejecutar tras el despliegue.
 
 ### T02 — Recuperación de contraseña
 - **Procedimiento:** «Olvidé mi contraseña» con un correo registrado; abrir el enlace recibido.

@@ -52,7 +52,7 @@ Requisitos: Node.js 22 o superior, un proyecto de Supabase y una clave de la API
    | `AI_USER_DAILY_UNITS`, `AI_GLOBAL_DAILY_UNITS` | Opcionales: topes de uso de la IA (por defecto 12 y 18) |
 
 3. Aplica las migraciones de `supabase/migrations/` en orden (`0001` a `0010`) desde el SQL Editor de Supabase.
-4. En Supabase, **Authentication → URL Configuration**: Site URL y Redirect URLs con tu dirección pública y `http://localhost:3000/**`.
+4. En Supabase, **Authentication → URL Configuration**: Site URL y Redirect URLs con tu dirección pública y `http://localhost:3000/**`. Para el correo: **Authentication → Emails → SMTP Settings** con un SMTP propio (p. ej. Gmail con contraseña de aplicación) y las plantillas de «Confirm sign up» y «Reset Password» apuntando a `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email` (y `type=recovery` para la recuperación). El envío integrado de Supabase solo entrega a miembros de tu organización.
 5. `npm run dev` y abre http://localhost:3000.
 
 ## Despliegue
@@ -70,6 +70,6 @@ Los scripts de `scripts/` no necesitan un framework. Los que usan datos sintéti
 - **Solo Gemini está implementado.** La capa de IA es una interfaz (`AIProvider`), pero no hay un proveedor local.
 - **Audio y video** no se analizan. El contenido de capturas y PDF escaneados no se verifica automáticamente.
 - **Cuota de IA gratuita:** unas 20 peticiones diarias por modelo, compartidas por todos los usuarios; por eso hay topes de uso.
-- **Correo:** el registro no exige confirmar el correo (falta configurar un servicio de correo propio).
+- **Correo:** los correos de confirmación y recuperación salen de una cuenta de Gmail del proyecto (SMTP propio en Supabase) y pueden caer en spam, porque no hay un dominio propio con verificación de remitente. Gmail limita a unos 500 envíos al día.
 - **Copias de seguridad:** el plan gratuito no las ofrece; hay una copia manual (`scripts/backup-datos.mts`), no programada.
 - La nota del estudiante es una **estimación orientativa**; no hay módulo docente completo, solo la revisión por enlace.

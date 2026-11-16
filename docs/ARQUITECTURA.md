@@ -107,6 +107,13 @@ El paso 4 y el 6 corren en `/api/evaluaciones/[id]/paso` con `maxDuration = 300`
 
 Los topes de IA son una **ventana móvil de 24 horas** con reserva atómica en SQL; los de almacenamiento se aplican en una política de Storage y se vuelven a comprobar al registrar cada archivo. Los de IA se pueden cambiar por variables de entorno; los de almacenamiento, en la tabla `app_limits`.
 
+## 7a. Correo y confirmación de cuenta
+
+- **Envío:** el envío integrado de Supabase solo entrega a direcciones de los miembros de la organización y con un límite muy bajo, así que no sirve para usuarios reales. Se configuró un **SMTP propio con una cuenta de Gmail del proyecto** (contraseña de aplicación). Supabase advierte que es una cuenta personal y no un servicio transaccional: la entrega puede ser peor (los correos llegaron a spam en una prueba) y Gmail limita a ~500 envíos al día. Mejorarlo del todo exige un dominio propio con SPF y DKIM.
+- **Confirmación de correo activada.** Una cuenta sin confirmar no puede iniciar sesión y el mensaje lo dice.
+- **Enlaces que funcionan desde cualquier dispositivo.** El primer diseño usaba el flujo PKCE (`/auth/callback?code=`), que exige abrir el enlace en el mismo navegador donde se pidió: al abrirlo desde el celular falló con «el enlace expiró». Se cambió a `/auth/confirm?token_hash=…&type=…`, que no depende del navegador. La página pide pulsar un botón antes de consumir el código, para que los antivirus de correo que visitan los enlaces no lo gasten. La ruta `/auth/callback` se conserva por compatibilidad.
+- Probado con `scripts/test-email-links.mts` (6 comprobaciones: un cliente nuevo, sin el navegador original, confirma y recupera; un enlace sirve una sola vez; sin confirmar no se entra).
+
 ## 7b. Retención, borrado y copias de seguridad
 
 - **Retención:** los datos se conservan mientras la cuenta exista. No hay borrado automático por antigüedad.
@@ -131,7 +138,7 @@ docs/             documentación
 
 - Ejecución de código en un entorno aislado (sandbox) y ejecución real de pruebas unitarias (C3).
 - Proveedor de IA local u otro proveedor en la nube.
-- Confirmación de correo con un servicio de correo propio.
+- Un dominio propio con verificación de remitente, para que los correos no caigan en spam.
 - Copias de seguridad programadas, exportación de datos desde la interfaz y una pantalla para limpiar archivos huérfanos de Storage.
 - Análisis de audio y video como evidencia.
 - Calibración de la estimación con notas reales de docentes.
