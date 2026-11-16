@@ -2,6 +2,7 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { AIError, getProvider } from "@/lib/ai";
+import { releaseAi, reserveAi } from "@/lib/ai-budget";
 import { isSystemicVerificationFailure, type Flag } from "@/lib/assessment";
 import { assessCriteriaBatch, PROMPT_VERSION } from "@/lib/evaluate-criterion";
 import { generateFinalReport, SUMMARY_PROMPT_VERSION, type CriterionDigest } from "@/lib/evaluate-summary";
@@ -87,8 +88,13 @@ export async function startEvaluation(supabase: Supa, userId: string, labId: str
     return { ok: false, error: e instanceof AIError ? e.message : "No se pudo configurar la IA." };
   }
 
+  // Reserva del presupuesto diario de IA (la cuota gratuita la comparten todos los usuarios).
+  const admin = createAdminClient();
+  const reservation = await reserveAi(admin, userId, "evaluacion");
+  if (!reservation.ok) return { ok: false, error: reservation.error };
+
   const snapshot: Snapshot = { rubric_id: rubric.id, version: rubric.version, title: rubric.title, scale_max: rubric.scale_max, criteria };
-  const { data: ev, error } = await createAdminClient()
+  const { data: ev, error } = await admin
     .from("evaluations")
     .insert({
       user_id: userId,
@@ -105,7 +111,10 @@ export async function startEvaluation(supabase: Supa, userId: string, labId: str
     })
     .select("id")
     .single();
-  if (error || !ev) return { ok: false, error: "No se pudo iniciar la evaluación." };
+  if (error || !ev) {
+    await releaseAi(admin, reservation.id);
+    return { ok: false, error: "No se pudo iniciar la evaluación." };
+  }
   return { ok: true, evaluationId: ev.id, total: criteria.length, labels: criteria.map((c) => c.criterion), donePositions: [], resumed: false };
 }
 

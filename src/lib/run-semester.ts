@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { AIError, getProvider } from "@/lib/ai";
+import { releaseAi, reserveAi } from "@/lib/ai-budget";
 import { generateSemesterAnalysis, SEMESTER_PROMPT_VERSION, type SemesterAnalysis } from "./evaluate-semester";
 import { loadSemesterStats } from "./semester-data";
 import type { SemesterStats } from "./semester-stats";
@@ -60,8 +61,20 @@ export async function runSemesterAnalysis(supabase: SupabaseClient, admin: Supab
     return { ok: false, error: e instanceof AIError ? e.message : "No se pudo configurar la IA." };
   }
 
+  const reservation = await reserveAi(admin, userId, "analisis");
+  if (!reservation.ok) return { ok: false, error: reservation.error };
+
+  let generated;
   try {
-    const { analysis, warnings } = await generateSemesterAnalysis(provider, stats);
+    generated = await generateSemesterAnalysis(provider, stats);
+  } catch (e) {
+    await releaseAi(admin, reservation.id); // la IA no devolvió nada utilizable: no se cobra el intento
+    if (e instanceof AIError) return { ok: false, error: e.message };
+    return { ok: false, error: "No se pudo generar el análisis. Inténtalo de nuevo." };
+  }
+
+  try {
+    const { analysis, warnings } = generated;
     const { error } = await admin.from("semester_analyses").insert({
       user_id: userId,
       subject_id: subject.id,

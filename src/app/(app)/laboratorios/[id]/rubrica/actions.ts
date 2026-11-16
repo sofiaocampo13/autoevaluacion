@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { AIError, getProvider } from "@/lib/ai";
+import { releaseAi, reserveAi } from "@/lib/ai-budget";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { extractParts } from "@/lib/extract";
 import { extOf } from "@/lib/files";
 import { parseRubricWithAI } from "@/lib/rubric-parse";
@@ -77,6 +79,12 @@ export async function parseRubric(formData: FormData) {
   const ex = extractParts(mat.title, extOf(mat.storage_path), new Uint8Array(await blob.arrayBuffer()));
   if (ex.mode === "unsupported") return fail(labId, `No se puede leer ese documento: ${ex.note}`);
 
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user) return fail(labId, "Tu sesión expiró. Vuelve a iniciar sesión.");
+  const admin = createAdminClient();
+  const reservation = await reserveAi(admin, auth.user.id, "rubrica");
+  if (!reservation.ok) return fail(labId, reservation.error);
+
   let parsed;
   let modelTag = "";
   try {
@@ -84,6 +92,7 @@ export async function parseRubric(formData: FormData) {
     modelTag = `${provider.id}:${provider.model}`;
     parsed = await parseRubricWithAI(provider, ex.parts, { labName: lab.name, objectives: lab.objectives });
   } catch (e) {
+    await releaseAi(admin, reservation.id); // la IA no devolvió nada utilizable: no se cobra el intento
     if (e instanceof AIError) return fail(labId, e.message);
     if (e instanceof z.ZodError) return fail(labId, "La IA devolvió una estructura inesperada. Inténtalo de nuevo.");
     throw e;
