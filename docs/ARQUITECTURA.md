@@ -140,5 +140,5 @@ docs/             documentación
 - Proveedor de IA local u otro proveedor en la nube.
 - Un dominio propio con verificación de remitente, para que los correos no caigan en spam.
 - Copias de seguridad programadas, exportación de datos desde la interfaz y una pantalla para limpiar archivos huérfanos de Storage.
-- Análisis de audio y video como evidencia.
+- Análisis de audio y video como evidencia (decisión: fuera del alcance por la cuota de IA gratuita y por ser opcional en el enunciado).
 - Calibración de la estimación con notas reales de docentes.

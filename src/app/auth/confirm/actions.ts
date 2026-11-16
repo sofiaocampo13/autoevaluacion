@@ -37,5 +37,5 @@ export async function confirmToken(formData: FormData) {
   if (data.user) {
     await supabase.from("profiles").update({ ai_consent_at: new Date().toISOString() }).eq("id", data.user.id).is("ai_consent_at", null);
   }
-  redirect(type === "recovery" ? "/perfil" : next);
+  redirect(type === "recovery" ? "/restablecer" : next);
 }

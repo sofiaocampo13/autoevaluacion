@@ -150,7 +150,7 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 ## Lo que estas pruebas NO cubren
 
 - **F7 (presentación del proyecto y equipo):** aún no está construida.
-- **Audio y video** como evidencia: no están construidos.
+- **Audio y video** como evidencia: no se construyeron, por decisión (ver `DESARROLLO_CON_IA.md`, punto 24).
 - **Ejecución de código en sandbox y pruebas unitarias ejecutadas (C3):** no se ejecuta código entregado.
 - **Calibración de la nota:** no hay una nota real de un docente con la cual comparar; la estimación de la IA tiende a ser alta (94–100 %).
 - **Contenido de capturas y PDF** como evidencia: no se verifica automáticamente.

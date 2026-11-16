@@ -68,7 +68,7 @@ Los scripts de `scripts/` no necesitan un framework. Los que usan datos sintéti
 - **El código entregado no se ejecuta.** Solo hay análisis estático (sintaxis y Ruff para Python y notebooks, Acorn para JavaScript, validación de JSON) y detección de pruebas unitarias. No hay sandbox gratuito. Otros lenguajes no se analizan.
 - **No se calibró la nota con un docente.** La IA tiende a ser benévola (94–100 %) y la misma entrada puede variar unos puntos entre ejecuciones.
 - **Solo Gemini está implementado.** La capa de IA es una interfaz (`AIProvider`), pero no hay un proveedor local.
-- **Audio y video** no se analizan. El contenido de capturas y PDF escaneados no se verifica automáticamente.
+- **Audio y video** no se analizan (decisión: la cuota de IA gratuita no alcanza y son opcionales en el enunciado). El contenido de capturas y PDF escaneados no se verifica automáticamente.
 - **Cuota de IA gratuita:** unas 20 peticiones diarias por modelo, compartidas por todos los usuarios; por eso hay topes de uso.
 - **Correo:** los correos de confirmación y recuperación salen de una cuenta de Gmail del proyecto (SMTP propio en Supabase) y pueden caer en spam, porque no hay un dominio propio con verificación de remitente. Gmail limita a unos 500 envíos al día.
 - **Copias de seguridad:** el plan gratuito no las ofrece; hay una copia manual (`scripts/backup-datos.mts`), no programada.
