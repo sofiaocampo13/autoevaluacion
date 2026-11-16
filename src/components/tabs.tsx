@@ -35,8 +35,8 @@ export function Tabs({ tabs, initial }: { tabs: TabDef[]; initial?: string }) {
             tabIndex={active === t.id ? 0 : -1}
             onClick={() => setActive(t.id)}
             onKeyDown={(e) => onKey(e, i)}
-            className={`-mb-px border-b-2 px-4 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
-              active === t.id ? "border-indigo-600 text-indigo-700" : "border-transparent text-slate-600 hover:text-indigo-700"
+            className={`-mb-px border-b-2 px-4 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 ${
+              active === t.id ? "border-brand-600 text-brand-700" : "border-transparent text-slate-600 hover:text-brand-700"
             }`}
           >
             {t.label}

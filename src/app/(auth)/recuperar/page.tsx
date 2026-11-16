@@ -13,7 +13,7 @@ export default async function RecoverPage({
       <Notice error={error} ok={ok} />
       <Field label="Correo de tu cuenta" name="email" type="email" autoComplete="email" required />
       <SubmitButton>Enviar enlace</SubmitButton>
-      <p className="mt-4 text-sm"><Link className="text-indigo-700 hover:underline" href="/login">Volver</Link></p>
+      <p className="mt-4 text-sm"><Link className="text-brand-700 hover:underline" href="/login">Volver</Link></p>
     </form>
   );
 }

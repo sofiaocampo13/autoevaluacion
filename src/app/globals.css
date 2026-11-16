@@ -1,31 +1,91 @@
 @import "tailwindcss";
 
+/*
+ * Paleta «tecnológica y chic»: orquídea/violeta como color de marca, rosa frambuesa y azul como acentos
+ * (clases pink-*, blue-* de Tailwind) y neutros con un matiz violeta en lugar del gris azulado por defecto.
+ * Todo el color pasa por estos tokens: cambiar la paleta es cambiar este bloque.
+ */
+@theme {
+  --color-brand-50: #f6f0fc;
+  --color-brand-100: #ecdff9;
+  --color-brand-200: #dac0f2;
+  --color-brand-300: #c299e8;
+  --color-brand-400: #a56fdb;
+  --color-brand-500: #8a49cc;
+  --color-brand-600: #7436b3;
+  --color-brand-700: #5f2b94;
+  --color-brand-800: #4b2376;
+  --color-brand-900: #361a55;
+
+  /* Neutros con matiz violeta (sustituyen a slate). 500 o más oscuro para texto sobre claro: ≥4,5:1. */
+  --color-slate-50: #f9f7fc;
+  --color-slate-100: #f1edf7;
+  --color-slate-200: #e4ddee;
+  --color-slate-300: #cfc6dd;
+  --color-slate-400: #9a8fb0;
+  --color-slate-500: #6a5f85;
+  --color-slate-600: #53496b;
+  --color-slate-700: #3e3555;
+  --color-slate-800: #2a2340;
+  --color-slate-900: #1c1630;
+
+  --font-sans: var(--font-figtree), system-ui, sans-serif;
+  --font-display: var(--font-sora), system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
 :root {
+  /* La plataforma no tiene tema oscuro: se fija el claro para que el modo oscuro del sistema no vuelva casi blancos los textos
+     que heredan el color del cuerpo. */
+  color-scheme: light;
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: var(--color-slate-800);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  accent-color: var(--color-brand-600);
+  scrollbar-color: var(--color-slate-300) transparent;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+/* Superficies del navegador que también llevan la paleta. */
+::selection {
+  background: var(--color-brand-200);
+  color: var(--color-slate-900);
+}
+input,
+textarea,
+select {
+  caret-color: var(--color-brand-600);
+}
+/* Anillo de foco visible para teclado en todo control que no defina el suyo. */
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
 }
 
 @keyframes pending-slide {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(300%); }
+}
+
+/* Con «reducir movimiento» se conservan los indicadores de progreso (informan un estado) pero sin desplazamiento. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin,
+  .animate-pulse,
+  [class*="animate-[pending-slide"] {
+    animation: none;
+  }
 }

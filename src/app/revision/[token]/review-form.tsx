@@ -82,12 +82,12 @@ export function ReviewForm({ token, scaleMax, criteria, aiGrade }: { token: stri
         </ul>
       </div>
 
-      <div className="sticky bottom-3 z-10 rounded-xl bg-indigo-600 px-5 py-3 text-white shadow-lg" aria-live="polite">
-        <p className="text-xs uppercase tracking-wide text-indigo-100">Nota resultante con tus valores</p>
+      <div className="sticky bottom-3 z-10 rounded-xl bg-brand-600 px-5 py-3 text-white shadow-lg" aria-live="polite">
+        <p className="text-xs uppercase tracking-wide text-brand-100">Nota resultante con tus valores</p>
         <p className="text-2xl font-semibold">
-          {finalGrade} / {scaleMax} <span className="text-base font-normal text-indigo-100">({finalPercent} %)</span>
+          {finalGrade} / {scaleMax} <span className="text-base font-normal text-brand-100">({finalPercent} %)</span>
         </p>
-        <p className="text-xs text-indigo-100">
+        <p className="text-xs text-brand-100">
           {anyChange ? `La IA había estimado ${aiGrade} / ${scaleMax}. Se recalcula con los pesos de la rúbrica.` : "Sin cambios: igual a la estimación de la IA."}
         </p>
       </div>

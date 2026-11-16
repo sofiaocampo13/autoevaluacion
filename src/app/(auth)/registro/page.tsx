@@ -21,7 +21,7 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
       </label>
       <SubmitButton>Crear cuenta</SubmitButton>
       <p className="mt-4 text-sm text-slate-600">
-        ¿Ya tienes cuenta? <Link className="text-indigo-700 hover:underline" href="/login">Inicia sesión</Link>
+        ¿Ya tienes cuenta? <Link className="text-brand-700 hover:underline" href="/login">Inicia sesión</Link>
       </p>
     </form>
   );

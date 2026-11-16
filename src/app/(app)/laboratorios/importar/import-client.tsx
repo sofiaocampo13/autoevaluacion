@@ -95,7 +95,7 @@ export function ImportClient({ existing }: { existing: { name: string; cut: numb
   return (
     <div>
       {!busy && (
-        <label className="mb-6 inline-block cursor-pointer rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus-within:ring-2 focus-within:ring-indigo-300">
+        <label className="mb-6 inline-block cursor-pointer rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700 focus-within:ring-2 focus-within:ring-brand-300">
           Elegir carpeta
           <input type="file" multiple onChange={onPick} className="sr-only" {...({ webkitdirectory: "", directory: "" } as object)} />
         </label>
@@ -167,7 +167,7 @@ export function ImportClient({ existing }: { existing: { name: string; cut: numb
           <button
             onClick={startImport}
             disabled={chosenRows.length === 0}
-            className="mt-3 rounded-lg bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+            className="mt-3 rounded-lg bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700 disabled:opacity-50"
           >
             Crear laboratorios y subir archivos
           </button>
@@ -180,7 +180,7 @@ export function ImportClient({ existing }: { existing: { name: string; cut: numb
             Subiendo {progress.done} de {progress.total} · {progress.current}
           </p>
           <div className="mt-1 h-2 overflow-hidden rounded-full bg-slate-200">
-            <div className="h-full bg-indigo-600 transition-all" style={{ width: `${progress.total ? (progress.done / progress.total) * 100 : 0}%` }} />
+            <div className="h-full bg-brand-600 transition-all" style={{ width: `${progress.total ? (progress.done / progress.total) * 100 : 0}%` }} />
           </div>
           <p className="mt-2 text-xs text-slate-500">No cierres esta pestaña hasta que termine.</p>
         </div>
@@ -196,7 +196,7 @@ export function ImportClient({ existing }: { existing: { name: string; cut: numb
               </li>
             ))}
           </ul>
-          <Link href="/laboratorios" className="mt-4 inline-block text-indigo-700 hover:underline">Ver mis laboratorios →</Link>
+          <Link href="/laboratorios" className="mt-4 inline-block text-brand-700 hover:underline">Ver mis laboratorios →</Link>
         </div>
       )}
     </div>

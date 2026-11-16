@@ -47,7 +47,7 @@ export default async function RubricPage({
 
   return (
     <section>
-      <p className="mb-1 text-sm"><Link className="text-indigo-700 hover:underline" href={`/laboratorios/${id}`}>← {lab.name}</Link></p>
+      <p className="mb-1 text-sm"><Link className="text-brand-700 hover:underline" href={`/laboratorios/${id}`}>← {lab.name}</Link></p>
       <h1 className="mb-1 text-2xl font-semibold">Rúbrica del laboratorio</h1>
       <p className="mb-4 max-w-2xl text-sm text-slate-600">
         La IA propone la estructura a partir de tu documento; tú la revisas y corriges. Solo una rúbrica confirmada (pesos = 100 %) se
@@ -77,7 +77,7 @@ export default async function RubricPage({
         <form action={parseRubric}>
           <input type="hidden" name="labId" value={id} />
           <PendingButton
-            className={`${btn} bg-indigo-600 text-white hover:bg-indigo-700`}
+            className={`${btn} bg-pink-700 text-white hover:bg-pink-800`}
             pendingText="La IA está leyendo tu rúbrica…"
             hint="suele tardar entre 5 y 30 segundos"
             disabled={!lab.rubric_material_id}
@@ -88,7 +88,7 @@ export default async function RubricPage({
         </form>
         <form action={createBlankRubric}>
           <input type="hidden" name="labId" value={id} />
-          <button className={`${btn} border border-slate-300 bg-white text-slate-700 hover:border-indigo-400`}>Crear en blanco</button>
+          <button className={`${btn} border border-slate-300 bg-white text-slate-700 hover:border-brand-400`}>Crear en blanco</button>
         </form>
       </div>
       <p className="mb-6 text-xs text-slate-500">
@@ -101,7 +101,7 @@ export default async function RubricPage({
             <Link
               key={r.id}
               href={`/laboratorios/${id}/rubrica?v=${r.version}`}
-              className={`rounded-full px-3 py-1 text-sm ring-1 ${r.id === selected?.id ? "bg-indigo-600 text-white ring-indigo-600" : "bg-white text-slate-700 ring-slate-300"}`}
+              className={`rounded-full px-3 py-1 text-sm ring-1 ${r.id === selected?.id ? "bg-brand-600 text-white ring-brand-600" : "bg-white text-slate-700 ring-slate-300"}`}
             >
               Versión {r.version} · {r.status === "confirmada" ? "confirmada" : "borrador"}
             </Link>
@@ -147,7 +147,7 @@ export default async function RubricPage({
           </div>
           <form action={newRubricVersion} className="mt-4">
             <input type="hidden" name="rubricId" value={selected.id} />
-            <button className={`${btn} border border-slate-300 bg-white text-slate-700 hover:border-indigo-400`}>Crear nueva versión para editar</button>
+            <button className={`${btn} border border-slate-300 bg-white text-slate-700 hover:border-brand-400`}>Crear nueva versión para editar</button>
           </form>
         </div>
       )}

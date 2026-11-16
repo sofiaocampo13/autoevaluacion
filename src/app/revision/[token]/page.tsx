@@ -18,7 +18,7 @@ function Shell({ children }: { children: React.ReactNode }) {
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8">
       <div className="mx-auto max-w-4xl">
-        <p className="mb-1 text-sm font-semibold text-indigo-700">Autoevaluación académica · Revisión docente</p>
+        <p className="mb-1 text-sm font-semibold text-brand-700">Autoevaluación académica · Revisión docente</p>
         {children}
       </div>
     </main>
@@ -68,14 +68,14 @@ export default async function ReviewPage({ params }: { params: Promise<{ token: 
         <div className="flex flex-wrap items-end gap-6">
           <div>
             <p className="text-xs uppercase tracking-wide text-slate-500">Estimación de la IA</p>
-            <p className="text-4xl font-semibold text-indigo-700">{e.aiGrade} <span className="text-lg text-slate-500">/ {e.scaleMax}</span></p>
+            <p className="text-4xl font-semibold text-brand-700">{e.aiGrade} <span className="text-lg text-slate-500">/ {e.scaleMax}</span></p>
           </div>
           <div>
             <p className="text-xs uppercase tracking-wide text-slate-500">Cumplimiento</p>
             <p className="text-4xl font-semibold text-slate-800">{e.aiPercent} %</p>
           </div>
         </div>
-        <p className="mt-3 rounded-lg bg-slate-100 px-3 py-2 text-xs text-slate-600">{GRADE_DISCLAIMER}</p>
+        <p className="mt-3 rounded-lg bg-blue-50 px-3 py-2 text-xs text-blue-900 ring-1 ring-blue-100">{GRADE_DISCLAIMER}</p>
         {view.summary && <p className="mt-3 text-sm text-slate-700">{view.summary}</p>}
         {e.limitations && <p className="mt-3 rounded-lg bg-amber-50 p-3 text-xs text-amber-900"><b>Limitaciones:</b> {e.limitations}</p>}
       </div>
@@ -104,7 +104,7 @@ export default async function ReviewPage({ params }: { params: Promise<{ token: 
                           {x.hasFile && (
                             <>
                               {" · "}
-                              <a className="text-indigo-700 hover:underline" target="_blank" rel="noopener noreferrer" href={`/revision/${token}/archivo?loc=${encodeURIComponent(x.location)}`}>Ver archivo</a>
+                              <a className="text-brand-700 hover:underline" target="_blank" rel="noopener noreferrer" href={`/revision/${token}/archivo?loc=${encodeURIComponent(x.location)}`}>Ver archivo</a>
                             </>
                           )}
                         </p>

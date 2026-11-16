@@ -36,13 +36,13 @@ export function AnalyzeButton({ subjectId, label, force = false }: { subjectId: 
 
   return (
     <div>
-      <button onClick={run} disabled={running} className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-60">
+      <button onClick={run} disabled={running} className="rounded-lg bg-pink-700 px-4 py-2 text-sm font-medium text-white hover:bg-pink-800 disabled:opacity-60">
         {running ? "Analizando tu semestre…" : label}
       </button>
       {running && (
         <div role="status" className="mt-3">
-          <div className="h-2 w-full max-w-sm overflow-hidden rounded-full bg-indigo-100">
-            <div className="h-full w-1/3 animate-pulse rounded-full bg-indigo-500" />
+          <div className="h-2 w-full max-w-sm overflow-hidden rounded-full bg-brand-100">
+            <div className="h-full w-1/3 animate-pulse rounded-full bg-brand-500" />
           </div>
           <p className="mt-1 text-xs text-slate-500">La IA está redactando el análisis y el plan. Puede tardar hasta un par de minutos ({seconds} s).</p>
         </div>

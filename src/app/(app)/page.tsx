@@ -8,7 +8,7 @@ function Stat({ label, value, hint }: { label: string; value: string | number; h
     <div className="rounded-xl bg-white p-4 ring-1 ring-slate-200">
       <p className="text-sm text-slate-500">{label}</p>
       <p className="mt-1 text-2xl font-semibold text-slate-900">{value}</p>
-      {hint && <p className="mt-1 text-xs text-slate-400">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-slate-500">{hint}</p>}
     </div>
   );
 }
@@ -66,7 +66,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
               <li key={p.labId} className="flex items-center gap-3 text-sm">
                 <span className="w-56 shrink-0 truncate text-slate-700" title={p.name}>{p.name}</span>
                 <span className="h-2.5 flex-1 overflow-hidden rounded-full bg-slate-100">
-                  <span className="block h-full rounded-full bg-indigo-500" style={{ width: `${Math.min(100, p.percent)}%` }} />
+                  <span className="block h-full rounded-full bg-brand-500" style={{ width: `${Math.min(100, p.percent)}%` }} />
                 </span>
                 <span className="w-44 shrink-0 text-right text-slate-600">
                   {p.grade} / {subject.grade_scale_max} · {p.percent} %{p.reviewed ? " · revisada" : ""}

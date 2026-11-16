@@ -53,7 +53,7 @@ export default async function LabDetailPage({
 
   return (
     <section>
-      <p className="mb-1 text-sm"><Link className="text-indigo-700 hover:underline" href="/laboratorios">← Mis laboratorios</Link></p>
+      <p className="mb-1 text-sm"><Link className="text-brand-700 hover:underline" href="/laboratorios">← Mis laboratorios</Link></p>
       <h1 className="mb-4 text-2xl font-semibold">{lab.name}</h1>
       <Notice error={error} ok={ok} />
 
@@ -73,7 +73,7 @@ export default async function LabDetailPage({
               <li key={m.id}>
                 {m.title} <span className="text-slate-500">· {CATEGORY_LABELS[m.category as Category]} · v{m.version}</span>
                 {(m.id === lab.instructions_material_id || m.id === lab.rubric_material_id) && (
-                  <span className="ml-1 rounded bg-indigo-50 px-1.5 text-xs text-indigo-700">en uso</span>
+                  <span className="ml-1 rounded bg-brand-50 px-1.5 text-xs text-brand-700">en uso</span>
                 )}
               </li>
             ))}
@@ -81,13 +81,13 @@ export default async function LabDetailPage({
         ) : (
           <p className="mb-2 text-sm text-slate-500">Ninguno todavía.</p>
         )}
-        <Link href="/materiales" className="text-sm font-medium text-indigo-700 hover:underline">Ir a Materiales →</Link>
+        <Link href="/materiales" className="text-sm font-medium text-brand-700 hover:underline">Ir a Materiales →</Link>
       </div>
 
       <div className="mb-6 max-w-xl rounded-xl bg-white p-6 ring-1 ring-slate-200">
         <h2 className="mb-1 font-medium">Rúbrica parametrizada</h2>
         <p className="mb-3 text-sm text-slate-600">Interpreta tu rúbrica con IA, corrígela y confírmala antes de evaluar.</p>
-        <Link href={`/laboratorios/${lab.id}/rubrica`} className="text-sm font-medium text-indigo-700 hover:underline">
+        <Link href={`/laboratorios/${lab.id}/rubrica`} className="text-sm font-medium text-brand-700 hover:underline">
           Abrir rúbrica →
         </Link>
       </div>
@@ -113,7 +113,7 @@ export default async function LabDetailPage({
                     ) : (
                       <span className="text-slate-500">{e.status === "procesando" ? "en curso" : "no completada"}</span>
                     )}
-                    <Link className="text-indigo-700 hover:underline" href={`/laboratorios/${id}/evaluacion/${e.id}`}>Ver</Link>
+                    <Link className="text-brand-700 hover:underline" href={`/laboratorios/${id}/evaluacion/${e.id}`}>Ver</Link>
                   </span>
                 </li>
               ))}
@@ -144,7 +144,7 @@ export default async function LabDetailPage({
                       </span>
                       <span className="flex gap-3">
                         <a
-                          className="text-indigo-700 hover:underline"
+                          className="text-brand-700 hover:underline"
                           href={`/descargar?path=${encodeURIComponent(f.storage_path)}&name=${encodeURIComponent(f.file_name)}`}
                         >
                           Descargar

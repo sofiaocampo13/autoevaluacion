@@ -131,7 +131,7 @@ export function SemesterInfographic({ data }: { data: SemesterInfographicData })
                   <h4 className="mb-2 text-sm font-semibold text-slate-800">Promedio por corte</h4>
                   <ul className="space-y-1 text-sm text-slate-700">
                     {data.byCut.map((k, i) => (
-                      <li key={i} className="flex justify-between"><span>{k.label} <span className="text-slate-400">({k.labs} lab.)</span></span><b>{k.percent} %</b></li>
+                      <li key={i} className="flex justify-between"><span>{k.label} <span className="text-slate-500">({k.labs} lab.)</span></span><b>{k.percent} %</b></li>
                     ))}
                   </ul>
                 </section>

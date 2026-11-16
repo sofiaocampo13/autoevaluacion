@@ -86,7 +86,7 @@ export function UploadMaterialForm({ labs }: { labs: { id: string; name: string 
       <button
         type="submit"
         disabled={busy}
-        className="w-full rounded-lg bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700 disabled:opacity-60"
+        className="w-full rounded-lg bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700 disabled:opacity-60"
       >
         {busy ? "Subiendo…" : "Subir material"}
       </button>

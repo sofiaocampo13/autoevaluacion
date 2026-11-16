@@ -77,8 +77,8 @@ export function EvaluatePanel({ labId, blockedReason, inProgress }: { labId: str
     router.refresh();
   }
 
-  const btn = "rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50";
-  const spinner = <span className="h-4 w-4 animate-spin rounded-full border-2 border-indigo-600 border-t-transparent" aria-hidden="true" />;
+  const btn = "rounded-lg bg-pink-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-pink-800 disabled:opacity-50";
+  const spinner = <span className="h-4 w-4 animate-spin rounded-full border-2 border-brand-600 border-t-transparent" aria-hidden="true" />;
 
   return (
     <div>
@@ -113,8 +113,8 @@ export function EvaluatePanel({ labId, blockedReason, inProgress }: { labId: str
             </span>
             <span className="text-slate-500"><Elapsed key={phase.stage} /></span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-indigo-100">
-            <div className="h-full w-1/3 animate-[pending-slide_1.4s_ease-in-out_infinite] rounded-full bg-indigo-600" />
+          <div className="h-2 overflow-hidden rounded-full bg-brand-100">
+            <div className="h-full w-1/3 animate-[pending-slide_1.4s_ease-in-out_infinite] rounded-full bg-brand-600" />
           </div>
           <ul className="mt-3 space-y-1 text-sm">
             {phase.labels.map((label, i) => (

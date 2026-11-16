@@ -12,14 +12,14 @@ export function PasswordField(props: React.InputHTMLAttributes<HTMLInputElement>
         <input
           {...rest}
           type={visible ? "text" : "password"}
-          className="block w-full rounded-lg border border-slate-300 py-2 pl-3 pr-11 text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          className="block w-full rounded-lg border border-slate-300 py-2 pl-3 pr-11 text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
         />
         <button
           type="button"
           onClick={() => setVisible((v) => !v)}
           aria-label={visible ? "Ocultar contraseña" : "Mostrar contraseña"}
           aria-pressed={visible}
-          className="absolute inset-y-0 right-0 flex w-11 items-center justify-center rounded-r-lg text-slate-500 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+          className="absolute inset-y-0 right-0 flex w-11 items-center justify-center rounded-r-lg text-slate-500 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-300"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             {visible ? (

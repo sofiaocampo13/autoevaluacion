@@ -16,16 +16,16 @@ export type SemesterReportData = {
   analysisCurrent: boolean;
 };
 
-const C = { head: "#1e293b", headLight: "#f1f5f9", slate: "#334155", muted: "#64748b", line: "#e2e8f0", bg: "#f8fafc", green: "#10b981", yellow: "#eab308", orange: "#f97316", amber: "#f59e0b" };
+const C = { head: "#2a2340", headLight: "#f1edf7", slate: "#3e3555", muted: "#6a5f85", line: "#e4ddee", bg: "#f9f7fc", green: "#10b981", yellow: "#eab308", orange: "#f97316", amber: "#f59e0b" };
 const s = StyleSheet.create({
   page: { paddingTop: 36, paddingBottom: 48, paddingHorizontal: 40, fontFamily: "Helvetica", fontSize: 9.5, color: C.slate, lineHeight: 1.4 },
   cover: { backgroundColor: C.head, color: "white", padding: 18, borderRadius: 6, marginBottom: 14 },
-  coverKicker: { fontSize: 8, color: "#cbd5e1", letterSpacing: 1 },
+  coverKicker: { fontSize: 8, color: "#cfc6dd", letterSpacing: 1 },
   coverTitle: { fontSize: 17, fontFamily: "Helvetica-Bold", marginTop: 4, marginBottom: 5 },
-  coverSub: { fontSize: 10, color: "#e2e8f0", marginTop: 2 },
+  coverSub: { fontSize: 10, color: "#e4ddee", marginTop: 2 },
   coverStats: { flexDirection: "row", marginTop: 12 },
   stat: { marginRight: 28 },
-  statLabel: { fontSize: 7.5, color: "#cbd5e1" },
+  statLabel: { fontSize: 7.5, color: "#cfc6dd" },
   statValue: { fontSize: 22, fontFamily: "Helvetica-Bold" },
   disclaimer: { backgroundColor: C.bg, borderLeft: `3 solid ${C.amber}`, padding: 8, marginBottom: 12, fontSize: 8.5 },
   h1: { fontSize: 12, fontFamily: "Helvetica-Bold", color: C.head, marginTop: 12, marginBottom: 5, paddingBottom: 3, borderBottom: `1 solid ${C.line}` },
@@ -40,7 +40,7 @@ const s = StyleSheet.create({
   tr: { flexDirection: "row" },
   th: { backgroundColor: C.headLight, fontFamily: "Helvetica-Bold", padding: 4, borderRight: `1 solid ${C.line}`, borderBottom: `1 solid ${C.line}` },
   td: { padding: 4, borderRight: `1 solid ${C.line}`, borderBottom: `1 solid ${C.line}` },
-  barTrack: { height: 8, backgroundColor: "#f1f5f9", borderRadius: 4, marginTop: 2, marginBottom: 6 },
+  barTrack: { height: 8, backgroundColor: "#f1edf7", borderRadius: 4, marginTop: 2, marginBottom: 6 },
   card: { backgroundColor: C.bg, padding: 7, borderRadius: 4, marginBottom: 5 },
   footer: { position: "absolute", bottom: 20, left: 40, right: 40, flexDirection: "row", justifyContent: "space-between", fontSize: 7.5, color: C.muted, borderTop: `1 solid ${C.line}`, paddingTop: 4 },
 });

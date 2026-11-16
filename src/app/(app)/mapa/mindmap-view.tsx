@@ -15,8 +15,8 @@ const PALETTE: Record<MindState, { fill: string; stroke: string; text: string; g
   demostrado: { fill: "#dcfce7", stroke: "#16a34a", text: "#14532d", glyph: "✓", name: "demostrado" },
   parcial: { fill: "#fefce8", stroke: "#ca8a04", text: "#713f12", glyph: "◐", name: "parcial" },
   refuerzo: { fill: "#ffedd5", stroke: "#ea580c", text: "#7c2d12", glyph: "↗", name: "por reforzar" },
-  sin_evaluar: { fill: "#f1f5f9", stroke: "#94a3b8", text: "#475569", glyph: "–", dash: "4 3", name: "sin evaluar" },
-  neutro: { fill: "#f8fafc", stroke: "#64748b", text: "#1e293b", glyph: "", name: "" },
+  sin_evaluar: { fill: "#f1edf7", stroke: "#9a8fb0", text: "#53496b", glyph: "–", dash: "4 3", name: "sin evaluar" },
+  neutro: { fill: "#f9f7fc", stroke: "#6a5f85", text: "#2a2340", glyph: "", name: "" },
 };
 const KIND: Record<MindNode["kind"], string> = {
   root: "Asignatura",
@@ -214,7 +214,7 @@ export function MindMapView({ root: full }: { root: MindNode }) {
                 const x2 = b.x;
                 const y2 = b.y + NODE_H / 2;
                 const mx = (x1 + x2) / 2;
-                return <path key={i} d={`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`} fill="none" stroke="#cbd5e1" strokeWidth={1.5} />;
+                return <path key={i} d={`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`} fill="none" stroke="#cfc6dd" strokeWidth={1.5} />;
               })}
               {lay.nodes.map(({ n, x, y }) => {
                 const p = PALETTE[n.kind === "root" ? "neutro" : n.state];
@@ -241,9 +241,9 @@ export function MindMapView({ root: full }: { root: MindNode }) {
                       }}
                     >
                       <title>{n.label}</title>
-                      <rect x={x} y={y} width={NODE_W} height={NODE_H} rx={8} fill={root ? "#1e293b" : p.fill} stroke={isSel ? "#0f172a" : p.stroke} strokeWidth={isSel ? 3 : 1.5} strokeDasharray={p.dash} />
+                      <rect x={x} y={y} width={NODE_W} height={NODE_H} rx={8} fill={root ? "#2a2340" : p.fill} stroke={isSel ? "#1c1630" : p.stroke} strokeWidth={isSel ? 3 : 1.5} strokeDasharray={p.dash} />
                       <text x={x + 10} y={y + 19} fontSize={12.5} fontWeight={root || n.kind === "branch" ? 700 : 500} fill={root ? "#ffffff" : p.text}>{label}</text>
-                      {pct && <text x={x + NODE_W - 10} y={y + 19} fontSize={12} textAnchor="end" fill={root ? "#e2e8f0" : p.text}>{pct}</text>}
+                      {pct && <text x={x + NODE_W - 10} y={y + 19} fontSize={12} textAnchor="end" fill={root ? "#e4ddee" : p.text}>{pct}</text>}
                       {n.stats && n.stats.weak > 0 && !open && (
                         <g>
                           <circle cx={x} cy={y} r={9} fill={PALETTE.refuerzo.stroke} stroke="#ffffff" strokeWidth={1.5} />
@@ -262,8 +262,8 @@ export function MindMapView({ root: full }: { root: MindNode }) {
                         onClick={() => toggle(n.id)}
                         onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), toggle(n.id))}
                       >
-                        <circle cx={x + NODE_W + 12} cy={y + NODE_H / 2} r={10} fill="#ffffff" stroke="#64748b" strokeWidth={1.5} />
-                        <text x={x + NODE_W + 12} y={y + NODE_H / 2 + 4} fontSize={open ? 14 : 10} textAnchor="middle" fill="#334155">{open ? "−" : n.children.length}</text>
+                        <circle cx={x + NODE_W + 12} cy={y + NODE_H / 2} r={10} fill="#ffffff" stroke="#6a5f85" strokeWidth={1.5} />
+                        <text x={x + NODE_W + 12} y={y + NODE_H / 2 + 4} fontSize={open ? 14 : 10} textAnchor="middle" fill="#3e3555">{open ? "−" : n.children.length}</text>
                       </g>
                     )}
                   </g>
@@ -336,7 +336,7 @@ export function MindMapView({ root: full }: { root: MindNode }) {
         {selected.children.length > 0 && !expanded.has(selected.id) && (
           <button className={btn + " mt-3"} onClick={() => toggle(selected.id)}>Expandir ({selected.children.length})</button>
         )}
-        {selected.detail.link && <Link className="mt-3 block text-sm text-indigo-700 underline" href={selected.detail.link.href}>{selected.detail.link.text}</Link>}
+        {selected.detail.link && <Link className="mt-3 block text-sm text-brand-700 underline" href={selected.detail.link.href}>{selected.detail.link.text}</Link>}
       </aside>
     </div>
   );

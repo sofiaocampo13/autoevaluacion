@@ -55,7 +55,7 @@ export function Infographic({ data }: { data: InfographicData }) {
         <button
           onClick={download}
           disabled={busy}
-          className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-60"
+          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700 disabled:opacity-60"
         >
           {busy ? "Generando imagen…" : "Descargar infografía (PNG)"}
         </button>
@@ -63,19 +63,19 @@ export function Infographic({ data }: { data: InfographicData }) {
       </div>
 
       <div ref={ref} className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
-        <header className="bg-gradient-to-r from-indigo-700 to-indigo-500 px-6 py-5 text-white">
-          <p className="text-xs uppercase tracking-wide text-indigo-100">Infografía temática · {data.date}</p>
+        <header className="bg-brand-700 px-6 py-5 text-white">
+          <p className="text-xs uppercase tracking-wide text-brand-100">Infografía temática · {data.date}</p>
           <h3 className="mt-1 text-xl font-semibold">{data.labName}</h3>
-          {data.title && <p className="text-sm text-indigo-100">{data.title}</p>}
+          {data.title && <p className="text-sm text-brand-100">{data.title}</p>}
           <div className="mt-4 flex flex-wrap gap-6">
             <div>
-              <p className="text-xs text-indigo-100">Calificación orientativa</p>
+              <p className="text-xs text-brand-100">Calificación orientativa</p>
               <p className="text-3xl font-bold">
-                {data.grade ?? "—"} <span className="text-base font-normal text-indigo-100">/ {data.scaleMax}</span>
+                {data.grade ?? "—"} <span className="text-base font-normal text-brand-100">/ {data.scaleMax}</span>
               </p>
             </div>
             <div>
-              <p className="text-xs text-indigo-100">Cumplimiento</p>
+              <p className="text-xs text-brand-100">Cumplimiento</p>
               <p className="text-3xl font-bold">{data.percent ?? "—"} %</p>
             </div>
           </div>
@@ -87,7 +87,7 @@ export function Infographic({ data }: { data: InfographicData }) {
               <h4 className="mb-2 text-sm font-semibold text-slate-800">Objetivos principales</h4>
               <ul className="grid gap-1 text-sm text-slate-700 sm:grid-cols-2">
                 {data.objectives.map((o, i) => (
-                  <li key={i} className="flex gap-2"><span className="text-indigo-600">▸</span>{o}</li>
+                  <li key={i} className="flex gap-2"><span className="text-brand-600">▸</span>{o}</li>
                 ))}
               </ul>
             </section>
@@ -99,7 +99,7 @@ export function Infographic({ data }: { data: InfographicData }) {
               {data.criteria.map((c, i) => (
                 <li key={i}>
                   <div className="flex justify-between text-xs text-slate-600">
-                    <span>{c.name} <span className="text-slate-400">(peso {c.weight} %)</span></span>
+                    <span>{c.name} <span className="text-slate-500">(peso {c.weight} %)</span></span>
                     <b className="text-slate-800">{c.percent} %</b>
                   </div>
                   <div className="mt-0.5 h-2.5 overflow-hidden rounded-full bg-slate-100">
@@ -128,7 +128,7 @@ export function Infographic({ data }: { data: InfographicData }) {
               <div className="grid gap-4 md:grid-cols-2">
                 {data.categories.map((cat, i) => (
                   <div key={i} className="rounded-xl bg-slate-50 p-4 ring-1 ring-slate-200">
-                    <h5 className="mb-2 font-semibold text-indigo-800">{cat.nombre}</h5>
+                    <h5 className="mb-2 font-semibold text-brand-800">{cat.nombre}</h5>
                     <div className="space-y-3">
                       {cat.subcategorias.map((sub, j) => (
                         <div key={j}>

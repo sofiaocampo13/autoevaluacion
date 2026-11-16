@@ -46,7 +46,7 @@ export function ReviewLinkPanel({ evaluationId, links, canCreate }: { evaluation
     <div>
       {canCreate && (
         <div className="mb-4">
-          <button onClick={create} disabled={pending} className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-60">
+          <button onClick={create} disabled={pending} className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700 disabled:opacity-60">
             {pending ? "Creando…" : "Generar enlace de revisión"}
           </button>
           <p className="mt-1 text-xs text-slate-500">El enlace dura 14 días, lo puede abrir cualquier persona que lo tenga (sin cuenta) y puedes revocarlo cuando quieras.</p>

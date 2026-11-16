@@ -7,7 +7,7 @@ export default async function ImportPage() {
   const { data: labs } = await supabase.from("labs").select("name, cut");
   return (
     <section>
-      <p className="mb-1 text-sm"><Link className="text-indigo-700 hover:underline" href="/laboratorios">← Mis laboratorios</Link></p>
+      <p className="mb-1 text-sm"><Link className="text-brand-700 hover:underline" href="/laboratorios">← Mis laboratorios</Link></p>
       <h1 className="mb-1 text-2xl font-semibold">Importar carpeta del semestre</h1>
       <p className="mb-6 max-w-2xl text-slate-600">
         Elige la carpeta con tus trabajos. Se detecta un <b>corte</b> por cada carpeta &quot;Corte N&quot; y un{" "}

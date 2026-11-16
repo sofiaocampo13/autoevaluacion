@@ -88,7 +88,7 @@ export function LabForm({
       </label>
       {guides.length === 0 && rubrics.length === 0 && (
         <p className="mb-3 text-xs text-slate-500">
-          Sube guías y rúbricas en <a className="text-indigo-700 underline" href="/materiales">Materiales</a> para
+          Sube guías y rúbricas en <a className="text-brand-700 underline" href="/materiales">Materiales</a> para
           poder asociarlas.
         </p>
       )}

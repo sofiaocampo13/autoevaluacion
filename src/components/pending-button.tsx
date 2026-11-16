@@ -46,8 +46,8 @@ export function PendingButton({
       </button>
       {pending && (
         <div role="status" aria-live="polite" className="mt-3 w-full max-w-md">
-          <div className="h-2 overflow-hidden rounded-full bg-indigo-100">
-            <div className="h-full w-1/3 animate-[pending-slide_1.4s_ease-in-out_infinite] rounded-full bg-indigo-600" />
+          <div className="h-2 overflow-hidden rounded-full bg-brand-100">
+            <div className="h-full w-1/3 animate-[pending-slide_1.4s_ease-in-out_infinite] rounded-full bg-brand-600" />
           </div>
           <p className="mt-1 text-sm text-slate-600">
             {pendingText} {seconds} s{hint ? ` · ${hint}` : ""}

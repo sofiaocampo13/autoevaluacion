@@ -8,7 +8,7 @@ import { SemesterInfographic } from "@/components/semester-infographic";
 import { AnalyzeButton } from "./analyze-button";
 
 const card = "rounded-xl bg-white p-5 ring-1 ring-slate-200";
-const BAND_COLOR: Record<MasteryBand, string> = { dominio: "bg-emerald-500", competente: "bg-indigo-500", en_desarrollo: "bg-amber-500", inicial: "bg-red-500" };
+const BAND_COLOR: Record<MasteryBand, string> = { dominio: "bg-emerald-500", competente: "bg-brand-500", en_desarrollo: "bg-amber-500", inicial: "bg-red-500" };
 const PRIORITY: Record<string, string> = { alta: "bg-red-50 text-red-700 ring-red-200", media: "bg-amber-50 text-amber-800 ring-amber-200", baja: "bg-slate-100 text-slate-700 ring-slate-200" };
 const delta = (d: number | null) => (d == null ? "—" : `${d > 0 ? "+" : ""}${d} pts`);
 
@@ -19,7 +19,7 @@ export default async function AnalysisPage() {
     return (
       <section>
         <h1 className="text-2xl font-semibold">Análisis del semestre</h1>
-        <p className="mt-2 text-slate-600">Primero registra tu asignatura en el <Link className="text-indigo-700 underline" href="/">panel</Link>.</p>
+        <p className="mt-2 text-slate-600">Primero registra tu asignatura en el <Link className="text-brand-700 underline" href="/">panel</Link>.</p>
       </section>
     );
 
@@ -38,7 +38,7 @@ export default async function AnalysisPage() {
 
       {stats.labsEvaluated === 0 ? (
         <div className={card}>
-          <p className="text-slate-700">Todavía no hay laboratorios evaluados. Evalúa al menos uno en <Link className="text-indigo-700 underline" href="/laboratorios">Mis laboratorios</Link> y vuelve aquí.</p>
+          <p className="text-slate-700">Todavía no hay laboratorios evaluados. Evalúa al menos uno en <Link className="text-brand-700 underline" href="/laboratorios">Mis laboratorios</Link> y vuelve aquí.</p>
         </div>
       ) : (
         <>
@@ -46,7 +46,7 @@ export default async function AnalysisPage() {
             <div className="flex flex-wrap items-end gap-8">
               <div>
                 <p className="text-xs uppercase tracking-wide text-slate-500">Promedio orientativo</p>
-                <p className="text-4xl font-semibold text-indigo-700">{stats.averageGrade} <span className="text-lg text-slate-500">/ {max}</span></p>
+                <p className="text-4xl font-semibold text-brand-700">{stats.averageGrade} <span className="text-lg text-slate-500">/ {max}</span></p>
               </div>
               <div>
                 <p className="text-xs uppercase tracking-wide text-slate-500">Cumplimiento</p>
@@ -68,7 +68,7 @@ export default async function AnalysisPage() {
                 Solo hay {stats.labsEvaluated} laboratorio(s) evaluado(s). Con tan pocos datos, las tendencias y los patrones todavía no son concluyentes.
               </p>
             )}
-            <p className="mt-3 rounded-lg bg-slate-100 px-3 py-2 text-xs text-slate-600">{GRADE_DISCLAIMER} Los números de esta página los calcula el sistema; la IA solo redacta sobre ellos.</p>
+            <p className="mt-3 rounded-lg bg-blue-50 px-3 py-2 text-xs text-blue-900 ring-1 ring-blue-100">{GRADE_DISCLAIMER} Los números de esta página los calcula el sistema; la IA solo redacta sobre ellos.</p>
           </div>
 
           <div className={card}>

@@ -7,19 +7,19 @@ const REPLACE: Record<string, string> = { "→": "->", "←": "<-", "≥": ">=",
 export const pdfSafe = (s: string) =>
   [...(s ?? "")].map((ch) => (REPLACE[ch] ?? (ch.codePointAt(0)! <= 255 || ch === "\n" ? ch : ""))).join("");
 
-const C = { indigo: "#4338ca", indigoLight: "#eef2ff", slate: "#334155", muted: "#64748b", line: "#e2e8f0", bg: "#f8fafc", green: "#10b981", amber: "#f59e0b", rose: "#f43f5e" };
+const C = { brand: "#5f2b94", brandLight: "#f6f0fc", slate: "#3e3555", muted: "#6a5f85", line: "#e4ddee", bg: "#f9f7fc", green: "#10b981", amber: "#f59e0b", rose: "#f43f5e" };
 const s = StyleSheet.create({
   page: { paddingTop: 36, paddingBottom: 48, paddingHorizontal: 40, fontFamily: "Helvetica", fontSize: 9.5, color: C.slate, lineHeight: 1.4 },
-  cover: { backgroundColor: C.indigo, color: "white", padding: 18, borderRadius: 6, marginBottom: 14 },
-  coverKicker: { fontSize: 8, color: "#c7d2fe", letterSpacing: 1 },
+  cover: { backgroundColor: C.brand, color: "white", padding: 18, borderRadius: 6, marginBottom: 14 },
+  coverKicker: { fontSize: 8, color: "#dac0f2", letterSpacing: 1 },
   coverTitle: { fontSize: 17, fontFamily: "Helvetica-Bold", marginTop: 4, marginBottom: 5 },
-  coverSub: { fontSize: 10, color: "#e0e7ff", marginTop: 2 },
+  coverSub: { fontSize: 10, color: "#ecdff9", marginTop: 2 },
   coverStats: { flexDirection: "row", marginTop: 12 },
   stat: { marginRight: 28 },
-  statLabel: { fontSize: 7.5, color: "#c7d2fe" },
+  statLabel: { fontSize: 7.5, color: "#dac0f2" },
   statValue: { fontSize: 22, fontFamily: "Helvetica-Bold" },
   disclaimer: { backgroundColor: C.bg, borderLeft: `3 solid ${C.amber}`, padding: 8, marginBottom: 12, fontSize: 8.5, color: C.slate },
-  h1: { fontSize: 12, fontFamily: "Helvetica-Bold", color: C.indigo, marginTop: 12, marginBottom: 5, paddingBottom: 3, borderBottom: `1 solid ${C.line}` },
+  h1: { fontSize: 12, fontFamily: "Helvetica-Bold", color: C.brand, marginTop: 12, marginBottom: 5, paddingBottom: 3, borderBottom: `1 solid ${C.line}` },
   h2: { fontSize: 10, fontFamily: "Helvetica-Bold", marginTop: 6, marginBottom: 2 },
   p: { marginBottom: 4 },
   small: { fontSize: 8, color: C.muted },
@@ -28,9 +28,9 @@ const s = StyleSheet.create({
   liText: { flex: 1 },
   table: { borderTop: `1 solid ${C.line}`, borderLeft: `1 solid ${C.line}`, marginBottom: 6 },
   tr: { flexDirection: "row" },
-  th: { backgroundColor: C.indigoLight, fontFamily: "Helvetica-Bold", padding: 4, borderRight: `1 solid ${C.line}`, borderBottom: `1 solid ${C.line}` },
+  th: { backgroundColor: C.brandLight, fontFamily: "Helvetica-Bold", padding: 4, borderRight: `1 solid ${C.line}`, borderBottom: `1 solid ${C.line}` },
   td: { padding: 4, borderRight: `1 solid ${C.line}`, borderBottom: `1 solid ${C.line}` },
-  barTrack: { height: 8, backgroundColor: "#f1f5f9", borderRadius: 4, marginTop: 2, marginBottom: 6 },
+  barTrack: { height: 8, backgroundColor: "#f1edf7", borderRadius: 4, marginTop: 2, marginBottom: 6 },
   card: { backgroundColor: C.bg, padding: 7, borderRadius: 4, marginBottom: 5 },
   mono: { fontFamily: "Courier", fontSize: 8 },
   footer: { position: "absolute", bottom: 20, left: 40, right: 40, flexDirection: "row", justifyContent: "space-between", fontSize: 7.5, color: C.muted, borderTop: `1 solid ${C.line}`, paddingTop: 4 },
@@ -263,12 +263,12 @@ export function ReportDocument({ d }: { d: ReportData }) {
         </Section>
 
         <Section n={13} title="Porcentaje de cumplimiento">
-          <T style={{ fontSize: 16, fontFamily: "Helvetica-Bold", color: C.indigo }}>{`${d.overallPercent} %`}</T>
+          <T style={{ fontSize: 16, fontFamily: "Helvetica-Bold", color: C.brand }}>{`${d.overallPercent} %`}</T>
           <T style={[s.p, s.small]}>Calculado por el sistema (no por la IA) como la suma de peso x porcentaje de cada criterio, según las ponderaciones de la rúbrica confirmada.</T>
         </Section>
 
         <Section n={14} title="Nota final orientativa">
-          <T style={{ fontSize: 16, fontFamily: "Helvetica-Bold", color: C.indigo }}>{`${d.grade} / ${d.scaleMax}`}</T>
+          <T style={{ fontSize: 16, fontFamily: "Helvetica-Bold", color: C.brand }}>{`${d.grade} / ${d.scaleMax}`}</T>
           <T style={[s.p, { marginTop: 4 }]}>{GRADE_DISCLAIMER}</T>
           <ReviewBlock d={d} />
         </Section>

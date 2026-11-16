@@ -16,8 +16,8 @@ export default async function LoginPage({
       <PasswordField label="Contraseña" name="password" autoComplete="current-password" required />
       <SubmitButton>Iniciar sesión</SubmitButton>
       <p className="mt-4 flex justify-between text-sm text-slate-600">
-        <Link className="text-indigo-700 hover:underline" href="/registro">Crear cuenta</Link>
-        <Link className="text-indigo-700 hover:underline" href="/recuperar">Olvidé mi contraseña</Link>
+        <Link className="text-brand-700 hover:underline" href="/registro">Crear cuenta</Link>
+        <Link className="text-brand-700 hover:underline" href="/recuperar">Olvidé mi contraseña</Link>
       </p>
       <p className="mt-3 text-center text-sm"><Link className="text-slate-500 hover:underline" href="/acerca">Acerca del proyecto y el equipo</Link></p>
     </form>

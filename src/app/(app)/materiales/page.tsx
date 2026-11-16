@@ -52,7 +52,7 @@ export default async function MaterialsPage() {
                     </div>
                     <div className="flex gap-3">
                       <a
-                        className="text-indigo-700 hover:underline"
+                        className="text-brand-700 hover:underline"
                         href={`/descargar?path=${encodeURIComponent(m.storage_path ?? "")}&name=${encodeURIComponent(`${m.title}.${extOf(m.storage_path ?? "")}`)}`}
                       >
                         Descargar

@@ -39,7 +39,7 @@ export default function AboutPage() {
     <main className="min-h-screen bg-slate-50 px-4 py-10">
       <div className="mx-auto max-w-4xl">
         <p className="mb-6 text-sm">
-          <Link className="text-indigo-700 hover:underline" href="/">← Volver a la plataforma</Link>
+          <Link className="text-brand-700 hover:underline" href="/">← Volver a la plataforma</Link>
         </p>
 
         <header className="mb-8">

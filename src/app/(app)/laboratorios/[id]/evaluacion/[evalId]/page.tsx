@@ -308,7 +308,7 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
           <dt className="text-slate-500">Archivos analizados</dt><dd>{inventory.filter((i) => i.mode === "text" || i.mode === "native").length} de {inventory.length}</dd>
         </dl>
         <details className="mt-3">
-          <summary className="cursor-pointer text-sm text-indigo-700">Ver inventario de archivos</summary>
+          <summary className="cursor-pointer text-sm text-brand-700">Ver inventario de archivos</summary>
           <ul className="mt-2 max-h-64 overflow-auto text-xs text-slate-600">
             {inventory.map((i, n) => (
               <li key={n}>{i.mode === "omitido" || i.mode === "unsupported" ? "✗" : "✓"} {i.location} · {i.mode}{i.note ? ` · ${i.note}` : ""}</li>
@@ -321,7 +321,7 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
 
   return (
     <section className="max-w-4xl">
-      <p className="mb-1 text-sm"><Link className="text-indigo-700 hover:underline" href={`/laboratorios/${id}`}>← {lab?.name}</Link></p>
+      <p className="mb-1 text-sm"><Link className="text-brand-700 hover:underline" href={`/laboratorios/${id}`}>← {lab?.name}</Link></p>
       <h1 className="mb-1 text-2xl font-semibold">Evaluación del laboratorio</h1>
       <p className="mb-4 text-sm text-slate-500">
         {new Date(ev.created_at).toLocaleString("es")} · rúbrica v{ev.rubric_version} · escala 0 a {ev.grade_scale_max}
@@ -340,7 +340,7 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
           <div className="flex flex-wrap items-end gap-6">
             <div>
               <p className="text-xs uppercase tracking-wide text-slate-500">{reviewed ? "Nota final (revisada por docente)" : "Calificación orientativa"}</p>
-              <p className="text-4xl font-semibold text-indigo-700">
+              <p className="text-4xl font-semibold text-brand-700">
                 {reviewed ? ev.final_grade : ev.estimated_grade} <span className="text-lg text-slate-500">/ {ev.grade_scale_max}</span>
               </p>
               {reviewed && <p className="text-xs text-slate-500">Estimación de la IA: {ev.estimated_grade} / {ev.grade_scale_max}</p>}
@@ -356,18 +356,18 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
               href={`/api/evaluaciones/${evalId}/informe`}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-indigo-600 px-4 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-50"
+              className="rounded-lg border border-brand-600 px-4 py-2 text-sm font-medium text-brand-700 hover:bg-brand-50"
             >
               Ver informe PDF
             </a>
             <a
               href={`/api/evaluaciones/${evalId}/informe?download=1`}
-              className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+              className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
             >
               Descargar informe PDF
             </a>
           </div>
-          <p className="mt-3 rounded-lg bg-slate-100 px-3 py-2 text-xs text-slate-600">{GRADE_DISCLAIMER}</p>
+          <p className="mt-3 rounded-lg bg-blue-50 px-3 py-2 text-xs text-blue-900 ring-1 ring-blue-100">{GRADE_DISCLAIMER}</p>
           {reviewed ? (
             <div className="mt-3 rounded-lg bg-emerald-50 p-3 text-sm text-emerald-900 ring-1 ring-emerald-200">
               <p className="font-medium">

@@ -9,12 +9,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   if (!data.user) redirect("/login");
   const { data: profile } = await supabase.from("profiles").select("full_name").eq("id", data.user.id).single();
 
-  const link = "rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-700";
+  const link = "rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700";
   return (
     <div className="min-h-screen bg-slate-50 md:flex">
       <aside className="border-b border-slate-200 bg-white p-4 md:min-h-screen md:w-60 md:border-b-0 md:border-r">
-        <p className="mb-4 font-semibold text-indigo-700">Autoevaluación</p>
-        <nav className="flex gap-1 md:flex-col" aria-label="Principal">
+        <p className="mb-4 font-semibold text-brand-700">Autoevaluación</p>
+        <nav className="flex flex-wrap gap-1 md:flex-col" aria-label="Principal">
           <Link className={link} href="/">Panel</Link>
           <Link className={link} href="/laboratorios">Mis laboratorios</Link>
           <Link className={link} href="/analisis">Análisis del semestre</Link>
