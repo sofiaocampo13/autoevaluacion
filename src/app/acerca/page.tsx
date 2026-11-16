@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   description: "Plataforma web de autoevaluación académica con IA: objetivos, funcionalidades, tecnologías y equipo.",
 };
 
-// Para mostrar la foto de una integrante: copiar la imagen a public/equipo/ y poner aquí su ruta, p. ej. "/equipo/sofia.jpg".
+// Las fotos están en public/equipo/. Si una integrante no tiene `photo`, se muestran sus iniciales.
 const TEAM: { name: string; role: string; photo?: string }[] = [
-  { name: "Sofía Ocampo Gómez", role: "Desarrollo" },
-  { name: "Adriana Vargas Herrera", role: "Diseño" },
-  { name: "Laura Rojas Castaño", role: "Análisis de requisitos y pruebas" },
+  { name: "Sofía Ocampo Gómez", role: "Desarrollo", photo: "/equipo/sofia.jpg" },
+  { name: "Adriana Vargas Herrera", role: "Diseño", photo: "/equipo/adriana.jpg" },
+  { name: "Laura Rojas Castaño", role: "Análisis de requisitos y pruebas", photo: "/equipo/laura.jpg" },
 ];
 
 const FEATURES = [
