@@ -5,14 +5,15 @@ Revisado contra la rúbrica oficial: *Proyecto Final Profundización I – Aseso
 ## Stack (capa gratuita)
 Next.js 16 + TypeScript en Vercel · Supabase (Postgres, Auth, Storage, RLS) · Gemini `gemini-3.5-flash` (configurable por `GEMINI_MODEL`; `gemini-2.5-flash` ya no está disponible para cuentas nuevas).
 
-## Estado por fase (actualizado 2026-11-14)
+## Estado por fase (actualizado 2026-11-15)
 - **Fase 1 (cuentas, datos, seguridad): HECHA.** Aislamiento verificado (11/11).
 - **Fase 2 (materiales, laboratorios, cortes, carpetas, importación): HECHA.** Faltan materiales precargados.
 - **Fase 3a (rúbricas editables y confirmables, lectura de documentos, ZIP y repositorio GitHub, trazabilidad): HECHA.**
 - **Fase 3b (motor de evaluación con IA): HECHA y probada en la app.** Valoración de todos los criterios en una petición, citas verificadas, nota calculada en código, resultados guardados con trazabilidad.
 - **Fase 3c (verificación objetiva del código): HECHA, con límites.** Validación de sintaxis y análisis estático (Python y notebooks con Ruff WASM, JavaScript con Acorn, JSON/JSONL) y detección de pruebas unitarias por contenido; se guarda en la evaluación y se usa como evidencia objetiva. **El código no se ejecuta** (no hay sandbox gratuito en Vercel) y las pruebas unitarias no se corren: el informe lo declara. Otros lenguajes (Java, C, TypeScript…) no se analizan.
 - **Fase 4 (resultados, infografía, informe PDF, revisión docente): HECHA, falta probar el flujo completo en el navegador.** Pestañas de resultados, infografía individual (PNG), informe PDF de 20 apartados y **revisión docente por enlace** (enlace secreto de 14 días, solo se guarda su hash, un único uso, ajustes con justificación, nota recalculada por el sistema). Pendiente menor: historial con comparación entre evaluaciones.
-- **Fases 5 y 6: pendientes.**
+- **Fase 5 (análisis del semestre, mapa mental, infografía e informe integrado): HECHA, falta probar el PDF y la infografía descargada en el navegador.** Estadísticas del semestre sin IA (tablero y página de análisis), diagnóstico y plan personalizado con IA (con controles de cifras), mapa mental interactivo SVG (zoom, arrastre, panel de detalle, descarga PNG/SVG, filtro «Solo fortalezas»), infografía general del semestre (PNG) e informe integrado en PDF. Pendiente: calibrar con una nota real de un docente.
+- **Fase 6: pendiente.**
 
 ## Riesgos abiertos
 1. **Cuota gratuita de IA:** 20 peticiones al día por modelo; cada evaluación usa 2. Alcanza para ~10 laboratorios por modelo y día. Una demostración con muchos laboratorios seguidos requiere margen, o una capa de pago pequeña.

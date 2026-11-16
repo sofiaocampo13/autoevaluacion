@@ -5,7 +5,7 @@ import type { FinalReport } from "./evaluate-summary";
 type Infographic = FinalReport["infografia"];
 type State = "demostrado" | "parcial" | "refuerzo";
 
-const norm = (s: string) =>
+export const norm = (s: string) =>
   s
     .normalize("NFD")
     .replace(/\p{Diacritic}/gu, "")

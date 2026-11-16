@@ -17,6 +17,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         <nav className="flex gap-1 md:flex-col" aria-label="Principal">
           <Link className={link} href="/">Panel</Link>
           <Link className={link} href="/laboratorios">Mis laboratorios</Link>
+          <Link className={link} href="/analisis">Análisis del semestre</Link>
+          <Link className={link} href="/mapa">Mapa mental</Link>
           <Link className={link} href="/materiales">Materiales</Link>
           <Link className={link} href="/perfil">Mi perfil</Link>
         </nav>
