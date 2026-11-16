@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prisma — Estados generales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FAF7FD}
+a{color:#6D3FD9}a:hover{color:#4C24A8}
+input:focus,textarea:focus,select:focus{outline:2px solid #6D3FD9;outline-offset:1px}
+summary{cursor:pointer}
+</style>
+</head>
+<body>
+<div style="font-family: Manrope, system-ui, sans-serif; color: #221A35; background: #FAF7FD; min-height: 100vh; padding: 36px clamp(16px, 4vw, 56px) 56px; box-sizing: border-box; display: flex; flex-direction: column; gap: 26px">
+  <header style="display: flex; flex-direction: column; gap: 6px">
+    <span style="font-size: 13px; font-weight: 800; color: #C2306E; letter-spacing: 0.08em; text-transform: uppercase">Hoja de estados</span>
+    <h1 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 44px; letter-spacing: -0.02em">Límites, vacíos, carga y confirmaciones</h1>
+  </header>
+
+  <section style="display: flex; flex-direction: column; gap: 12px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 800; color: #5A5170; letter-spacing: 0.08em; text-transform: uppercase">Límites de uso</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 14px">
+      <div role="alert" style="display: flex; gap: 12px; align-items: flex-start; background: #FFF4E0; border: 1px solid #F2C98A; border-radius: 18px; padding: 16px 18px; color: #5C3300">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 7v5l3 3M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path></svg>
+        <div style="display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 14px">Límite diario de IA</strong><span style="font-size: 13.5px; line-height: 1.55">Alcanzaste tu límite diario de uso de la IA (12 de 12 unidades en las últimas 24 horas; una evaluación gasta 3, las demás operaciones con IA gastan 1). Podrás volver a usarla hacia las 03:40 p. m. (hora de Colombia).</span></div>
+      </div>
+      <div role="alert" style="display: flex; gap: 12px; align-items: flex-start; background: #FFF4E0; border: 1px solid #F2C98A; border-radius: 18px; padding: 16px 18px; color: #5C3300">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 7v5l3 3M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path></svg>
+        <div style="display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 14px">Límite global de IA</strong><span style="font-size: 13.5px; line-height: 1.55">La plataforma alcanzó hoy el límite de uso de la IA gratuita, que comparten todos los usuarios. Podrás volver a intentarlo hacia las 07:00 a. m. (hora de Colombia).</span></div>
+      </div>
+      <div role="alert" style="display: flex; gap: 12px; align-items: flex-start; background: #FCE7F1; border: 1px solid #F2B8CF; border-radius: 18px; padding: 16px 18px; color: #4A1430">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M4 7h16M4 12h16M4 17h10"></path></svg>
+        <div style="display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 14px">Límite de almacenamiento</strong><span style="font-size: 13.5px; line-height: 1.55">Alcanzaste tu límite de almacenamiento (250 MB de 250 MB, 2.488 de 2.500 archivos). Elimina archivos o materiales que ya no necesites y vuelve a intentarlo.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+    <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+      <h2 style="margin: 0; font-size: 13px; font-weight: 800; color: #5A5170; letter-spacing: 0.08em; text-transform: uppercase">Confirmación de gasto de IA</h2>
+      <div role="dialog" aria-label="Confirmar uso de IA" style="background: #FFFFFF; border: 1px solid #ECE6F5; border-radius: 24px; padding: 22px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 16px 40px rgba(31,22,51,0.10)">
+        <span style="font-size: 12px; font-weight: 800; color: #6B6283; letter-spacing: 0.06em; text-transform: uppercase">Rellenar un laboratorio con IA</span>
+        <div style="background: #FFF0DC; border: 1.5px solid #F2A65A; border-radius: 16px; padding: 14px 16px; font-size: 14px; line-height: 1.55; color: #5C3300; display: flex; flex-direction: column; gap: 6px">
+          <p style="margin: 0"><strong>Esto usa la IA y gasta 1 unidad</strong> de tu cupo diario (12 unidades cada 24 horas; una evaluación completa gasta 3). Escribir los datos a mano <strong>no gasta nada</strong>.</p>
+          <p style="margin: 0">Solo se rellenan los campos vacíos y nada se guarda hasta que tú lo confirmes. Puede tardar hasta un minuto.</p>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px">
+          <button type="button" style="min-height: 46px; padding: 0 22px; border-radius: 999px; border: 0; background: #C2306E; color: #FFFFFF; font-family: inherit; font-weight: 800; font-size: 14px; cursor: pointer">Sí, rellenar con IA</button>
+          <button type="button" style="min-height: 46px; padding: 0 20px; border-radius: 999px; border: 1.5px solid #DCD3EE; background: #FFFFFF; color: #221A35; font-family: inherit; font-weight: 700; font-size: 14px; cursor: pointer">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+      <h2 style="margin: 0; font-size: 13px; font-weight: 800; color: #5A5170; letter-spacing: 0.08em; text-transform: uppercase">Carga</h2>
+      <div style="background: #FFFFFF; border: 1px solid #ECE6F5; border-radius: 24px; padding: 22px; display: flex; flex-direction: column; gap: 14px">
+        <button type="button" aria-busy="true" style="display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; border: 0; background: #C2306E; color: #FFFFFF; font-family: inherit; font-weight: 800; font-size: 14px; opacity: 0.85; width: fit-content"><span aria-hidden="true" style="width: 16px; height: 16px; border-radius: 50%; border: 2.5px solid #FFFFFF; border-right-color: transparent"></span>La IA está leyendo tu rúbrica…</button>
+        <span style="font-size: 12.5px; color: #5A5170">suele tardar entre 5 y 60 segundos</span>
+        <button type="button" aria-busy="true" style="display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; border: 0; background: #1F1633; color: #FFFFFF; font-family: inherit; font-weight: 800; font-size: 14px; width: fit-content"><span aria-hidden="true" style="width: 16px; height: 16px; border-radius: 50%; border: 2.5px solid #F49AC1; border-right-color: transparent"></span>Preparando la evaluación…</button>
+        <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 4px">
+          <div style="height: 92px; border-radius: 18px; background: #F1ECF8"></div>
+          <div style="height: 92px; border-radius: 18px; background: #F4EFFB"></div>
+          <div style="height: 92px; border-radius: 18px; background: #F1ECF8"></div>
+        </div>
+        <div aria-hidden="true" style="display: flex; flex-direction: column; gap: 8px">
+          <div style="height: 12px; width: 70%; border-radius: 99px; background: #F1ECF8"></div>
+          <div style="height: 12px; width: 92%; border-radius: 99px; background: #F4EFFB"></div>
+          <div style="height: 12px; width: 54%; border-radius: 99px; background: #F1ECF8"></div>
+        </div>
+        <span style="font-size: 12.5px; color: #5A5170">Tarjetas de esqueleto mientras se cargan los datos.</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 12px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 800; color: #5A5170; letter-spacing: 0.08em; text-transform: uppercase">Estados vacíos</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px">
+      
+        <div style="background: #FFFFFF; border: 1.5px dashed #DCD3EE; border-radius: 22px; padding: 26px 22px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px">
+          <span style="width: 48px; height: 48px; border-radius: 16px; background: #EFE8FF; color: #6D3FD9; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"></path></svg></span>
+          <span style="font-size: 12px; font-weight: 800; color: #6B6283">Detalle del laboratorio · archivos</span>
+          <p style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.45">Todavía no hay archivos en este laboratorio.</p>
+          <a href="laboratorio-detalle.html" style="display: inline-flex; align-items: center; min-height: 44px; font-weight: 800; font-size: 14px">Elegir archivos</a>
+        </div>
+      
+        <div style="background: #FFFFFF; border: 1.5px dashed #DCD3EE; border-radius: 22px; padding: 26px 22px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px">
+          <span style="width: 48px; height: 48px; border-radius: 16px; background: #EFE8FF; color: #6D3FD9; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5h11M9 12h11M9 19h11M4 5h.01M4 12h.01M4 19h.01"></path></svg></span>
+          <span style="font-size: 12px; font-weight: 800; color: #6B6283">Rúbrica del laboratorio</span>
+          <p style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.45">Todavía no hay una rúbrica parametrizada para este laboratorio.</p>
+          <a href="rubrica.html" style="display: inline-flex; align-items: center; min-height: 44px; font-weight: 800; font-size: 14px">Crear en blanco</a>
+        </div>
+      
+        <div style="background: #FFFFFF; border: 1.5px dashed #DCD3EE; border-radius: 22px; padding: 26px 22px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px">
+          <span style="width: 48px; height: 48px; border-radius: 16px; background: #EFE8FF; color: #6D3FD9; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2zM4 21V5"></path></svg></span>
+          <span style="font-size: 12px; font-weight: 800; color: #6B6283">Materiales asociados</span>
+          <p style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.45">Ninguno todavía.</p>
+          <a href="materiales.html" style="display: inline-flex; align-items: center; min-height: 44px; font-weight: 800; font-size: 14px">Ir a Materiales →</a>
+        </div>
+      
+        <div style="background: #FFFFFF; border: 1.5px dashed #DCD3EE; border-radius: 22px; padding: 26px 22px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px">
+          <span style="width: 48px; height: 48px; border-radius: 16px; background: #EFE8FF; color: #6D3FD9; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></span>
+          <span style="font-size: 12px; font-weight: 800; color: #6B6283">Importar carpeta</span>
+          <p style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.45">No se detectaron laboratorios con archivos admitidos en esa carpeta.</p>
+          <a href="importar.html" style="display: inline-flex; align-items: center; min-height: 44px; font-weight: 800; font-size: 14px">Elegir otra carpeta</a>
+        </div>
+      
+    </div>
+  </section>
+</div>
+</body>
+</html>

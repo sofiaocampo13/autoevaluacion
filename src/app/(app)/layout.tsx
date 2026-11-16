@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { BrandMark } from "@/components/icons";
 import { MobileTabs, SidebarNav } from "@/components/nav-links";
 import { logout } from "../(auth)/actions";
 
@@ -26,10 +25,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     <div className="min-h-screen bg-slate-50 text-slate-800 md:flex">
       {/* Escritorio: menú lateral de 248 px. */}
       <aside className="hidden bg-slate-900 px-[18px] py-7 text-[#F4EEFF] md:sticky md:top-0 md:flex md:h-screen md:w-[248px] md:shrink-0 md:flex-col md:gap-7">
-        <Link href="/" className="flex items-center gap-3 px-2">
-          <BrandMark className="h-9 w-9" />
+        <Link href="/" className="block px-2">
           <span className="flex flex-col">
-            <span className="font-display text-[19px] font-semibold leading-none tracking-tight">Asesor pedagógico</span>
+            <span className="font-display text-[22px] font-semibold leading-none tracking-tight">Asesor pedagógico</span>
             <span className="mt-1 text-[11px] uppercase tracking-[0.08em] text-[#C9BEE0]">Autoevaluación IA</span>
           </span>
         </Link>
@@ -51,8 +49,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
       {/* Móvil: barra superior con la marca y tu perfil, y pestañas abajo. */}
       <header className="flex items-center justify-between px-5 pt-5 md:hidden">
-        <Link href="/" className="flex items-center gap-2.5">
-          <BrandMark className="h-8 w-8" onDark={false} />
+        <Link href="/" className="block">
           <span className="font-display text-xl font-semibold tracking-tight text-slate-800">Asesor pedagógico</span>
         </Link>
         <Link href="/perfil" aria-label="Mi perfil" className="flex h-11 w-11 items-center justify-center rounded-full bg-pink-300 font-extrabold text-slate-900">{initials}</Link>

@@ -40,14 +40,3 @@ export function Icon({ name, className = "h-5 w-5" }: { name: IconName; classNam
     </svg>
   );
 }
-
-/** Marca de la plataforma: un prisma (triángulo) con una arista violeta y una línea azul, como en los mockups. `onDark` usa los tonos claros. */
-export function BrandMark({ className = "h-9 w-9", onDark = true }: { className?: string; onDark?: boolean }) {
-  return (
-    <svg viewBox="0 0 36 36" className={className} aria-hidden="true">
-      <path d="M18 3 L33 30 H3 Z" fill="none" stroke={onDark ? "#F49AC1" : "#C2306E"} strokeWidth="2.2" strokeLinejoin="round" />
-      <path d="M18 3 L22 30" stroke={onDark ? "#B9A2FF" : "#6D3FD9"} strokeWidth="2.2" />
-      <path d="M10 17 H26" stroke={onDark ? "#8FB0FF" : "#2E5BD8"} strokeWidth="2.2" strokeLinecap="round" />
-    </svg>
-  );
-}

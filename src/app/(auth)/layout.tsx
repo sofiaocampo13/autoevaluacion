@@ -1,4 +1,3 @@
-import { BrandMark } from "@/components/icons";
 import { AuthTabs } from "@/components/auth-tabs";
 
 const POINTS = [
@@ -11,10 +10,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <main className="flex min-h-screen flex-wrap bg-slate-50 text-slate-800">
       <section className="flex flex-[1_1_480px] flex-col justify-between gap-12 bg-slate-900 p-[clamp(32px,5vw,72px)] text-[#F4EEFF]">
-        <div className="flex items-center gap-3">
-          <BrandMark className="h-10 w-10" />
-          <span className="font-display text-2xl font-semibold">Asesor pedagógico</span>
-        </div>
+        <span className="font-display text-2xl font-semibold">Asesor pedagógico</span>
         <div className="flex max-w-[520px] flex-col gap-5">
           <h1 className="font-display text-[clamp(38px,4vw,56px)] font-medium leading-[1.05] tracking-[-0.02em]">
             Descubre qué <em className="text-pink-300">dominas</em> y qué te falta, laboratorio por laboratorio.

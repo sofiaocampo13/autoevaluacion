@@ -19,8 +19,36 @@ Una captura completa (PNG, a 2x) y un HTML estático por pantalla. El HTML tiene
 | historial.html / .png | Historial de evaluaciones |
 | analisis.html / .png / -390px.png | Análisis global del semestre |
 | mapa.html / .png | Infografía general de aprendizaje |
+| rubrica.html / .png / -390px.png | Rúbrica del laboratorio: editor del borrador con validación |
+| rubrica-confirmada.png | Rúbrica: versión confirmada (solo lectura) |
+| revision-docente.html / .png / -390px.png | Vista pública del docente con formulario y barra fija de nota recalculada |
+| revision-docente-enviada.png / -no-disponible / -revocado / -expirado | Estados del enlace del docente |
+| laboratorio-evaluado-detalle-criterio.png | Pestaña «Detalle por criterio» (citas verificada / no verificable / inválida) |
+| laboratorio-evaluado-revision-docente.png | Pestaña «Revisión docente» (enlace mostrado una sola vez, lista y revocar) |
+| laboratorio-evaluado-verificacion.png | Pestaña «Verificación y trazabilidad» |
+| laboratorio-detalle.html / .png / -390px.png | Detalle de un laboratorio (/laboratorios/[id]) |
+| laboratorio-detalle-evaluando.png / -error.png | Panel «Evaluación con IA» en curso y con error |
+| importar.html / .png / -390px.png / -subiendo / -resultado | Importar carpeta del semestre |
+| perfil.html / .png / -390px.png | Mi perfil |
+| perfil-almacenamiento-casi-lleno.png / perfil-eliminar-cuenta.png | Barra naranja (>90 %) y zona de peligro abierta |
+| mapa-mental.html / .png / -390px.png | Mapa mental interactivo con panel de detalle del nodo |
+| acerca.html / .png / -390px.png | Acerca del proyecto (pública, con las fotos de public/equipo/) |
+| recuperar.html / .png / -enviado.png | Recuperar contraseña |
+| restablecer.html / .png / -no-coinciden.png | Elegir contraseña nueva |
+| confirmar-correo.html / .png / -restablecer.png / -invalido.png | Confirmar correo |
+| 404.html / .png · error.html / .png | Página no encontrada y error genérico |
+| estados.html / .png | Hoja de estados: límites de IA y almacenamiento, confirmación de gasto, vacíos y carga |
 
 Los `-390px.png` muestran cómo se reacomodan las páginas de escritorio en un celular. Los HTML son estáticos: las pestañas y filtros se ven en su estado inicial (las otras pestañas están en los PNG). Los enlaces entre pantallas sí funcionan.
+
+## Notas sobre el contenido
+
+- Los textos de las pantallas nuevas salen del código de `src/`. Los datos de ejemplo (Valentina Ríos, Lab 3) son los mismos de los mockups anteriores.
+- Valores que el código no fija y quedaron entre corchetes: `[modelo]` y `[versión]` en Trazabilidad, `Prof. [Nombre]` en las revisiones y `[tu-dominio]` en el enlace de revisión.
+- Los textos de 404 y de error genérico son propuestos (hoy son las páginas de fábrica).
+- Las citas «verificadas» usan el azul de «demostrado» en lugar del verde (emerald) que tiene hoy el código, para seguir la paleta.
+- `acerca.html` carga las fotos desde `../public/equipo/`.
+- Ningún texto mide menos de 11 px.
 
 ## Tokens de diseño
 

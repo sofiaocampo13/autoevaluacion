@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prisma — Acerca del proyecto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FAF7FD}
+a{color:#6D3FD9}a:hover{color:#4C24A8}
+input:focus,textarea:focus,select:focus{outline:2px solid #6D3FD9;outline-offset:1px}
+summary{cursor:pointer}
+</style>
+</head>
+<body>
+<div style="font-family: Manrope, system-ui, sans-serif; color: #221A35; background: #FAF7FD; min-height: 100vh">
+  <div style="background: #1F1633; color: #F4EEFF; padding: 40px clamp(18px, 5vw, 72px) 56px; display: flex; flex-direction: column; gap: 22px">
+    <a href="panel.html" style="display: inline-flex; align-items: center; min-height: 44px; color: #F4EEFF; font-weight: 700; font-size: 14px; text-decoration: none; width: fit-content">← Volver a la plataforma</a>
+    <div style="display: flex; flex-direction: column; gap: 12px; max-width: 900px">
+      <span style="font-size: 13px; font-weight: 800; color: #F49AC1; letter-spacing: 0.1em; text-transform: uppercase">Proyecto final · Profundización I · Inteligencia Artificial</span>
+      <h1 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: clamp(40px, 5vw, 64px); line-height: 1.02; letter-spacing: -0.02em">Asesor pedagógico <em style="color: #F49AC1">inteligente</em></h1>
+      <p style="margin: 0; font-size: 19px; line-height: 1.5; color: #DCD3EE">Autoevaluación de laboratorios con IA, explicable y verificable</p>
+    </div>
+  </div>
+
+  <main style="max-width: 1180px; margin: -28px auto 0; padding: 0 clamp(16px, 4vw, 40px) 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 22px">
+    <section style="background: #FFFFFF; border: 1px solid #ECE6F5; border-radius: 28px; padding: 28px clamp(20px, 3vw, 36px); display: flex; flex-direction: column; gap: 12px">
+      <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 28px">Abstract</h2>
+      <p style="margin: 0; font-size: 15.5px; line-height: 1.7; color: #4A4260">Este proyecto es una plataforma web que ayuda a los estudiantes a interpretar y autoevaluar, con apoyo de inteligencia artificial, los laboratorios que desarrollaron en una materia. Para cada laboratorio, el estudiante entrega su descripción y objetivos, la rúbrica y su solución; la plataforma analiza las evidencias, valora cada criterio y señala qué aprendió, cómo lo aplicó y qué necesita fortalecer.</p>
+      <p style="margin: 0; font-size: 15.5px; line-height: 1.7; color: #4A4260">Su propósito es que la IA sea una aliada del aprendizaje y no un juez definitivo. Por eso cada valoración cita evidencias que el sistema comprueba en los archivos, la nota orientativa de 0,0 a 5,0 la calcula el sistema con las ponderaciones de la rúbrica, y un docente puede revisar y ajustar el resultado antes de darlo por válido. Con los resultados de todos los laboratorios se genera un informe integral con un plan de fortalecimiento y un mapa mental interactivo con el nivel de dominio de cada tema.</p>
+      <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #1E44A8; background: #E6EEFF; border-radius: 12px; padding: 10px 14px">Las calificaciones que muestra la plataforma son estimaciones con fines de autoevaluación; no son calificaciones oficiales ni sustituyen la evaluación del docente.</p>
+    </section>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 22px; align-items: flex-start">
+      <section style="flex: 3 1 480px; min-width: 0; background: #FFFFFF; border: 1px solid #ECE6F5; border-radius: 28px; padding: 26px clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: 14px">
+        <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 26px">Funcionalidades</h2>
+        <ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+          
+            <li style="display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.55; color: #4A4260"><span style="flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#1F1633;background:#F49AC1">1</span><span>Carga de la descripción y los objetivos del laboratorio, su rúbrica y la solución del estudiante (documentos, código, carpetas, ZIP o repositorio de GitHub).</span></li>
+          
+            <li style="display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.55; color: #4A4260"><span style="flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#1F1633;background:#E3A6F0">2</span><span>Interpretación y parametrización de la rúbrica con revisión del estudiante: criterios, niveles de desempeño y ponderaciones que suman 100 %.</span></li>
+          
+            <li style="display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.55; color: #4A4260"><span style="flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#1F1633;background:#B9A2FF">3</span><span>Evaluación de cada laboratorio con IA, con citas de fragmentos que el sistema verifica en los archivos; la nota orientativa la calcula el sistema, no el modelo.</span></li>
+          
+            <li style="display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.55; color: #4A4260"><span style="flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#1F1633;background:#A3AEFF">4</span><span>Retroalimentación, recomendaciones e infografía por laboratorio, e informe PDF.</span></li>
+          
+            <li style="display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.55; color: #4A4260"><span style="flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#1F1633;background:#8FB0FF">5</span><span>Revisión docente mediante un enlace seguro, de un solo uso: el docente ajusta criterios con justificación y el sistema recalcula la nota.</span></li>
+          
+            <li style="display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.55; color: #4A4260"><span style="flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#1F1633;background:#B9A2FF">6</span><span>Informe integrado del semestre con evolución, brechas y plan personalizado de fortalecimiento, e infografía descargable.</span></li>
+          
+            <li style="display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.55; color: #4A4260"><span style="flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#1F1633;background:#F49AC1">7</span><span>Mapa mental interactivo con el nivel de dominio de cada tema, las evidencias y lo que conviene profundizar.</span></li>
+          
+        </ol>
+      </section>
+      <div style="flex: 2 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+        <section style="background: #FFFFFF; border: 1px solid #ECE6F5; border-radius: 28px; padding: 26px; display: flex; flex-direction: column; gap: 12px">
+          <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 26px">Tecnologías</h2>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            
+              <span style="font-size: 13px; font-weight: 700; color: #2B1767; background: #EFE8FF; border-radius: 99px; padding: 6px 12px">Next.js y React</span>
+            
+              <span style="font-size: 13px; font-weight: 700; color: #2B1767; background: #EFE8FF; border-radius: 99px; padding: 6px 12px">TypeScript</span>
+            
+              <span style="font-size: 13px; font-weight: 700; color: #2B1767; background: #EFE8FF; border-radius: 99px; padding: 6px 12px">Tailwind CSS</span>
+            
+              <span style="font-size: 13px; font-weight: 700; color: #2B1767; background: #EFE8FF; border-radius: 99px; padding: 6px 12px">Supabase (PostgreSQL, autenticación y almacenamiento)</span>
+            
+              <span style="font-size: 13px; font-weight: 700; color: #2B1767; background: #EFE8FF; border-radius: 99px; padding: 6px 12px">Gemini (Google) como modelo de IA</span>
+            
+              <span style="font-size: 13px; font-weight: 700; color: #2B1767; background: #EFE8FF; border-radius: 99px; padding: 6px 12px">Vercel</span>
+            
+              <span style="font-size: 13px; font-weight: 700; color: #2B1767; background: #EFE8FF; border-radius: 99px; padding: 6px 12px">react-pdf</span>
+            
+          </div>
+        </section>
+        <section style="background: #1F1633; color: #F4EEFF; border-radius: 28px; padding: 26px; display: flex; flex-direction: column; gap: 10px">
+          <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 26px">Aportes</h2>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: #DCD3EE">Evaluaciones explicables, trazables y sujetas a validación docente: cada resultado conserva las evidencias, la versión de la rúbrica y el modelo usado. Además, el desarrollo se hizo con asistentes de IA, y las decisiones, problemas y límites quedaron documentados.</p>
+        </section>
+      </div>
+    </div>
+
+    <section aria-labelledby="equipo" style="display: flex; flex-direction: column; gap: 16px">
+      <h2 id="equipo" style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 28px">Equipo desarrollador</h2>
+      <ul style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px">
+        
+          <li style="background: #FFFFFF; border: 1px solid #ECE6F5; border-radius: 26px; padding: 28px 22px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center">
+            <img src="../public/equipo/sofia.jpg" alt="Foto de Sofía Ocampo Gómez" style="width:132px;height:132px;border-radius:50%;object-fit:cover;border:4px solid #FFFFFF;box-shadow:0 0 0 3px #C2306E">
+            <p style="margin: 8px 0 0; font-size: 17px; font-weight: 800">Sofía Ocampo Gómez</p>
+            <p style="margin: 0; font-size: 14px; color: #5A5170">Desarrollo</p>
+          </li>
+        
+          <li style="background: #FFFFFF; border: 1px solid #ECE6F5; border-radius: 26px; padding: 28px 22px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center">
+            <img src="../public/equipo/adriana.jpg" alt="Foto de Adriana Vargas Herrera" style="width:132px;height:132px;border-radius:50%;object-fit:cover;border:4px solid #FFFFFF;box-shadow:0 0 0 3px #6D3FD9">
+            <p style="margin: 8px 0 0; font-size: 17px; font-weight: 800">Adriana Vargas Herrera</p>
+            <p style="margin: 0; font-size: 14px; color: #5A5170">Diseño</p>
+          </li>
+        
+          <li style="background: #FFFFFF; border: 1px solid #ECE6F5; border-radius: 26px; padding: 28px 22px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center">
+            <img src="../public/equipo/laura.jpg" alt="Foto de Laura Rojas Castaño" style="width:132px;height:132px;border-radius:50%;object-fit:cover;border:4px solid #FFFFFF;box-shadow:0 0 0 3px #2E5BD8">
+            <p style="margin: 8px 0 0; font-size: 17px; font-weight: 800">Laura Rojas Castaño</p>
+            <p style="margin: 0; font-size: 14px; color: #5A5170">Análisis de requisitos y pruebas</p>
+          </li>
+        
+      </ul>
+    </section>
+  </main>
+</div>
+</body>
+</html>
