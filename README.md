@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Asesor pedagógico inteligente
 
-## Getting Started
+Plataforma web de **autoevaluación académica con IA**: el estudiante carga la descripción y los objetivos de un laboratorio, su rúbrica y su solución; la plataforma interpreta la rúbrica, analiza las evidencias con un modelo de IA, valora cada criterio citando fragmentos que el sistema verifica en los archivos y calcula una **nota orientativa** de 0,0 a 5,0. Un docente puede revisar y ajustar el resultado mediante un enlace seguro. Con todos los laboratorios se genera un informe integrado con plan de fortalecimiento y un mapa mental interactivo.
 
-First, run the development server:
+Proyecto final de Profundización I — Inteligencia Artificial (Universidad de Manizales).
+**URL pública:** https://autoevaluacion-kwff.vercel.app · **Equipo:** `/acerca`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+> Las calificaciones son estimaciones generadas con IA con fines de autoevaluación. No son calificaciones oficiales ni sustituyen la evaluación del docente.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Qué hace
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Requisito del enunciado | Dónde está |
+|---|---|
+| F1 Entrada de información (descripción/objetivos, rúbrica, solución) | Mis laboratorios, Materiales |
+| F2 Portafolio (PDF, código en ZIP o repositorio GitHub, carpetas) | Laboratorio → archivos; importación de carpeta del semestre |
+| F3 Gestión de rúbricas (interpretar, parametrizar, validar, confirmar) | Laboratorio → Rúbrica |
+| F4 Evaluación inteligente por laboratorio | Laboratorio → Evaluar; resultados, infografía, informe PDF, revisión docente |
+| F5 Informe integrado del aprendizaje | Análisis del semestre (estadísticas, diagnóstico, plan, infografía, PDF) |
+| F6 Mapa mental interactivo | Mapa mental |
+| F7 Presentación del proyecto y equipo | `/acerca` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Lo que **no** está construido: ver «Límites conocidos» más abajo.
 
-## Learn More
+## Pila tecnológica
 
-To learn more about Next.js, take a look at the following resources:
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Supabase (PostgreSQL con RLS, autenticación y Storage privado) · Gemini (Google) como modelo de IA · Vercel · `@react-pdf/renderer` · `html-to-image` · Ruff (WebAssembly) y Acorn para el análisis estático del código · zod.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Costo actual: **$0** (capas gratuitas de Vercel Hobby, Supabase y la API de Gemini), con los límites descritos en `docs/ARQUITECTURA.md`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Documentación
 
-## Deploy on Vercel
+- [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md): arquitectura, modelo de datos, seguridad, flujo de evaluación, integración de IA (con la justificación de la elección, requisitos, limitaciones y costos).
+- [`docs/DESARROLLO_CON_IA.md`](docs/DESARROLLO_CON_IA.md): cómo se desarrolló con asistentes de IA, decisiones técnicas, problemas encontrados y lo que se comprobó y lo que no.
+- [`docs/PRUEBAS_FUNCIONALES.md`](docs/PRUEBAS_FUNCIONALES.md): 20 pruebas funcionales con su estado real.
+- [`PLAN.md`](PLAN.md): plan por fases y matriz de cumplimiento.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Puesta en marcha local
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Requisitos: Node.js 22 o superior, un proyecto de Supabase y una clave de la API de Gemini.
+
+1. `npm install`
+2. Copia `.env.local.example` a `.env.local` y completa los valores:
+
+   | Variable | Uso |
+   |---|---|
+   | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Conexión pública a Supabase |
+   | `SUPABASE_SERVICE_ROLE_KEY` | **Solo servidor.** Escribe resultados que el estudiante no puede escribir |
+   | `GEMINI_API_KEY` | **Solo servidor.** Clave de la API de IA |
+   | `GEMINI_MODEL` | Modelo (por defecto `gemini-3.5-flash`) |
+   | `GEMINI_FALLBACK_MODEL` | Opcional: modelo alterno (queda registrado y avisado) |
+   | `NEXT_PUBLIC_SITE_URL` | URL pública, para los enlaces de correo y de revisión |
+   | `AI_USER_DAILY_UNITS`, `AI_GLOBAL_DAILY_UNITS` | Opcionales: topes de uso de la IA (por defecto 12 y 18) |
+
+3. Aplica las migraciones de `supabase/migrations/` en orden (`0001` a `0010`) desde el SQL Editor de Supabase.
+4. En Supabase, **Authentication → URL Configuration**: Site URL y Redirect URLs con tu dirección pública y `http://localhost:3000/**`.
+5. `npm run dev` y abre http://localhost:3000.
+
+## Despliegue
+
+Repositorio en GitHub conectado a Vercel (despliegue automático al subir a `main`). Las variables de arriba se configuran en Vercel; `NEXT_PUBLIC_*` se incrustan al compilar, así que cambiarlas exige un nuevo despliegue. `SUPABASE_SERVICE_ROLE_KEY` y `GEMINI_API_KEY` deben ser de tipo secreto. Las rutas que llaman a la IA declaran `maxDuration = 300`.
+
+## Pruebas
+
+Los scripts de `scripts/` no necesitan un framework. Los que usan datos sintéticos se ejecutan con `node --import tsx scripts/<archivo>.ts`; los que tocan la base real, con `node --env-file=.env.local --import tsx scripts/<archivo>`. Detalles y resultados en `docs/PRUEBAS_FUNCIONALES.md`. Los scripts de PDF no cargan con `tsx`: ver la nota al inicio de `scripts/test-semester-pdf.mts`.
+
+## Límites conocidos
+
+- **El código entregado no se ejecuta.** Solo hay análisis estático (sintaxis y Ruff para Python y notebooks, Acorn para JavaScript, validación de JSON) y detección de pruebas unitarias. No hay sandbox gratuito. Otros lenguajes no se analizan.
+- **No se calibró la nota con un docente.** La IA tiende a ser benévola (94–100 %) y la misma entrada puede variar unos puntos entre ejecuciones.
+- **Solo Gemini está implementado.** La capa de IA es una interfaz (`AIProvider`), pero no hay un proveedor local.
+- **Audio y video** no se analizan. El contenido de capturas y PDF escaneados no se verifica automáticamente.
+- **Cuota de IA gratuita:** unas 20 peticiones diarias por modelo, compartidas por todos los usuarios; por eso hay topes de uso.
+- **Correo:** el registro no exige confirmar el correo (falta configurar un servicio de correo propio).
+- La nota del estudiante es una **estimación orientativa**; no hay módulo docente completo, solo la revisión por enlace.
