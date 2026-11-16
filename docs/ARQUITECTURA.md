@@ -107,6 +107,13 @@ El paso 4 y el 6 corren en `/api/evaluaciones/[id]/paso` con `maxDuration = 300`
 
 Los topes de IA son una **ventana móvil de 24 horas** con reserva atómica en SQL; los de almacenamiento se aplican en una política de Storage y se vuelven a comprobar al registrar cada archivo. Los de IA se pueden cambiar por variables de entorno; los de almacenamiento, en la tabla `app_limits`.
 
+## 7b. Retención, borrado y copias de seguridad
+
+- **Retención:** los datos se conservan mientras la cuenta exista. No hay borrado automático por antigüedad.
+- **Derecho al borrado:** en **Mi perfil → Eliminar mi cuenta y mis datos** la persona borra su cuenta y todo lo suyo. Exige escribir el correo y la contraseña actual. El servidor (`src/lib/delete-account.ts`) borra primero todos sus archivos de Storage y, solo si no quedó ninguno, su usuario; la base elimina en cascada perfil, asignaturas, laboratorios, rúbricas, evaluaciones, análisis, enlaces de revisión y consumo de IA. Si algo falla antes de borrar el usuario no se pierde nada y se puede reintentar. Probado con la base real (`scripts/test-delete-account.mts`, 5 comprobaciones, incluido un segundo usuario que debe quedar intacto y el borrado de más de 100 archivos).
+- **Copias de seguridad:** el plan gratuito de Supabase **no ofrece copias automáticas descargables**. Se agregó una copia manual, `scripts/backup-datos.mts`, que exporta todas las tablas a JSON y, con `--archivos`, descarga también los archivos de Storage a `backups/` (ignorada por git, porque contiene datos personales). No es automática: hay que ejecutarla y guardar el resultado en un lugar privado. Sin una copia, un error en la base de datos o en el proyecto de Supabase podría perder los datos.
+- **Pendiente:** exportar los datos desde la propia interfaz (portabilidad) y programar las copias.
+
 ## 8. Estructura del código
 
 ```
@@ -125,6 +132,6 @@ docs/             documentación
 - Ejecución de código en un entorno aislado (sandbox) y ejecución real de pruebas unitarias (C3).
 - Proveedor de IA local u otro proveedor en la nube.
 - Confirmación de correo con un servicio de correo propio.
-- Retención y borrado de datos, copias de seguridad y una pantalla para limpiar archivos huérfanos de Storage.
+- Copias de seguridad programadas, exportación de datos desde la interfaz y una pantalla para limpiar archivos huérfanos de Storage.
 - Análisis de audio y video como evidencia.
 - Calibración de la estimación con notas reales de docentes.

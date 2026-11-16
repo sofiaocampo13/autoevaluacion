@@ -142,6 +142,11 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 - **Resultado esperado:** la IA se limita por usuario (12) y global (18) por ventana de 24 h, con reservas atómicas y devolución si falla; el almacenamiento se limita a 250 MB y 2.500 archivos por usuario y 900 MB en total; un usuario no puede escribir en las tablas de límites.
 - **Estado:** **Automática superada** — 7/7 y 9/9 (16/11/2026).
 
+## Pruebas complementarias (fuera de las 20)
+
+- **Eliminar cuenta y datos:** `scripts/test-delete-account.mts`, 5/5 contra la base real (16/11/2026): borra usuario, datos y 106 archivos en carpetas anidadas, deja intacto a otro usuario y falla sin efectos con un usuario inexistente. La pantalla del perfil (correo y contraseña de confirmación): Manual — por ejecutar con una cuenta de prueba, no con la principal.
+- **Copia de seguridad:** `scripts/backup-datos.mts` se ejecutó el 16/11/2026 y exportó las 15 tablas y los usuarios.
+
 ## Lo que estas pruebas NO cubren
 
 - **F7 (presentación del proyecto y equipo):** aún no está construida.

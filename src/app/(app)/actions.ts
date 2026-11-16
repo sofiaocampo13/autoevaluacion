@@ -3,7 +3,10 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { createClient as createPublicClient } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { deleteUserData } from "@/lib/delete-account";
 
 const go = (path: string, msg: string, kind: "error" | "ok" = "error") =>
   redirect(`${path}?${kind}=${encodeURIComponent(msg)}`);
@@ -75,4 +78,31 @@ export async function changePassword(formData: FormData) {
   const { error } = await supabase.auth.updateUser({ password: pw.data });
   if (error) go("/perfil", "No se pudo cambiar la contraseña");
   go("/perfil", "Contraseña actualizada", "ok");
+}
+
+/**
+ * Elimina la cuenta y TODOS los datos de la persona (archivos, laboratorios, evaluaciones…). Exige escribir el correo y la
+ * contraseña actual para que una sesión abierta por descuido no baste para borrar todo. No se puede deshacer.
+ */
+export async function deleteAccount(formData: FormData) {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+  const user = data.user;
+  if (!user?.email) redirect("/login");
+
+  const typed = String(formData.get("email") ?? "").trim().toLowerCase();
+  const password = String(formData.get("password") ?? "");
+  if (typed !== user.email.toLowerCase()) go("/perfil", "Escribe tu correo exactamente como aparece para confirmar.");
+  if (!password) go("/perfil", "Escribe tu contraseña para confirmar.");
+
+  // Comprobación de la contraseña con un cliente aparte (no toca la sesión actual).
+  const check = createPublicClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, { auth: { persistSession: false, autoRefreshToken: false } });
+  const { error: pwError } = await check.auth.signInWithPassword({ email: user.email, password });
+  if (pwError) go("/perfil", "La contraseña no es correcta. No se eliminó nada.");
+
+  const result = await deleteUserData(createAdminClient(), user.id);
+  if (!result.ok) go("/perfil", result.error);
+
+  await supabase.auth.signOut().catch(() => undefined);
+  go("/login", "Tu cuenta y todos tus datos fueron eliminados.", "ok");
 }

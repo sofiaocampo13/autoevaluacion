@@ -71,4 +71,5 @@ Los scripts de `scripts/` no necesitan un framework. Los que usan datos sintéti
 - **Audio y video** no se analizan. El contenido de capturas y PDF escaneados no se verifica automáticamente.
 - **Cuota de IA gratuita:** unas 20 peticiones diarias por modelo, compartidas por todos los usuarios; por eso hay topes de uso.
 - **Correo:** el registro no exige confirmar el correo (falta configurar un servicio de correo propio).
+- **Copias de seguridad:** el plan gratuito no las ofrece; hay una copia manual (`scripts/backup-datos.mts`), no programada.
 - La nota del estudiante es una **estimación orientativa**; no hay módulo docente completo, solo la revisión por enlace.

@@ -3,7 +3,8 @@ import { Field, Notice, SubmitButton } from "@/components/ui";
 import { PasswordField } from "@/components/password-field";
 import { formatSize } from "@/lib/files";
 import { getStorageQuota } from "@/lib/storage-quota";
-import { changePassword, updateProfile, updateSubject } from "../actions";
+import { changePassword, deleteAccount, updateProfile, updateSubject } from "../actions";
+import { PendingButton } from "@/components/pending-button";
 
 export default async function ProfilePage({
   searchParams,
@@ -74,6 +75,21 @@ export default async function ProfilePage({
         <PasswordField label="Nueva contraseña" name="password" autoComplete="new-password" minLength={8} required />
         <SubmitButton>Actualizar contraseña</SubmitButton>
       </form>
+
+      <details className="mb-6 max-w-md rounded-xl bg-white p-6 ring-1 ring-slate-200">
+        <summary className="cursor-pointer font-medium text-red-800">Eliminar mi cuenta y mis datos</summary>
+        <form action={deleteAccount} className="mt-4">
+          <p className="mb-2 text-sm text-slate-700">
+            Se borran <b>para siempre</b> tu cuenta y todo lo que subiste o generaste: archivos, laboratorios, rúbricas, evaluaciones, informes, análisis y enlaces de revisión. No se puede deshacer.
+          </p>
+          <p className="mb-4 text-xs text-slate-500">Si quieres conservar algo, descárgalo antes (informes PDF, infografías, archivos).</p>
+          <Field label={`Escribe tu correo (${auth.user?.email ?? ""}) para confirmar`} name="email" type="email" autoComplete="off" required />
+          <PasswordField label="Tu contraseña actual" name="password" autoComplete="current-password" required />
+          <PendingButton className="rounded-lg bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-800" pendingText="Eliminando tu cuenta…" hint="puede tardar unos segundos">
+            Eliminar mi cuenta definitivamente
+          </PendingButton>
+        </form>
+      </details>
     </section>
   );
 }
