@@ -19,6 +19,8 @@ export async function login(formData: FormData) {
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword(parsed.data!);
+  // Con la confirmación de correo activa, una cuenta sin confirmar no puede entrar: se dice por qué en vez de «contraseña incorrecta».
+  if (error?.code === "email_not_confirmed") back("/login", "Aún no confirmaste tu correo. Abre el enlace que te enviamos (revisa también la carpeta de spam).");
   if (error) back("/login", "Correo o contraseña incorrectos");
   redirect("/");
 }
