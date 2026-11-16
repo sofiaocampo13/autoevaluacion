@@ -95,23 +95,23 @@ export function ImportClient({ existing }: { existing: { name: string; cut: numb
   return (
     <div>
       {!busy && (
-        <label className="mb-6 inline-block cursor-pointer rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700 focus-within:ring-2 focus-within:ring-brand-300">
+        <label className="mb-6 inline-flex min-h-12 cursor-pointer items-center rounded-full bg-brand-600 px-[22px] text-[14px] font-extrabold text-white hover:bg-brand-700 focus-within:ring-2 focus-within:ring-brand-300 focus-within:ring-offset-2">
           Elegir carpeta
           <input type="file" multiple onChange={onPick} className="sr-only" {...({ webkitdirectory: "", directory: "" } as object)} />
         </label>
       )}
 
       {rows && rows.length === 0 && (
-        <p className="rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800">
+        <p className="rounded-2xl bg-aviso-bg px-4 py-3 text-[14px] text-aviso-text">
           No se detectaron laboratorios con archivos admitidos en esa carpeta.
         </p>
       )}
 
       {rows && rows.length > 0 && !busy && (
         <div>
-          <div className="overflow-x-auto rounded-xl bg-white ring-1 ring-slate-200">
+          <div className="overflow-x-auto rounded-3xl border border-slate-200 bg-white">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-slate-200 text-slate-500">
+              <thead className="border-b border-slate-200 text-slate-600">
                 <tr>
                   <th className="px-3 py-2"><span className="sr-only">Incluir</span></th>
                   <th className="px-3 py-2">Corte</th>
@@ -142,11 +142,11 @@ export function ImportClient({ existing }: { existing: { name: string; cut: numb
                     <td className="px-3 py-2 font-medium">{r.number != null && `${r.number}. `}{r.name}</td>
                     <td className="px-3 py-2">{r.files.length}</td>
                     <td className="px-3 py-2">{formatSize(r.bytes)}</td>
-                    <td className="px-3 py-2 text-xs text-slate-500">
+                    <td className="px-3 py-2 text-xs text-slate-600">
                       {r.exists && "Ya existe: se omite. "}
                       {r.skipped.length > 0 && (
                         <details>
-                          <summary className="cursor-pointer text-amber-700">{r.skipped.length} no se subirán</summary>
+                          <summary className="cursor-pointer text-aviso-text">{r.skipped.length} no se subirán</summary>
                           <ul className="mt-1 max-h-32 list-disc overflow-auto pl-4">
                             {r.skipped.map((s, i) => (
                               <li key={i}>{s.name}: {s.reason}</li>
@@ -167,7 +167,7 @@ export function ImportClient({ existing }: { existing: { name: string; cut: numb
           <button
             onClick={startImport}
             disabled={chosenRows.length === 0}
-            className="mt-3 rounded-lg bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700 disabled:opacity-50"
+            className="mt-3 min-h-12 rounded-full bg-brand-600 px-[22px] text-[14px] font-extrabold text-white hover:bg-brand-700 disabled:opacity-50"
           >
             Crear laboratorios y subir archivos
           </button>
@@ -179,16 +179,16 @@ export function ImportClient({ existing }: { existing: { name: string; cut: numb
           <p className="text-sm text-slate-700">
             Subiendo {progress.done} de {progress.total} · {progress.current}
           </p>
-          <div className="mt-1 h-2 overflow-hidden rounded-full bg-slate-200">
+          <div className="mt-1 h-2 overflow-hidden rounded-full bg-slate-100">
             <div className="h-full bg-brand-600 transition-all" style={{ width: `${progress.total ? (progress.done / progress.total) * 100 : 0}%` }} />
           </div>
-          <p className="mt-2 text-xs text-slate-500">No cierres esta pestaña hasta que termine.</p>
+          <p className="mt-2 text-[12px] text-slate-600">No cierres esta pestaña hasta que termine.</p>
         </div>
       )}
 
       {outcomes && (
         <div className="max-w-2xl">
-          <h2 className="mb-2 font-medium">Resultado</h2>
+          <h2 className="mb-2 text-[22px]">Resultado</h2>
           <ul className="space-y-1 text-sm">
             {outcomes.map((o, i) => (
               <li key={i} className={o.status === "ok" ? "text-emerald-700" : o.status === "omitido" ? "text-slate-600" : "text-red-700"}>
@@ -196,7 +196,7 @@ export function ImportClient({ existing }: { existing: { name: string; cut: numb
               </li>
             ))}
           </ul>
-          <Link href="/laboratorios" className="mt-4 inline-block text-brand-700 hover:underline">Ver mis laboratorios →</Link>
+          <Link href="/laboratorios" className="mt-4 inline-block text-[14px] font-bold text-brand-700 hover:underline">Ver mis laboratorios →</Link>
         </div>
       )}
     </div>

@@ -6,10 +6,10 @@ export default async function ImportPage() {
   const supabase = await createClient();
   const { data: labs } = await supabase.from("labs").select("name, cut");
   return (
-    <section>
-      <p className="mb-1 text-sm"><Link className="text-brand-700 hover:underline" href="/laboratorios">← Mis laboratorios</Link></p>
-      <h1 className="mb-1 text-2xl font-semibold">Importar carpeta del semestre</h1>
-      <p className="mb-6 max-w-2xl text-slate-600">
+    <section className="flex flex-col gap-3">
+      <Link className="text-[14px] font-bold text-brand-700 hover:underline" href="/laboratorios">← Mis laboratorios</Link>
+      <h1 className="text-[32px] leading-tight tracking-[-0.02em] sm:text-[44px]">Importar carpeta del semestre</h1>
+      <p className="mb-3 max-w-2xl text-[14px] leading-normal text-slate-600">
         Elige la carpeta con tus trabajos. Se detecta un <b>corte</b> por cada carpeta &quot;Corte N&quot; y un{" "}
         <b>laboratorio</b> por cada subcarpeta que contiene. Verás una vista previa antes de crear nada.
       </p>

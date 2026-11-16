@@ -16,19 +16,20 @@ export type SemesterReportData = {
   analysisCurrent: boolean;
 };
 
-const C = { head: "#2a2340", headLight: "#f1edf7", slate: "#3e3555", muted: "#6a5f85", line: "#e4ddee", bg: "#f9f7fc", green: "#10b981", yellow: "#eab308", orange: "#f97316", amber: "#f59e0b" };
+// Paleta Prisma: ciruela en la portada, violeta como color principal, rosado de acento y bordes lavanda.
+const C = { head: "#1F1633", headLight: "#EFE8FF", brand: "#6D3FD9", slate: "#221A35", muted: "#5A5170", line: "#ECE6F5", bg: "#FAF7FD", accent: "#C2306E" };
 const s = StyleSheet.create({
   page: { paddingTop: 36, paddingBottom: 48, paddingHorizontal: 40, fontFamily: "Helvetica", fontSize: 9.5, color: C.slate, lineHeight: 1.4 },
   cover: { backgroundColor: C.head, color: "white", padding: 18, borderRadius: 6, marginBottom: 14 },
-  coverKicker: { fontSize: 8, color: "#cfc6dd", letterSpacing: 1 },
+  coverKicker: { fontSize: 8, color: "#B9A2FF", letterSpacing: 1 },
   coverTitle: { fontSize: 17, fontFamily: "Helvetica-Bold", marginTop: 4, marginBottom: 5 },
-  coverSub: { fontSize: 10, color: "#e4ddee", marginTop: 2 },
+  coverSub: { fontSize: 10, color: "#F4EEFF", marginTop: 2 },
   coverStats: { flexDirection: "row", marginTop: 12 },
   stat: { marginRight: 28 },
-  statLabel: { fontSize: 7.5, color: "#cfc6dd" },
+  statLabel: { fontSize: 7.5, color: "#B9A2FF" },
   statValue: { fontSize: 22, fontFamily: "Helvetica-Bold" },
-  disclaimer: { backgroundColor: C.bg, borderLeft: `3 solid ${C.amber}`, padding: 8, marginBottom: 12, fontSize: 8.5 },
-  h1: { fontSize: 12, fontFamily: "Helvetica-Bold", color: C.head, marginTop: 12, marginBottom: 5, paddingBottom: 3, borderBottom: `1 solid ${C.line}` },
+  disclaimer: { backgroundColor: C.bg, borderLeft: `3 solid ${C.accent}`, padding: 8, marginBottom: 12, fontSize: 8.5 },
+  h1: { fontSize: 12, fontFamily: "Helvetica-Bold", color: C.brand, marginTop: 12, marginBottom: 5, paddingBottom: 3, borderBottom: `1 solid ${C.line}` },
   h2: { fontSize: 10, fontFamily: "Helvetica-Bold", marginTop: 6, marginBottom: 2 },
   p: { marginBottom: 4 },
   small: { fontSize: 8, color: C.muted },
@@ -40,13 +41,12 @@ const s = StyleSheet.create({
   tr: { flexDirection: "row" },
   th: { backgroundColor: C.headLight, fontFamily: "Helvetica-Bold", padding: 4, borderRight: `1 solid ${C.line}`, borderBottom: `1 solid ${C.line}` },
   td: { padding: 4, borderRight: `1 solid ${C.line}`, borderBottom: `1 solid ${C.line}` },
-  barTrack: { height: 8, backgroundColor: "#f1edf7", borderRadius: 4, marginTop: 2, marginBottom: 6 },
+  barTrack: { height: 8, backgroundColor: "#F1ECF8", borderRadius: 4, marginTop: 2, marginBottom: 6 },
   card: { backgroundColor: C.bg, padding: 7, borderRadius: 4, marginBottom: 5 },
   footer: { position: "absolute", bottom: 20, left: 40, right: 40, flexDirection: "row", justifyContent: "space-between", fontSize: 7.5, color: C.muted, borderTop: `1 solid ${C.line}`, paddingTop: 4 },
 });
 
 // Mismos umbrales que el mapa mental y la infografía: ≥85 demostrado, ≥70 parcial, resto por reforzar.
-const barColor = (p: number) => (p >= 85 ? C.green : p >= 70 ? C.yellow : C.orange);
 const EVIDENCE = { suficiente: "Suficiente", parcial: "Parcial", inexistente: "Inexistente" } as const;
 const PRIORITY = { alta: "alta", media: "media", baja: "baja" } as const;
 const fmtDate = (d: Date | string) => new Date(d).toLocaleString("es-CO", { dateStyle: "long", timeStyle: "short" });
@@ -103,7 +103,7 @@ function Bar({ label, percent }: { label: string; percent: number }) {
     <View wrap={false}>
       <T style={s.small}>{`${label} - ${percent} %`}</T>
       <View style={s.barTrack}>
-        <View style={{ height: 8, borderRadius: 4, width: `${Math.min(100, Math.max(0, percent))}%`, backgroundColor: barColor(percent) }} />
+        <View style={{ height: 8, borderRadius: 4, width: `${Math.min(100, Math.max(0, percent))}%`, backgroundColor: C.brand }} />
       </View>
     </View>
   );
@@ -148,7 +148,7 @@ export function SemesterReportDocument({ d }: { d: SemesterReportData }) {
               stats.trend ? `Evolución del primer al último laboratorio: ${stats.trend.first} % -> ${stats.trend.last} % (${delta(stats.trend.delta)}).` : "Con un solo laboratorio evaluado todavía no hay evolución que comparar.",
             ]}
           />
-          {stats.labsEvaluated < 3 && <T style={[s.p, { color: "#b45309" }]}>{`Hay pocos laboratorios evaluados (${stats.labsEvaluated}): las tendencias y los patrones todavía no son concluyentes.`}</T>}
+          {stats.labsEvaluated < 3 && <T style={[s.p, { color: "#8A4B00" }]}>{`Hay pocos laboratorios evaluados (${stats.labsEvaluated}): las tendencias y los patrones todavía no son concluyentes.`}</T>}
         </Section>
 
         <Section n={2} title="Valoración de cada laboratorio">
@@ -241,7 +241,7 @@ export function SemesterReportDocument({ d }: { d: SemesterReportData }) {
             <View>
               <T style={[s.p, s.small]}>{`Generado el ${fmtDate(analysis.createdAt)} con ${analysis.labsCount} laboratorio(s).${d.analysisCurrent ? "" : " ATENCIÓN: está desactualizado; tus evaluaciones cambiaron desde entonces."}`}</T>
               {analysis.warnings.map((w, i) => (
-                <T key={i} style={[s.p, { color: "#b45309" }]}>{`Aviso: ${w}`}</T>
+                <T key={i} style={[s.p, { color: "#8A4B00" }]}>{`Aviso: ${w}`}</T>
               ))}
               <T style={s.h2}>Diagnóstico</T>
               <T style={s.p}>{a.diagnostico}</T>

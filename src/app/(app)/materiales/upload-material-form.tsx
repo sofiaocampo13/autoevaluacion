@@ -39,26 +39,26 @@ export function UploadMaterialForm({ labs }: { labs: { id: string; name: string 
     router.refresh();
   }
 
-  const input = "mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900";
+  const input = "mt-1.5 block min-h-12 w-full rounded-[14px] border-[1.5px] border-slate-300 bg-white px-3.5 py-2 text-[15px] font-normal text-slate-800 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-200";
   return (
-    <form ref={formRef} onSubmit={onSubmit} className="mb-8 max-w-xl rounded-xl bg-white p-6 ring-1 ring-slate-200">
-      <h2 className="mb-4 font-medium">Agregar material</h2>
-      {msg.error && <p role="alert" className="mb-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{msg.error}</p>}
+    <form ref={formRef} onSubmit={onSubmit} id="agregar" className="max-w-xl scroll-mt-8 rounded-[24px] border border-slate-200 bg-white p-6">
+      <h2 className="mb-4 text-[22px]">Agregar material</h2>
+      {msg.error && <p role="alert" className="mb-3 rounded-[14px] bg-red-50 px-3 py-2 text-sm text-red-700">{msg.error}</p>}
       {msg.ok && (
-        <p role="status" className="mb-3 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+        <p role="status" className="mb-3 rounded-[14px] bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
           {msg.ok} {msg.hint}
         </p>
       )}
-      <label className="mb-3 block text-sm font-medium text-slate-700">
+      <label className="mb-3 block text-[13px] font-bold text-slate-800">
         Archivo (máx. 50 MB)
         <input name="file" type="file" accept={ACCEPT_ATTR} required className={input} />
       </label>
-      <label className="mb-3 block text-sm font-medium text-slate-700">
+      <label className="mb-3 block text-[13px] font-bold text-slate-800">
         Título (opcional)
         <input name="title" maxLength={200} className={input} />
       </label>
       <div className="mb-3 grid grid-cols-2 gap-3">
-        <label className="block text-sm font-medium text-slate-700">
+        <label className="block text-[13px] font-bold text-slate-800">
           Categoría
           <select name="category" className={input}>
             {CATEGORIES.map((c) => (
@@ -66,12 +66,12 @@ export function UploadMaterialForm({ labs }: { labs: { id: string; name: string 
             ))}
           </select>
         </label>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className="block text-[13px] font-bold text-slate-800">
           Versión
           <input name="version" defaultValue="1" maxLength={30} className={input} />
         </label>
       </div>
-      <label className="mb-4 block text-sm font-medium text-slate-700">
+      <label className="mb-4 block text-[13px] font-bold text-slate-800">
         Laboratorio asociado (opcional)
         <select name="labId" className={input} defaultValue="">
           <option value="">Ninguno</option>
@@ -79,14 +79,14 @@ export function UploadMaterialForm({ labs }: { labs: { id: string; name: string 
             <option key={l.id} value={l.id}>{l.name}</option>
           ))}
         </select>
-        <span className="mt-1 block text-xs font-normal text-slate-500">
+        <span className="mt-1 block text-xs font-normal text-slate-600">
           Una guía o rúbrica se asigna como la de ese laboratorio. Los demás materiales se usan como contexto al evaluarlo.
         </span>
       </label>
       <button
         type="submit"
         disabled={busy}
-        className="w-full rounded-lg bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700 disabled:opacity-60"
+        className="flex min-h-[52px] w-full items-center justify-center rounded-full bg-brand-600 px-5 text-[15px] font-extrabold text-white hover:bg-brand-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 disabled:opacity-60"
       >
         {busy ? "Subiendo…" : "Subir material"}
       </button>

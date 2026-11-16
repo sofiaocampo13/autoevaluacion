@@ -39,10 +39,10 @@ export function UploadLabFiles({ labId }: { labId: string }) {
 
   const busy = progress !== null;
   const btn =
-    "inline-block cursor-pointer rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:border-brand-400 focus-within:ring-2 focus-within:ring-brand-300";
+    "inline-flex min-h-11 cursor-pointer items-center rounded-full border-[1.5px] border-brand-600 bg-white px-[18px] text-[13px] font-extrabold text-brand-700 hover:bg-brand-50 focus-within:ring-2 focus-within:ring-brand-300";
   return (
-    <div className="mb-4">
-      <p className="mb-2 text-sm text-slate-600">
+    <div>
+      <p className="mb-3 text-[13px] leading-normal text-slate-600">
         Sube archivos sueltos o una carpeta completa (se conservan las subcarpetas). Máx. 50 MB por archivo y 300 por carga.
       </p>
       <div className="flex flex-wrap gap-2">
@@ -67,7 +67,7 @@ export function UploadLabFiles({ labId }: { labId: string }) {
       {progress && (
         <div className="mt-3" role="status" aria-live="polite">
           <p className="text-sm text-slate-600">Subiendo {progress.done} de {progress.total}…</p>
-          <div className="mt-1 h-2 overflow-hidden rounded-full bg-slate-200">
+          <div className="mt-1 h-2 overflow-hidden rounded-full bg-slate-100">
             <div className="h-full bg-brand-600 transition-all" style={{ width: `${(progress.done / progress.total) * 100}%` }} />
           </div>
         </div>
@@ -80,7 +80,7 @@ export function UploadLabFiles({ labId }: { labId: string }) {
             <p key={h} className="text-slate-600">{h}</p>
           ))}
           {report.problems.length > 0 && (
-            <details className="mt-1 rounded-lg bg-amber-50 px-3 py-2 text-amber-800">
+            <details className="mt-1 rounded-2xl bg-aviso-bg px-3.5 py-2.5 text-aviso-text">
               <summary className="cursor-pointer">{report.problems.length} archivo(s) no se subieron</summary>
               <ul className="mt-1 max-h-48 list-disc space-y-0.5 overflow-auto pl-5">
                 {report.problems.map((p, i) => (

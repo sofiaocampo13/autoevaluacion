@@ -77,7 +77,7 @@ export function EvaluatePanel({ labId, blockedReason, inProgress }: { labId: str
     router.refresh();
   }
 
-  const btn = "rounded-lg bg-pink-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-pink-800 disabled:opacity-50";
+  const btn = "flex min-h-[52px] w-full items-center justify-center rounded-full bg-pink-700 px-5 text-[14px] font-extrabold tracking-[0.04em] text-white hover:bg-pink-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-300 focus-visible:ring-offset-2 disabled:opacity-50";
   const spinner = <span className="h-4 w-4 animate-spin rounded-full border-2 border-brand-600 border-t-transparent" aria-hidden="true" />;
 
   return (
@@ -85,72 +85,72 @@ export function EvaluatePanel({ labId, blockedReason, inProgress }: { labId: str
       {phase.kind === "idle" && (
         <div>
           {inProgress && !blockedReason && (
-            <p className="mb-3 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">
+            <p className="mb-3 rounded-2xl bg-aviso-bg px-3.5 py-2.5 text-[13px] text-aviso-text">
               Hay una evaluación en curso de este laboratorio. Pulsa el botón para retomarla donde quedó.
             </p>
           )}
           <button onClick={begin} disabled={!!blockedReason} className={btn} title={blockedReason ?? ""}>
             {inProgress && !blockedReason ? "RETOMAR EVALUACIÓN" : "EVALUAR LABORATORIO"}
           </button>
-          {blockedReason && <p className="mt-2 text-sm text-slate-600">{blockedReason}</p>}
+          {blockedReason && <p className="mt-2 text-[13px] text-slate-600">{blockedReason}</p>}
         </div>
       )}
 
       {phase.kind === "starting" && (
-        <p role="status" className="flex items-center gap-2 text-sm text-slate-700">
+        <p role="status" className="flex items-center gap-2 text-[14px] text-slate-800">
           {spinner} Preparando la evaluación…
         </p>
       )}
 
       {phase.kind === "running" && (
-        <div role="status" aria-live="polite" className="max-w-xl">
-          <div className="mb-1 flex items-center justify-between text-sm font-medium text-slate-800">
+        <div role="status" aria-live="polite">
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 text-[14px] font-bold text-slate-800">
             <span className="flex items-center gap-2">
               {spinner}
               {phase.stage === "assessing"
                 ? `Paso 1 de 2 · Valorando los ${phase.labels.length} criterios con la IA`
                 : "Paso 2 de 2 · Calculando la nota y redactando la retroalimentación"}
             </span>
-            <span className="text-slate-500"><Elapsed key={phase.stage} /></span>
+            <span className="font-normal text-slate-600"><Elapsed key={phase.stage} /></span>
           </div>
           <div className="h-2 overflow-hidden rounded-full bg-brand-100">
             <div className="h-full w-1/3 animate-[pending-slide_1.4s_ease-in-out_infinite] rounded-full bg-brand-600" />
           </div>
-          <ul className="mt-3 space-y-1 text-sm">
+          <ul className="mt-3 space-y-1 text-[13px]">
             {phase.labels.map((label, i) => (
-              <li key={i} className={phase.stage === "finalizing" ? "text-emerald-700" : "text-slate-700"}>
+              <li key={i} className={phase.stage === "finalizing" ? "text-emerald-800" : "text-slate-800"}>
                 {phase.stage === "finalizing" ? "✓" : "…"} {label}
               </li>
             ))}
           </ul>
-          <p className="mt-3 text-xs text-slate-500">
+          <p className="mt-3 text-[12px] leading-normal text-slate-600">
             Se hace una sola petición a la IA con todo tu trabajo; puede tardar de 1 a 5 minutos (la IA gratuita es irregular). No cierres esta
             página; si lo haces, podrás retomar donde quedó.
           </p>
-          <button onClick={() => cancel(phase.evaluationId)} className="mt-2 text-sm text-red-600 hover:underline">
+          <button onClick={() => cancel(phase.evaluationId)} className="mt-2 min-h-11 text-[14px] font-bold text-red-700 hover:underline">
             Cancelar evaluación
           </button>
         </div>
       )}
 
       {phase.kind === "error" && (
-        <div role="alert" className="max-w-xl rounded-lg bg-red-50 px-4 py-3 text-sm text-red-800">
+        <div role="alert" className="rounded-2xl bg-red-50 px-4 py-3 text-[14px] text-red-800">
           <p className="font-medium">No se pudo continuar</p>
           <p className="mt-1">{phase.message}</p>
           {phase.allDone && <p className="mt-1 text-xs">La valoración de los criterios ya está guardada; solo falta el cierre.</p>}
-          <div className="mt-3 flex gap-3">
+          <div className="mt-3 flex flex-wrap items-center gap-3">
             {phase.retryable && phase.evaluationId && (
               <button
                 onClick={() => {
                   cancelled.current = false;
                   run({ evaluationId: phase.evaluationId, labels: phase.labels }, phase.allDone);
                 }}
-                className="rounded-lg bg-red-700 px-3 py-1.5 text-white hover:bg-red-800"
+                className="min-h-11 rounded-full bg-red-700 px-4 font-bold text-white hover:bg-red-800"
               >
                 Reintentar
               </button>
             )}
-            <button onClick={() => (phase.evaluationId ? cancel(phase.evaluationId) : setPhase({ kind: "idle" }))} className="text-red-700 hover:underline">
+            <button onClick={() => (phase.evaluationId ? cancel(phase.evaluationId) : setPhase({ kind: "idle" }))} className="min-h-11 font-bold text-red-700 hover:underline">
               {phase.evaluationId ? "Cancelar evaluación" : "Cerrar"}
             </button>
           </div>

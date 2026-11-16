@@ -12,11 +12,11 @@ const PAD = 24;
 
 // Colores como atributos (no clases) para que el SVG descargado se vea igual fuera de la aplicación.
 const PALETTE: Record<MindState, { fill: string; stroke: string; text: string; glyph: string; dash?: string; name: string }> = {
-  demostrado: { fill: "#dcfce7", stroke: "#16a34a", text: "#14532d", glyph: "✓", name: "demostrado" },
-  parcial: { fill: "#fefce8", stroke: "#ca8a04", text: "#713f12", glyph: "◐", name: "parcial" },
-  refuerzo: { fill: "#ffedd5", stroke: "#ea580c", text: "#7c2d12", glyph: "↗", name: "por reforzar" },
-  sin_evaluar: { fill: "#f1edf7", stroke: "#9a8fb0", text: "#53496b", glyph: "–", dash: "4 3", name: "sin evaluar" },
-  neutro: { fill: "#f9f7fc", stroke: "#6a5f85", text: "#2a2340", glyph: "", name: "" },
+  demostrado: { fill: "#2e5bd8", stroke: "#1e44a8", text: "#ffffff", glyph: "✓", name: "demostrado" },
+  parcial: { fill: "#d9ccfb", stroke: "#6d3fd9", text: "#2b1767", glyph: "◐", name: "parcial" },
+  refuerzo: { fill: "#c2306e", stroke: "#9a1f55", text: "#ffffff", glyph: "↗", name: "requiere refuerzo" },
+  sin_evaluar: { fill: "#ffffff", stroke: "#9b90b2", text: "#5a5170", glyph: "–", dash: "4 3", name: "sin evidencia" },
+  neutro: { fill: "#faf7fd", stroke: "#5a5170", text: "#221a35", glyph: "", name: "" },
 };
 const KIND: Record<MindNode["kind"], string> = {
   root: "Asignatura",
@@ -171,7 +171,7 @@ export function MindMapView({ root: full }: { root: MindNode }) {
     img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(standaloneSvg());
   }
 
-  const btn = "rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 hover:border-slate-500";
+  const btn = "min-h-11 rounded-full border-[1.5px] border-slate-300 bg-white px-4 text-sm font-bold text-slate-800 hover:border-brand-600 hover:text-brand-700";
 
   return (
     <div className="grid gap-4 lg:grid-cols-[1fr_20rem]">
@@ -182,19 +182,19 @@ export function MindMapView({ root: full }: { root: MindNode }) {
           <button className={btn} onClick={() => zoomBy(1.25)} aria-label="Acercar">＋</button>
           <button className={btn} onClick={() => zoomBy(0.8)} aria-label="Alejar">－</button>
           <button className={btn} onClick={fit}>Ajustar</button>
-          <span className="mx-1 h-5 w-px bg-slate-300" />
-          <div role="group" aria-label="Qué mostrar" className="flex overflow-hidden rounded-lg border border-slate-300 text-sm">
-            <button aria-pressed={!strengthsOnly} onClick={() => setStrengthsOnly(false)} className={`px-3 py-1.5 ${!strengthsOnly ? "bg-slate-800 text-white" : "bg-white text-slate-700 hover:bg-slate-50"}`}>Todo</button>
-            <button aria-pressed={strengthsOnly} onClick={() => setStrengthsOnly(true)} className={`px-3 py-1.5 ${strengthsOnly ? "bg-slate-800 text-white" : "bg-white text-slate-700 hover:bg-slate-50"}`}>Solo fortalezas</button>
+          <span className="mx-1 hidden h-5 w-px bg-slate-300 sm:block" />
+          <div role="group" aria-label="Qué mostrar" className="flex overflow-hidden rounded-full border-[1.5px] border-slate-300 text-sm font-bold">
+            <button aria-pressed={!strengthsOnly} onClick={() => setStrengthsOnly(false)} className={`min-h-11 px-4 ${!strengthsOnly ? "bg-slate-800 text-white" : "bg-white text-slate-800 hover:bg-slate-50"}`}>Todo</button>
+            <button aria-pressed={strengthsOnly} onClick={() => setStrengthsOnly(true)} className={`min-h-11 px-4 ${strengthsOnly ? "bg-slate-800 text-white" : "bg-white text-slate-800 hover:bg-slate-50"}`}>Solo fortalezas</button>
           </div>
-          <span className="mx-1 h-5 w-px bg-slate-300" />
+          <span className="mx-1 hidden h-5 w-px bg-slate-300 sm:block" />
           <button className={btn} onClick={downloadPng}>Descargar PNG</button>
           <button className={btn} onClick={downloadSvg}>Descargar SVG</button>
         </div>
 
         <div
           ref={wrap}
-          className="h-[34rem] cursor-grab touch-none overflow-hidden rounded-xl bg-white ring-1 ring-slate-200 active:cursor-grabbing"
+          className="h-[34rem] cursor-grab touch-none overflow-hidden rounded-3xl border border-slate-200 bg-white active:cursor-grabbing"
           onPointerDown={(e) => {
             if ((e.target as Element).closest("[data-node]")) return;
             drag.current = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y };
@@ -214,7 +214,7 @@ export function MindMapView({ root: full }: { root: MindNode }) {
                 const x2 = b.x;
                 const y2 = b.y + NODE_H / 2;
                 const mx = (x1 + x2) / 2;
-                return <path key={i} d={`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`} fill="none" stroke="#cfc6dd" strokeWidth={1.5} />;
+                return <path key={i} d={`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`} fill="none" stroke="#c4b8dc" strokeWidth={1.5} />;
               })}
               {lay.nodes.map(({ n, x, y }) => {
                 const p = PALETTE[n.kind === "root" ? "neutro" : n.state];
@@ -241,12 +241,12 @@ export function MindMapView({ root: full }: { root: MindNode }) {
                       }}
                     >
                       <title>{n.label}</title>
-                      <rect x={x} y={y} width={NODE_W} height={NODE_H} rx={8} fill={root ? "#2a2340" : p.fill} stroke={isSel ? "#1c1630" : p.stroke} strokeWidth={isSel ? 3 : 1.5} strokeDasharray={p.dash} />
+                      <rect x={x} y={y} width={NODE_W} height={NODE_H} rx={8} fill={root ? "#1f1633" : p.fill} stroke={isSel ? "#221a35" : p.stroke} strokeWidth={isSel ? 3 : 1.5} strokeDasharray={p.dash} />
                       <text x={x + 10} y={y + 19} fontSize={12.5} fontWeight={root || n.kind === "branch" ? 700 : 500} fill={root ? "#ffffff" : p.text}>{label}</text>
                       {pct && <text x={x + NODE_W - 10} y={y + 19} fontSize={12} textAnchor="end" fill={root ? "#e4ddee" : p.text}>{pct}</text>}
                       {n.stats && n.stats.weak > 0 && !open && (
                         <g>
-                          <circle cx={x} cy={y} r={9} fill={PALETTE.refuerzo.stroke} stroke="#ffffff" strokeWidth={1.5} />
+                          <circle cx={x} cy={y} r={9} fill={PALETTE.refuerzo.fill} stroke="#ffffff" strokeWidth={1.5} />
                           <text x={x} y={y + 3.5} fontSize={10} fontWeight={700} textAnchor="middle" fill="#ffffff">{n.stats.weak}</text>
                         </g>
                       )}
@@ -262,8 +262,8 @@ export function MindMapView({ root: full }: { root: MindNode }) {
                         onClick={() => toggle(n.id)}
                         onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), toggle(n.id))}
                       >
-                        <circle cx={x + NODE_W + 12} cy={y + NODE_H / 2} r={10} fill="#ffffff" stroke="#6a5f85" strokeWidth={1.5} />
-                        <text x={x + NODE_W + 12} y={y + NODE_H / 2 + 4} fontSize={open ? 14 : 10} textAnchor="middle" fill="#3e3555">{open ? "−" : n.children.length}</text>
+                        <circle cx={x + NODE_W + 12} cy={y + NODE_H / 2} r={10} fill="#ffffff" stroke="#5a5170" strokeWidth={1.5} />
+                        <text x={x + NODE_W + 12} y={y + NODE_H / 2 + 4} fontSize={open ? 14 : 10} textAnchor="middle" fill="#3d3454">{open ? "−" : n.children.length}</text>
                       </g>
                     )}
                   </g>
@@ -273,29 +273,29 @@ export function MindMapView({ root: full }: { root: MindNode }) {
           </svg>
         </div>
 
-        <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600" aria-label="Leyenda">
+        <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-slate-700" aria-label="Leyenda">
           {(["demostrado", "parcial", "refuerzo", "sin_evaluar"] as MindState[]).map((s) => (
             <li key={s} className="flex items-center gap-1.5">
-              <span className="inline-block h-3 w-3 rounded" style={{ background: PALETTE[s].fill, border: `1.5px ${PALETTE[s].dash ? "dashed" : "solid"} ${PALETTE[s].stroke}` }} />
-              {PALETTE[s].glyph} {PALETTE[s].name}
+              <span className="inline-block h-3.5 w-3.5 rounded" style={{ background: PALETTE[s].fill, border: `1.5px ${PALETTE[s].dash ? "dashed" : "solid"} ${PALETTE[s].stroke}` }} />
+              {PALETTE[s].glyph} {s === "parcial" ? "parcialmente demostrado" : PALETTE[s].name}
             </li>
           ))}
-          <li>El color de una rama resume a la mayoría de lo que contiene; el círculo naranja con número indica cuántos elementos por reforzar tiene dentro (ábrela para verlos).</li>
+          <li>El color de una rama resume a la mayoría de lo que contiene; el círculo rosado con número indica cuántos elementos por reforzar tiene dentro (ábrela para verlos).</li>
         </ul>
         {strengthsOnly && (
-          <p className="mt-1 rounded-lg bg-amber-50 px-3 py-1.5 text-xs text-amber-900 ring-1 ring-amber-200">
+          <p className="mt-1 rounded-2xl bg-aviso-bg px-4 py-2 text-[13px] text-aviso-text">
             Vista parcial: se ocultan {hidden} nodos (lo parcial, lo por reforzar, lo sin evaluar y el plan). Los porcentajes de laboratorios y cortes siguen siendo los reales. Vuelve a «Todo» para ver también qué profundizar.
           </p>
         )}
-        <p className="mt-1 text-xs text-slate-500">Arrastra para mover, rueda para acercar. Clic en un nodo: detalle. Botón redondo o barra espaciadora: expandir y contraer.</p>
+        <p className="mt-1 text-[13px] text-slate-600">Arrastra para mover, rueda para acercar. Clic en un nodo: detalle. Botón redondo o barra espaciadora: expandir y contraer.</p>
       </div>
 
-      <aside className="rounded-xl bg-white p-4 ring-1 ring-slate-200 lg:max-h-[38rem] lg:overflow-y-auto" aria-live="polite">
-        <h2 className="text-base font-semibold text-slate-900">{selected.detail.title}</h2>
-        <p className="text-xs text-slate-500">{KIND[selected.kind]}</p>
+      <aside className="rounded-3xl border border-slate-200 bg-white p-5 lg:max-h-[38rem] lg:overflow-y-auto" aria-live="polite">
+        <h2 className="text-xl text-slate-900">{selected.detail.title}</h2>
+        <p className="text-[13px] text-slate-600">{KIND[selected.kind]}</p>
         <p className="mt-1 text-sm">
           {PALETTE[selected.state].name && (
-            <span className="rounded-full px-2 py-0.5 text-xs font-medium" style={{ background: PALETTE[selected.state].fill, color: PALETTE[selected.state].text, border: `1px solid ${PALETTE[selected.state].stroke}` }}>
+            <span className="rounded-full px-3 py-1 text-xs font-bold" style={{ background: PALETTE[selected.state].fill, color: PALETTE[selected.state].text, border: `1.5px ${PALETTE[selected.state].dash ? "dashed" : "solid"} ${PALETTE[selected.state].stroke}` }}>
               {PALETTE[selected.state].glyph} {PALETTE[selected.state].name}
             </span>
           )}
@@ -303,7 +303,7 @@ export function MindMapView({ root: full }: { root: MindNode }) {
         {selected.stats && (
           <p className="mt-3 text-sm text-slate-700">
             {selected.stats.strong} de {selected.stats.total} {selected.stats.unit} demostrados
-            {selected.stats.weak > 0 && <span className="font-medium text-orange-800"> · {selected.stats.weak} por reforzar</span>}
+            {selected.stats.weak > 0 && <span className="font-bold text-pink-700"> · {selected.stats.weak} por reforzar</span>}
           </p>
         )}
         {selected.detail.lines.length > 0 && (
@@ -325,7 +325,7 @@ export function MindMapView({ root: full }: { root: MindNode }) {
                 <li key={i} className="rounded-lg bg-slate-50 p-2">
                   <p className="text-xs text-slate-500">{e.label}</p>
                   <p className="whitespace-pre-wrap break-words font-mono text-xs text-slate-800">{clip(e.text, 280)}</p>
-                  <span className={`mt-1 inline-block rounded px-1.5 py-0.5 text-xs ring-1 ${e.verified ? "bg-emerald-50 text-emerald-800 ring-emerald-200" : "bg-amber-50 text-amber-800 ring-amber-200"}`}>
+                  <span className={`mt-1 inline-block rounded px-1.5 py-0.5 text-xs ring-1 ${e.verified ? "bg-emerald-50 text-emerald-800 ring-emerald-200" : "bg-aviso-bg text-aviso-text ring-amber-200"}`}>
                     {e.verified ? "Verificada en el archivo" : "No verificable automáticamente"}
                   </span>
                 </li>
@@ -336,7 +336,7 @@ export function MindMapView({ root: full }: { root: MindNode }) {
         {selected.children.length > 0 && !expanded.has(selected.id) && (
           <button className={btn + " mt-3"} onClick={() => toggle(selected.id)}>Expandir ({selected.children.length})</button>
         )}
-        {selected.detail.link && <Link className="mt-3 block text-sm text-brand-700 underline" href={selected.detail.link.href}>{selected.detail.link.text}</Link>}
+        {selected.detail.link && <Link className="mt-3 flex min-h-11 items-center text-sm font-bold text-brand-700 underline" href={selected.detail.link.href}>{selected.detail.link.text}</Link>}
       </aside>
     </div>
   );

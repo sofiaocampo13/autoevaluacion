@@ -7,18 +7,19 @@ const REPLACE: Record<string, string> = { "→": "->", "←": "<-", "≥": ">=",
 export const pdfSafe = (s: string) =>
   [...(s ?? "")].map((ch) => (REPLACE[ch] ?? (ch.codePointAt(0)! <= 255 || ch === "\n" ? ch : ""))).join("");
 
-const C = { brand: "#5f2b94", brandLight: "#f6f0fc", slate: "#3e3555", muted: "#6a5f85", line: "#e4ddee", bg: "#f9f7fc", green: "#10b981", amber: "#f59e0b", rose: "#f43f5e" };
+// Paleta Prisma: ciruela en la portada, violeta como color principal, rosado de acento y bordes lavanda.
+const C = { plum: "#1F1633", brand: "#6D3FD9", brandLight: "#EFE8FF", slate: "#221A35", muted: "#5A5170", line: "#ECE6F5", bg: "#FAF7FD", accent: "#C2306E" };
 const s = StyleSheet.create({
   page: { paddingTop: 36, paddingBottom: 48, paddingHorizontal: 40, fontFamily: "Helvetica", fontSize: 9.5, color: C.slate, lineHeight: 1.4 },
-  cover: { backgroundColor: C.brand, color: "white", padding: 18, borderRadius: 6, marginBottom: 14 },
-  coverKicker: { fontSize: 8, color: "#dac0f2", letterSpacing: 1 },
+  cover: { backgroundColor: C.plum, color: "white", padding: 18, borderRadius: 6, marginBottom: 14 },
+  coverKicker: { fontSize: 8, color: "#B9A2FF", letterSpacing: 1 },
   coverTitle: { fontSize: 17, fontFamily: "Helvetica-Bold", marginTop: 4, marginBottom: 5 },
-  coverSub: { fontSize: 10, color: "#ecdff9", marginTop: 2 },
+  coverSub: { fontSize: 10, color: "#F4EEFF", marginTop: 2 },
   coverStats: { flexDirection: "row", marginTop: 12 },
   stat: { marginRight: 28 },
-  statLabel: { fontSize: 7.5, color: "#dac0f2" },
+  statLabel: { fontSize: 7.5, color: "#B9A2FF" },
   statValue: { fontSize: 22, fontFamily: "Helvetica-Bold" },
-  disclaimer: { backgroundColor: C.bg, borderLeft: `3 solid ${C.amber}`, padding: 8, marginBottom: 12, fontSize: 8.5, color: C.slate },
+  disclaimer: { backgroundColor: C.bg, borderLeft: `3 solid ${C.accent}`, padding: 8, marginBottom: 12, fontSize: 8.5, color: C.slate },
   h1: { fontSize: 12, fontFamily: "Helvetica-Bold", color: C.brand, marginTop: 12, marginBottom: 5, paddingBottom: 3, borderBottom: `1 solid ${C.line}` },
   h2: { fontSize: 10, fontFamily: "Helvetica-Bold", marginTop: 6, marginBottom: 2 },
   p: { marginBottom: 4 },
@@ -30,13 +31,12 @@ const s = StyleSheet.create({
   tr: { flexDirection: "row" },
   th: { backgroundColor: C.brandLight, fontFamily: "Helvetica-Bold", padding: 4, borderRight: `1 solid ${C.line}`, borderBottom: `1 solid ${C.line}` },
   td: { padding: 4, borderRight: `1 solid ${C.line}`, borderBottom: `1 solid ${C.line}` },
-  barTrack: { height: 8, backgroundColor: "#f1edf7", borderRadius: 4, marginTop: 2, marginBottom: 6 },
+  barTrack: { height: 8, backgroundColor: "#F1ECF8", borderRadius: 4, marginTop: 2, marginBottom: 6 },
   card: { backgroundColor: C.bg, padding: 7, borderRadius: 4, marginBottom: 5 },
   mono: { fontFamily: "Courier", fontSize: 8 },
   footer: { position: "absolute", bottom: 20, left: 40, right: 40, flexDirection: "row", justifyContent: "space-between", fontSize: 7.5, color: C.muted, borderTop: `1 solid ${C.line}`, paddingTop: 4 },
 });
 
-const barColor = (p: number) => (p >= 85 ? C.green : p >= 65 ? C.amber : C.rose);
 const EVIDENCE = { suficiente: "Suficiente", parcial: "Parcial", inexistente: "Inexistente" } as const;
 const CITE = { verificada: "verificada en el archivo", no_verificable: "captura/PDF (no comprobable automáticamente)", invalida: "descartada (no coincide con los archivos)" } as const;
 
@@ -240,7 +240,7 @@ export function ReportDocument({ d }: { d: ReportData }) {
             <View key={i} style={{ marginBottom: 6 }}>
               <T style={s.h2}>{`${label(c, i)} - nivel ${c.rubricLevel}, ${c.percent} %`}</T>
               <T style={s.p}>{c.argumentation}</T>
-              {c.warnings.map((w, k) => <T key={k} style={[s.p, { color: "#b45309" }]}>{`Aviso: ${w}`}</T>)}
+              {c.warnings.map((w, k) => <T key={k} style={[s.p, { color: "#8A4B00" }]}>{`Aviso: ${w}`}</T>)}
               {c.notes.map((w, k) => <T key={k} style={[s.p, s.small]}>{`Nota: ${w}`}</T>)}
             </View>
           ))}
@@ -256,7 +256,7 @@ export function ReportDocument({ d }: { d: ReportData }) {
             <View key={i} wrap={false}>
               <T style={s.small}>{`${c.criterion} - ${c.percent} %`}</T>
               <View style={s.barTrack}>
-                <View style={{ height: 8, borderRadius: 4, width: `${Math.min(100, Math.max(0, c.percent))}%`, backgroundColor: barColor(c.percent) }} />
+                <View style={{ height: 8, borderRadius: 4, width: `${Math.min(100, Math.max(0, c.percent))}%`, backgroundColor: C.brand }} />
               </View>
             </View>
           ))}
