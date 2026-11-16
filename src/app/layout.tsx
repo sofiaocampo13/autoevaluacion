@@ -7,7 +7,7 @@ const fraunces = Fraunces({ variable: "--font-fraunces", subsets: ["latin"], sty
 const manrope = Manrope({ variable: "--font-manrope", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Autoevaluación académica",
+  title: "Asesor pedagógico",
   description: "Asistente de autoevaluación académica con IA para estudiantes",
 };
 

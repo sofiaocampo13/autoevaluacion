@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
- * Diseño «Prisma» (mockups/LEEME.md): violeta, rosado y azul sobre neutros con matiz violeta; títulos en Fraunces y texto en Manrope.
+ * Diseño de los mockups (mockups/LEEME.md): violeta, rosado y azul sobre neutros con matiz violeta; títulos en Fraunces y texto en Manrope.
  * Todo el color pasa por estos tokens: cambiar la paleta es cambiar este bloque.
  */
 @theme {

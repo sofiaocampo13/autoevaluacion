@@ -41,7 +41,7 @@ export function Icon({ name, className = "h-5 w-5" }: { name: IconName; classNam
   );
 }
 
-/** Marca «Prisma»: un prisma (triángulo) con una arista violeta y una línea azul, como en los mockups. `onDark` usa los tonos claros. */
+/** Marca de la plataforma: un prisma (triángulo) con una arista violeta y una línea azul, como en los mockups. `onDark` usa los tonos claros. */
 export function BrandMark({ className = "h-9 w-9", onDark = true }: { className?: string; onDark?: boolean }) {
   return (
     <svg viewBox="0 0 36 36" className={className} aria-hidden="true">

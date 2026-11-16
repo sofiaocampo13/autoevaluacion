@@ -29,7 +29,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         <Link href="/" className="flex items-center gap-3 px-2">
           <BrandMark className="h-9 w-9" />
           <span className="flex flex-col">
-            <span className="font-display text-2xl font-semibold leading-none tracking-tight">Prisma</span>
+            <span className="font-display text-[19px] font-semibold leading-none tracking-tight">Asesor pedagógico</span>
             <span className="mt-1 text-[11px] uppercase tracking-[0.08em] text-[#C9BEE0]">Autoevaluación IA</span>
           </span>
         </Link>
@@ -53,7 +53,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <header className="flex items-center justify-between px-5 pt-5 md:hidden">
         <Link href="/" className="flex items-center gap-2.5">
           <BrandMark className="h-8 w-8" onDark={false} />
-          <span className="font-display text-2xl font-semibold tracking-tight text-slate-800">Prisma</span>
+          <span className="font-display text-xl font-semibold tracking-tight text-slate-800">Asesor pedagógico</span>
         </Link>
         <Link href="/perfil" aria-label="Mi perfil" className="flex h-11 w-11 items-center justify-center rounded-full bg-pink-300 font-extrabold text-slate-900">{initials}</Link>
       </header>

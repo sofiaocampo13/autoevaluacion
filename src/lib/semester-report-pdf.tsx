@@ -16,7 +16,7 @@ export type SemesterReportData = {
   analysisCurrent: boolean;
 };
 
-// Paleta Prisma: ciruela en la portada, violeta como color principal, rosado de acento y bordes lavanda.
+// Paleta del diseño: ciruela en la portada, violeta como color principal, rosado de acento y bordes lavanda.
 const C = { head: "#1F1633", headLight: "#EFE8FF", brand: "#6D3FD9", slate: "#221A35", muted: "#5A5170", line: "#ECE6F5", bg: "#FAF7FD", accent: "#C2306E" };
 const s = StyleSheet.create({
   page: { paddingTop: 36, paddingBottom: 48, paddingHorizontal: 40, fontFamily: "Helvetica", fontSize: 9.5, color: C.slate, lineHeight: 1.4 },
