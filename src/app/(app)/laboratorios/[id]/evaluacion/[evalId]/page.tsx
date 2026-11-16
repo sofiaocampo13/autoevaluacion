@@ -63,8 +63,9 @@ const pill = "flex min-h-11 flex-1 basis-36 items-center justify-center rounded-
 const fmt = (n: number | string | null | undefined) => (n == null ? "—" : Number(n).toLocaleString("es", { maximumFractionDigits: 2 }));
 const flagsOf = (flags: unknown) => ((flags ?? []) as (Flag | string)[]);
 
-export default async function EvaluationPage({ params }: { params: Promise<{ id: string; evalId: string }> }) {
+export default async function EvaluationPage({ params, searchParams }: { params: Promise<{ id: string; evalId: string }>; searchParams: Promise<{ tab?: string }> }) {
   const { id, evalId } = await params;
+  const { tab } = await searchParams; // permite abrir directo una pestaña (p. ej. ?tab=revision)
   if (!z.string().uuid().safeParse(id).success || !z.string().uuid().safeParse(evalId).success) notFound();
 
   const supabase = await createClient();
@@ -516,6 +517,7 @@ export default async function EvaluationPage({ params }: { params: Promise<{ id:
 
       <PrismaTabs
         label="Resultados del laboratorio"
+        initial={tab}
         tabs={[
           { id: "general", label: "Valoración general", content: generalTab },
           { id: "retro", label: "Retroalimentación", content: feedbackTab },

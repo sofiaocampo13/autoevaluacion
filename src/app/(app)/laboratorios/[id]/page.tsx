@@ -158,6 +158,9 @@ export default async function LabDetailPage({
                           <span className="text-slate-200">{e.status === "procesando" ? "en curso" : "no completada"}</span>
                         )}
                         <Link className="inline-flex min-h-11 items-center font-extrabold text-lavanda underline hover:text-white" href={`/laboratorios/${id}/evaluacion/${e.id}`}>Ver</Link>
+                        {e.status === "completada" && (
+                          <Link className="inline-flex min-h-11 items-center font-extrabold text-pink-300 underline hover:text-white" href={`/laboratorios/${id}/evaluacion/${e.id}?tab=revision`}>Enviar al docente</Link>
+                        )}
                       </span>
                     </li>
                   ))}
