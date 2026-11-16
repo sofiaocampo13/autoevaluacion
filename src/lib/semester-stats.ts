@@ -131,10 +131,21 @@ export function computeSemesterStats(labs: SemesterLabInput[], labsTotal: number
 
   // Competencias: se agrupan por nombre (sin tildes ni mayúsculas) a través de todos los laboratorios.
   const comp = new Map<string, { name: string; derived: boolean; rows: { lab: number; weight: number; percent: number; evidence: string }[] }>();
+  // Una competencia solo aporta si agrupa 2 o más criterios distintos (p. ej. el mismo verbo en varios laboratorios).
+  // Si cada competencia equivale a un único criterio, mostrarla solo escondería el nombre del criterio que sí está en la rúbrica.
+  const criteriaByCompetency = new Map<string, Set<string>>();
+  ordered.forEach((l) =>
+    l.criteria.forEach((c) => {
+      if (!c.competency.trim()) return;
+      const k = norm(c.competency);
+      criteriaByCompetency.set(k, (criteriaByCompetency.get(k) ?? new Set()).add(norm(c.criterion)));
+    }),
+  );
+  const competenciesGroup = [...criteriaByCompetency.values()].some((s) => s.size >= 2);
   ordered.forEach((l, i) =>
     l.criteria.forEach((c) => {
-      // Si la rúbrica no define competencias, cada criterio hace de competencia (se marca como `derived`).
-      const derived = !c.competency.trim();
+      // Sin competencias útiles, cada criterio hace de competencia (se marca como `derived`).
+      const derived = !c.competency.trim() || !competenciesGroup;
       const name = (derived ? c.criterion : c.competency).trim();
       const key = (derived ? "criterio:" : "") + norm(name);
       const g = comp.get(key) ?? { name, derived, rows: [] };

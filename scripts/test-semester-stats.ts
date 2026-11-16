@@ -23,7 +23,7 @@ const lab = (id: string, cut: number, number: number, percents: [string, string,
 
 const A = lab("A", 1, 1, [["c1", "Modelado", 60, "suficiente"], ["c2", "Código", 90, "suficiente"]], { concepts: [{ name: "Cuantización", status: "demostrado" }], toReinforce: ["Perplexity"], strengths: ["Buen código"], weaknesses: ["Falta análisis"] });
 const B = lab("B", 1, 2, [["c1", "modelado", 80, "parcial"], ["c2", "Código", 100, "suficiente"]], { toReinforce: ["perplexity"], strengths: ["buen código"], weaknesses: ["Falta análisis"], evaluation: { id: "eB", completedAt: "2026-01-02T10:00:00Z", overallPercent: 90, estimatedGrade: 4.5, reviewStatus: "ajustada", finalPercent: 70, finalGrade: 3.5 } });
-const C = lab("C", 2, 1, [["c1", "Modelado", 100, "suficiente"]], { concepts: [{ name: "Cuantización", status: "refuerzo" }] });
+const C = lab("C", 2, 1, [["c3", "Modelado", 100, "suficiente"]], { concepts: [{ name: "Cuantización", status: "refuerzo" }] });
 
 const s = computeSemesterStats([C, A, B], 4, 5);
 
@@ -94,6 +94,14 @@ ok("sin competencias en la rúbrica, cada criterio hace de competencia y se marc
   const r = computeSemesterStats([lab("E", 1, 1, [["Calidad del código", "", 90, "suficiente"], ["Informe", "", 70, "suficiente"]])], 1, 5);
   assert.deepEqual(r.competencies.map((c) => [c.competency, c.derived]), [["Informe", true], ["Calidad del código", true]]);
   assert.ok(!r.competencies.some((c) => c.competency.includes("Sin competencia")));
+});
+ok("si cada competencia equivale a un único criterio, se muestra el criterio (la competencia solo escondería su nombre)", () => {
+  const r = computeSemesterStats([lab("F", 1, 1, [["1. Mapa mental", "COMPRENDER", 98, "suficiente"], ["2. Cartografía", "EXPLORAR", 94, "suficiente"]])], 1, 5);
+  assert.deepEqual(r.competencies.map((c) => [c.competency, c.derived]), [["2. Cartografía", true], ["1. Mapa mental", true]]);
+});
+ok("si una competencia agrupa 2 criterios distintos, se muestran competencias", () => {
+  const r = computeSemesterStats([lab("G", 1, 1, [["Mapa", "COMPRENDER", 98, "suficiente"], ["Ensayo", "COMPRENDER", 90, "suficiente"]])], 1, 5);
+  assert.deepEqual(r.competencies.map((c) => [c.competency, c.derived, c.criteria]), [["COMPRENDER", false, 2]]);
 });
 ok("sin evaluaciones: todo vacío y sin NaN", () => {
   const r = computeSemesterStats([], 3, 5);

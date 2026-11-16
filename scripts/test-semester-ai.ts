@@ -14,7 +14,7 @@ const ok = (name: string, fn: () => void) => {
 const lab = (id: string, number: number, percent: number, extra: Partial<SemesterLabInput> = {}): SemesterLabInput => ({
   lab: { id, name: `Lab ${id}`, number, cut: 1 },
   evaluation: { id: "e" + id, completedAt: `2026-01-0${number}T10:00:00Z`, overallPercent: percent, estimatedGrade: 4, reviewStatus: "preliminar", finalPercent: null, finalGrade: null },
-  criteria: [{ criterion: "c1", competency: "Modelado", weight: 100, percent, evidence: "suficiente" }],
+  criteria: [{ criterion: "c1", competency: "Modelado", weight: 50, percent, evidence: "suficiente" }, { criterion: "c2", competency: "Modelado", weight: 50, percent, evidence: "suficiente" }],
   strengths: [],
   weaknesses: [],
   toReinforce: [],
