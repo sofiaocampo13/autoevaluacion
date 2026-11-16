@@ -5,6 +5,12 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { verifyUpload } from "@/lib/storage-verify";
+import { AIError, getProvider } from "@/lib/ai";
+import { releaseAi, reserveAi } from "@/lib/ai-budget";
+import { extractParts } from "@/lib/extract";
+import { extOf } from "@/lib/files";
+import { suggestLabFromGuide, type LabSuggestion } from "@/lib/lab-autofill";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 const optUuid = z.preprocess((v) => (v === "" || v == null ? null : v), z.string().uuid().nullable());
 
@@ -221,4 +227,42 @@ export async function deleteLabFile(formData: FormData) {
   await supabase.storage.from("documents").remove([row.storage_path]);
   await supabase.from("lab_files").delete().eq("id", id.data);
   revalidatePath(`/laboratorios/${row.lab_id}`);
+}
+
+export type SuggestResult = { ok: true; suggestion: LabSuggestion } | { ok: false; error: string };
+
+/** Propone el nombre, la descripción, los objetivos, el corte y el número de un laboratorio leyendo su guía. Gasta 1 unidad de IA. */
+export async function suggestLabFields(materialId: string): Promise<SuggestResult> {
+  if (!z.string().uuid().safeParse(materialId).success) return { ok: false, error: "Elige primero una guía." };
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user) return { ok: false, error: "Tu sesión expiró. Vuelve a iniciar sesión." };
+
+  // RLS: solo materiales propios o precargados.
+  const { data: mat } = await supabase.from("reference_materials").select("title, storage_path").eq("id", materialId).eq("category", "guia").maybeSingle();
+  if (!mat?.storage_path) return { ok: false, error: "No se encontró esa guía." };
+  const { data: blob } = await supabase.storage.from("documents").download(mat.storage_path);
+  if (!blob) return { ok: false, error: "No se pudo descargar la guía." };
+
+  const ex = extractParts(mat.title, extOf(mat.storage_path), new Uint8Array(await blob.arrayBuffer()));
+  if (ex.mode === "unsupported") return { ok: false, error: `No se puede leer esa guía: ${ex.note}` };
+
+  const admin = createAdminClient();
+  const reservation = await reserveAi(admin, auth.user.id, "laboratorio");
+  if (!reservation.ok) return { ok: false, error: reservation.error };
+
+  try {
+    const suggestion = await suggestLabFromGuide(getProvider(), ex.parts, mat.title);
+    if (!suggestion.found) {
+      await releaseAi(admin, reservation.id);
+      return { ok: false, error: "La IA no reconoció esa guía como el enunciado de un laboratorio. Escribe los datos a mano." };
+    }
+    return { ok: true, suggestion };
+  } catch (e) {
+    await releaseAi(admin, reservation.id); // la IA no devolvió nada utilizable: no se cobra el intento
+    if (e instanceof AIError) return { ok: false, error: e.message };
+    if (e instanceof z.ZodError) return { ok: false, error: "La IA devolvió una estructura inesperada. Inténtalo de nuevo." };
+    console.error("[rellenar laboratorio] error inesperado:", e);
+    return { ok: false, error: "No se pudo leer la guía. Inténtalo de nuevo o escribe los datos a mano." };
+  }
 }

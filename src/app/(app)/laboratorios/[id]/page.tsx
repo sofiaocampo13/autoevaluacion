@@ -9,7 +9,7 @@ import { UploadLabFiles } from "./upload-lab-files";
 import { EvaluatePanel } from "./evaluar/evaluate-panel";
 import { deleteLab, deleteLabFile, updateLab } from "../actions";
 
-export const maxDuration = 60; // cada paso de la evaluación corre aquí; la IA puede tardar
+export const maxDuration = 300; // cada paso de la evaluación y «rellenar con IA» corren aquí; la IA puede tardar
 
 export default async function LabDetailPage({
   params,

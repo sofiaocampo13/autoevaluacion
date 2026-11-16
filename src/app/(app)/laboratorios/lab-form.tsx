@@ -1,5 +1,7 @@
 import { SubmitButton } from "@/components/ui";
 import { CUT_OPTIONS } from "@/lib/files";
+import { aiLimits } from "@/lib/ai-budget";
+import { AutofillButton } from "./autofill-button";
 
 type Mat = { id: string; title: string; version: string };
 type Lab = {
@@ -76,6 +78,7 @@ export function LabForm({
           {opts(guides)}
         </select>
       </label>
+      <AutofillButton dailyUnits={aiLimits().user} />
       <label className="mb-3 block text-sm font-medium text-slate-700">
         Rúbrica
         <select name="rubric" defaultValue={lab?.rubric_material_id ?? ""} className={input}>

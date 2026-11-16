@@ -5,7 +5,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
  * cada operación reserva unidades antes de llamar a la IA, con un tope por usuario y otro global (ventana móvil de 24 h).
  * Una evaluación completa gasta ~3 peticiones (valoración, posible reintento y redacción final); lo demás, 1.
  */
-export const AI_COST = { evaluacion: 3, rubrica: 1, analisis: 1 } as const;
+export const AI_COST = { evaluacion: 3, rubrica: 1, analisis: 1, laboratorio: 1 } as const;
 export type AiKind = keyof typeof AI_COST;
 
 const intEnv = (name: string, fallback: number) => {
@@ -43,7 +43,7 @@ export async function reserveAi(admin: SupabaseClient, userId: string, kind: AiK
     return { ok: false, error: `La plataforma alcanzó hoy el límite de uso de la IA gratuita, que comparten todos los usuarios. Podrás volver a intentarlo ${fmtWhen(r.retry_at)}.` };
   return {
     ok: false,
-    error: `Alcanzaste tu límite diario de uso de la IA (${r.used} de ${r.limit} unidades en las últimas 24 horas; una evaluación gasta ${AI_COST.evaluacion}, interpretar una rúbrica o analizar el semestre gasta 1). Podrás volver a usarla ${fmtWhen(r.retry_at)}.`,
+    error: `Alcanzaste tu límite diario de uso de la IA (${r.used} de ${r.limit} unidades en las últimas 24 horas; una evaluación gasta ${AI_COST.evaluacion}, las demás operaciones con IA gastan 1). Podrás volver a usarla ${fmtWhen(r.retry_at)}.`,
   };
 }
 
