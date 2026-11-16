@@ -15,7 +15,7 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 |---|---|---|---|
 | T01 | Registro e inicio de sesión | C5 autenticación | Manual — reportada |
 | T02 | Recuperación de contraseña con enlace a la URL pública | C5 | Manual — reportada (16/11/2026) |
-| T03 | Aislamiento de datos entre usuarios | C5 / protección de datos | Anterior (11/11, Fase 1) |
+| T03 | Aislamiento de datos entre usuarios | C5 / protección de datos | **Automática superada** (base real, 64/64, 16/11/2026) |
 | T04 | Crear asignatura y laboratorio (descripción, objetivos, corte) | F1 | Manual — reportada, con observaciones de usabilidad |
 | T05 | Carga de archivos, carpetas y ZIP; formatos y tamaños | F2 | Anterior (ZIP) + manual por ejecutar |
 | T06 | Entrega como repositorio de GitHub | F2 | Anterior |
@@ -35,8 +35,8 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 | T20 | Límites de uso de la IA y del almacenamiento | C5 / calidad | **Automática superada** (base real, 16/16) |
 
 **Cobertura (algunas pruebas combinan estados; ver cada ficha):**
-- 8 tienen una verificación automática ejecutada el 16/11/2026: T10, T11, T14, T16, T17, T18, T19 y T20.
-- 7 se apoyan en una verificación de una sesión anterior, no repetida hoy: T03, T05, T06, T07, T12, T13 y T15.
+- 9 tienen una verificación automática ejecutada el 16/11/2026: T03, T10, T11, T14, T16, T17, T18, T19 y T20.
+- 6 se apoyan en una verificación de una sesión anterior, no repetida hoy: T05, T06, T07, T12, T13 y T15.
 - 6 tienen una verificación manual reportada en la URL pública, sin captura: T01, T02, T04, T08, T09 y T18 (T07 y T19 también, combinadas con otras).
 - Todavía no se han ejecutado en la URL pública: la parte manual de T05, T14 y T15.
 
@@ -53,9 +53,9 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 - **Estado:** Manual — reportada (16/11/2026): la función trabaja y Supabase envía el correo. No se anotó explícitamente a qué dirección apuntaba el enlace; conviene confirmarlo en la próxima ejecución. Depende de las URL permitidas de Supabase (configuradas el 15/11/2026).
 
 ### T03 — Aislamiento entre usuarios
-- **Procedimiento:** `node --env-file=.env.local scripts/test-isolation.mjs` (crea dos usuarios y comprueba, por tabla y en Storage, que cada uno solo ve y escribe lo suyo).
-- **Resultado esperado:** todas las comprobaciones superan; un usuario no lee ni escribe datos ni archivos de otro.
-- **Estado:** Anterior — 11/11 en la Fase 1. No se volvió a ejecutar porque la prueba registra usuarios reales y exige desactivar temporalmente la confirmación de correo. **Pendiente:** repetirla tras las migraciones 0006–0009.
+- **Procedimiento:** `node --env-file=.env.local --import tsx scripts/test-isolation-full.mts`. Crea dos usuarios temporales (A y B) con la clave de servicio y los borra al terminar. Comprueba, sobre las 14 tablas, Storage y las funciones, que B y un visitante sin sesión no ven datos de A ni de los usuarios reales; que B no puede crear, modificar ni borrar nada de A; que las tablas de resultados solo las escribe el servidor; que el hash del enlace de revisión no se puede leer; y que los topes de uso no se pueden consultar ni cambiar. Contra datos reales solo hace lecturas, reescrituras sin efecto e inserciones que deben fallar; lo destructivo se prueba solo con datos creados por la prueba.
+- **Resultado esperado:** todas las comprobaciones superan. Los rechazos de escritura cuentan solo si los produce la seguridad («row-level security» o «permission denied»), no un error cualquiera por datos incompletos.
+- **Estado:** **Automática superada** — 64/64 (16/11/2026, base real, 2 usuarios reales existentes y sin usuarios temporales restantes al terminar). La versión original de la Fase 1 (`scripts/test-isolation.mjs`, 11 comprobaciones) se conserva. **Límites de esta prueba:** la tabla `reports` no tiene filas, así que su lectura vacía no demuestra nada por sí sola, y las reescrituras sin efecto no se pudieron hacer en las tablas sin columna `created_at`. No prueba la página del docente, que se cubre en T16.
 
 ### T04 — Crear asignatura y laboratorio
 - **Procedimiento:** registrar la asignatura (nombre, periodo, escala 0–5 o 0–100); crear un laboratorio con nombre, descripción, objetivos y corte; editarlo.
