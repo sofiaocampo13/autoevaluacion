@@ -157,12 +157,23 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 - **Carga y rendimiento** bajo muchos usuarios simultáneos.
 - **Accesibilidad:** solo revisión de diseño, sin auditoría con lector de pantalla.
 
-## Registro de ejecución manual
+## Verificaciones manuales reportadas tras el rediseño (16/11/2026)
 
-Para las partes que siguen «por ejecutar», anotar aquí el resultado real (fecha, quién, Pasa/Falla y una captura):
+La usuaria probó en la URL pública, sin captura, y reportó que funcionó:
+
+- **Rúbrica (T07/T08):** al interpretar con IA un documento que solo listaba criterios (sin niveles ni pesos) se creó el borrador con los 8 criterios y avisos de lo que faltaba, en lugar de rechazar el documento.
+- **Infografía general (T18/T19):** la descarga de la infografía como PNG funciona (antes no tenía botón).
+- **Revisión docente (T16):** el acceso «Enviar al docente» desde el detalle del laboratorio abre la pestaña «Revisión docente» donde se genera el enlace.
+- **Confirmación antes de borrar:** eliminar laboratorios, archivos y materiales, borrar borradores y revocar enlaces pide confirmación (se detectó que antes un laboratorio se borraba de un solo clic).
+- Los hallazgos de uso que salieron de estas pruebas se corrigieron (ver `DESARROLLO_CON_IA.md`, puntos 30 y 31).
+
+## Registro de ejecución manual pendiente
+
+Partes que siguen «por ejecutar»; anotar aquí el resultado real (fecha, quién, Pasa/Falla y una captura):
 
 | ID | Fecha | Quién | Resultado | Evidencia |
 |---|---|---|---|---|
-| T05 | | | | |
-| T14 | | | | |
-| T15 | | | | |
+| T05 (subir una carpeta completa y un ZIP) | | | | |
+| T14 (descarga de la infografía de un laboratorio) | | | | |
+| T15 (abrir y descargar el PDF de un laboratorio) | | | | |
+| Eliminar cuenta (con una cuenta de prueba, no la principal) | | | | |

@@ -18,6 +18,7 @@ Proyecto final de Profundización I — Inteligencia Artificial (Universidad de 
 | F5 Informe integrado del aprendizaje | Análisis del semestre (estadísticas, diagnóstico, plan, infografía, PDF) |
 | F6 Mapa mental interactivo | Mapa mental |
 | F7 Presentación del proyecto y equipo | `/acerca` |
+| Historial de evaluaciones e informes PDF | `/historial`, `/informes` |
 
 Lo que **no** está construido: ver «Límites conocidos» más abajo.
 
