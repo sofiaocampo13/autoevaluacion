@@ -9,7 +9,7 @@ import { generateFinalReport, SUMMARY_PROMPT_VERSION, type CriterionDigest } fro
 import { checkCodeEvidence, reportForPrompt, type CodeReport } from "@/lib/code-check";
 import { buildEvidencePackage, loadEvidence, type InventoryEntry } from "@/lib/evidence";
 import { extractParts } from "@/lib/extract";
-import { extOf } from "@/lib/files";
+import { FILE_TYPES, effectiveExt, extOf } from "@/lib/files";
 import type { Criterion, Level } from "@/lib/rubric-validate";
 import { estimatedGrade, overallPercent } from "@/lib/scoring";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -86,6 +86,20 @@ export async function startEvaluation(supabase: Supa, userId: string, labId: str
     provider = getProvider();
   } catch (e) {
     return { ok: false, error: e instanceof AIError ? e.message : "No se pudo configurar la IA." };
+  }
+
+  // Sin evidencia analizable no tiene sentido gastar IA: se avisa antes de reservar nada (p. ej. un laboratorio con solo un video).
+  const { data: labFiles } = await supabase.from("lab_files").select("file_name").eq("lab_id", labId);
+  const names = (labFiles ?? []).map((f) => f.file_name as string);
+  const supportOf = (n: string) => FILE_TYPES[effectiveExt(n)]?.support;
+  if (!lab.repo_url && !names.some((n) => supportOf(n) === "now")) {
+    const media = names.filter((n) => supportOf(n) === "later");
+    const old = names.filter((n) => supportOf(n) === "convert");
+    if (media.length)
+      return { ok: false, error: `Este laboratorio solo tiene audio o video (${media.slice(0, 3).join(", ")}) y la plataforma todavía no los analiza. Sube también un documento, una presentación, un informe o capturas (por ejemplo, el guion o las diapositivas del video), o enlaza un repositorio, y vuelve a evaluar. No se gastó nada de tu cupo de IA.` };
+    if (old.length)
+      return { ok: false, error: `Los archivos de este laboratorio están en un formato antiguo (${old.slice(0, 3).join(", ")}). Guárdalos como .docx, .xlsx o .pdf, vuélvelos a subir y evalúa de nuevo. No se gastó nada de tu cupo de IA.` };
+    return { ok: false, error: "Este laboratorio no tiene archivos que la IA pueda leer ni un repositorio. Sube tu trabajo antes de evaluar. No se gastó nada de tu cupo de IA." };
   }
 
   // Reserva del presupuesto diario de IA (la cuota gratuita la comparten todos los usuarios).
