@@ -167,13 +167,13 @@ La usuaria probó en la URL pública, sin captura, y reportó que funcionó:
 - **Confirmación antes de borrar:** eliminar laboratorios, archivos y materiales, borrar borradores y revocar enlaces pide confirmación (se detectó que antes un laboratorio se borraba de un solo clic).
 - Los hallazgos de uso que salieron de estas pruebas se corrigieron (ver `DESARROLLO_CON_IA.md`, puntos 30 y 31).
 
-## Registro de ejecución manual pendiente
+## Registro de ejecución manual
 
-Partes que siguen «por ejecutar»; anotar aquí el resultado real (fecha, quién, Pasa/Falla y una captura):
+La usuaria informó el 16/11/2026 que ejecutó en la URL pública las pruebas manuales que faltaban y que funcionaron. No se guardó detalle ni captura de cada una; el registro queda como **reportado**:
 
 | ID | Fecha | Quién | Resultado | Evidencia |
 |---|---|---|---|---|
-| T05 (subir una carpeta completa y un ZIP) | | | | |
-| T14 (descarga de la infografía de un laboratorio) | | | | |
-| T15 (abrir y descargar el PDF de un laboratorio) | | | | |
-| Eliminar cuenta (con una cuenta de prueba, no la principal) | | | | |
+| T05 (subir una carpeta completa y un ZIP) | 16/11/2026 | Usuaria | Pasa (reportado) | Sin captura |
+| T14 (descarga de la infografía de un laboratorio) | 16/11/2026 | Usuaria | Pasa (reportado) | Sin captura |
+| T15 (abrir y descargar el PDF de un laboratorio) | 16/11/2026 | Usuaria | Pasa (reportado) | Sin captura |
+| Eliminar cuenta (cuenta de prueba) | 16/11/2026 | Usuaria | Pasa (reportado) | Sin captura |
