@@ -1,7 +1,8 @@
 import { AIError, type AIProvider, type GenerateArgs, type Part } from "./types";
 
 const BASE = "https://generativelanguage.googleapis.com/v1beta/models";
-const RETRY_DELAYS_MS = [2000, 6000];
+// Saturación (503): se espera cada vez más, ~53 s en total. Cabe de sobra en los 300 s de la función y evita fallar por un pico corto.
+const RETRY_DELAYS_MS = [2000, 6000, 15000, 30000];
 const REQUEST_TIMEOUT_MS = 100_000; // una llamada colgada no puede bloquear la evaluación indefinidamente
 const MAX_QUOTA_RETRIES = 3;
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
