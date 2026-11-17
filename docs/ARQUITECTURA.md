@@ -99,8 +99,8 @@ El paso 4 y el 6 corren en `/api/evaluaciones/[id]/paso` con `maxDuration = 300`
 
 | Recurso | Tope | Por qué |
 |---|---|---|
-| IA por usuario | 12 unidades / 24 h (evaluación = 3; rúbrica, análisis o rellenar laboratorio = 1) | Proteger la cuota compartida |
-| IA global | 18 unidades / 24 h | Dejar margen de reintentos bajo las ~20 peticiones gratuitas |
+| IA por usuario | 21 unidades / 24 h (evaluación = 3; rúbrica, análisis o rellenar laboratorio = 1) | Proteger la cuota compartida |
+| IA global | 36 unidades / 24 h | Dos modelos (principal y alterno) con ~20 peticiones gratuitas cada uno, con margen para reintentos |
 | Almacenamiento por usuario | 250 MB y 2.500 archivos | El plan gratuito de Supabase da 1 GB en total |
 | Almacenamiento total | 900 MB | Margen sobre el gigabyte gratuito |
 | Archivo | 50 MB; 300 archivos por carga | Límite del plan gratuito y de la petición |

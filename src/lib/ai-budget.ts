@@ -12,8 +12,8 @@ const intEnv = (name: string, fallback: number) => {
   const v = Number.parseInt(process.env[name] ?? "", 10);
   return Number.isFinite(v) && v > 0 ? v : fallback;
 };
-/** Topes configurables por variable de entorno; el global queda por debajo de las 20 peticiones para dejar margen a reintentos. */
-export const aiLimits = () => ({ user: intEnv("AI_USER_DAILY_UNITS", 12), global: intEnv("AI_GLOBAL_DAILY_UNITS", 18) });
+/** Topes configurables por variable de entorno. Hay dos modelos (principal y alterno) con cuota propia de ~20 peticiones diarias cada uno; el global deja margen a reintentos. */
+export const aiLimits = () => ({ user: intEnv("AI_USER_DAILY_UNITS", 21), global: intEnv("AI_GLOBAL_DAILY_UNITS", 36) });
 
 export type Reservation = { ok: true; id: string } | { ok: false; error: string };
 

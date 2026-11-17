@@ -139,7 +139,7 @@ Este documento define 20 pruebas funcionales, cada una ligada a un requisito del
 
 ### T20 — Límites de uso
 - **Procedimiento:** `scripts/test-ai-budget.ts` y `scripts/test-storage-quota.ts` (base real, con datos temporales).
-- **Resultado esperado:** la IA se limita por usuario (12) y global (18) por ventana de 24 h, con reservas atómicas y devolución si falla; el almacenamiento se limita a 250 MB y 2.500 archivos por usuario y 900 MB en total; un usuario no puede escribir en las tablas de límites.
+- **Resultado esperado:** la IA se limita por usuario (21) y global (36) por ventana de 24 h, con reservas atómicas y devolución si falla; el almacenamiento se limita a 250 MB y 2.500 archivos por usuario y 900 MB en total; un usuario no puede escribir en las tablas de límites.
 - **Estado:** **Automática superada** — 7/7 y 9/9 (16/11/2026).
 
 ## Pruebas complementarias (fuera de las 20)

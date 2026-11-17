@@ -51,7 +51,7 @@ Requisitos: Node.js 22 o superior, un proyecto de Supabase y una clave de la API
    | `GEMINI_MODEL` | Modelo (por defecto `gemini-3.5-flash`) |
    | `GEMINI_FALLBACK_MODEL` | Modelo alterno que se usa solo si el principal está saturado o sin cuota (queda registrado y avisado). En producción: `gemini-3.5-flash-lite` |
    | `NEXT_PUBLIC_SITE_URL` | URL pública, para los enlaces de correo y de revisión |
-   | `AI_USER_DAILY_UNITS`, `AI_GLOBAL_DAILY_UNITS` | Opcionales: topes de uso de la IA (por defecto 12 y 18) |
+   | `AI_USER_DAILY_UNITS`, `AI_GLOBAL_DAILY_UNITS` | Opcionales: topes de uso de la IA (por defecto 21 y 36) |
 
 3. Aplica las migraciones de `supabase/migrations/` en orden (`0001` a `0010`) desde el SQL Editor de Supabase.
 4. En Supabase, **Authentication → URL Configuration**: Site URL y Redirect URLs con tu dirección pública y `http://localhost:3000/**`. Para el correo: **Authentication → Emails → SMTP Settings** con un SMTP propio (p. ej. Gmail con contraseña de aplicación) y las plantillas de «Confirm sign up» y «Reset Password» apuntando a `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email` (y `type=recovery` para la recuperación). El envío integrado de Supabase solo entrega a miembros de tu organización.
