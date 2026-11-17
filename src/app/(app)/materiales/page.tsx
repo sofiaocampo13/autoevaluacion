@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ConfirmButton } from "@/components/confirm-button";
 import { createClient } from "@/lib/supabase/server";
 import { CATEGORIES, CATEGORY_LABELS, formatSize, extOf, type Category } from "@/lib/files";
 import { Icon } from "@/components/icons";
@@ -124,9 +125,7 @@ export default async function MaterialsPage({ searchParams }: { searchParams: Pr
                         </a>
                         <form action={deleteMaterial}>
                           <input type="hidden" name="id" value={m.id} />
-                          <button className="inline-flex min-h-11 items-center font-bold text-pink-700 underline hover:text-pink-800" type="submit">
-                            Eliminar
-                          </button>
+                          <ConfirmButton label="Eliminar" question={`¿Eliminar «${m.title}»? Si es la guía o la rúbrica de un laboratorio, dejará de estar asociada.`} confirmLabel="Sí, eliminar" className="inline-flex min-h-11 items-center font-bold text-pink-700 underline hover:text-pink-800" />
                         </form>
                       </>
                     ) : (

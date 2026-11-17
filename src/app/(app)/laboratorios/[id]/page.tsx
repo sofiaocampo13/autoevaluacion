@@ -4,6 +4,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { Notice, Note } from "@/components/ui";
 import { GRADE_DISCLAIMER } from "@/lib/scoring";
+import { ConfirmButton } from "@/components/confirm-button";
 import { AI_COST } from "@/lib/ai-budget";
 import { formatSize, FILE_TYPES, CATEGORY_LABELS, extOf, type Category } from "@/lib/files";
 import { LabForm } from "../lab-form";
@@ -107,7 +108,7 @@ export default async function LabDetailPage({
                             </a>
                             <form action={deleteLabFile} className="flex">
                               <input type="hidden" name="id" value={f.id} />
-                              <button className="min-h-11 px-2 text-[13.5px] font-bold text-red-700 hover:underline" type="submit">Eliminar</button>
+                              <ConfirmButton label="Eliminar" question={`¿Eliminar «${f.file_name}»?`} confirmLabel="Sí, eliminar" className="min-h-11 px-2 text-[13.5px] font-bold text-red-700 hover:underline" />
                             </form>
                           </span>
                         </li>
@@ -197,7 +198,12 @@ export default async function LabDetailPage({
 
       <form action={deleteLab}>
         <input type="hidden" name="id" value={lab.id} />
-        <button type="submit" className="min-h-11 text-[14px] font-bold text-red-700 hover:underline">Eliminar este laboratorio y sus archivos</button>
+        <ConfirmButton
+          label="Eliminar este laboratorio y sus archivos"
+          question={`Se eliminarán el laboratorio, sus ${files?.length ?? 0} archivo(s) y sus ${evaluations?.length ?? 0} evaluación(es). No se puede deshacer.`}
+          confirmLabel="Sí, eliminar todo"
+          className="min-h-11 text-[14px] font-bold text-red-700 hover:underline"
+        />
       </form>
     </section>
   );

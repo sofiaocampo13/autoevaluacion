@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ConfirmButton } from "@/components/confirm-button";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
@@ -142,7 +143,7 @@ export default async function RubricPage({
           <RubricEditor key={selected.id} rubricId={selected.id} initialTitle={selected.title} scale={selected.scale_max === 100 ? 100 : 5} initialCriteria={criteria}>
             <form action={deleteDraftRubric}>
               <input type="hidden" name="rubricId" value={selected.id} />
-              <button className="min-h-11 text-sm font-bold text-[#B4233A] hover:underline">Eliminar este borrador</button>
+              <ConfirmButton label="Eliminar este borrador" question="¿Eliminar este borrador de rúbrica? Se pierden los criterios que no hayas confirmado." confirmLabel="Sí, eliminar borrador" className="min-h-11 text-sm font-bold text-[#B4233A] hover:underline" />
             </form>
           </RubricEditor>
         </div>

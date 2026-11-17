@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { ConfirmButton } from "@/components/confirm-button";
 import { createLink, revokeLink } from "./review-actions";
 
 export type LinkRow = { id: string; createdAt: string; expiresAt: string; state: string; label: string; lastViewedAt: string | null };
@@ -83,7 +84,7 @@ export function ReviewLinkPanel({ evaluationId, links, canCreate }: { evaluation
                 <span className="flex items-center gap-3">
                   <span className={l.state === "activo" ? "font-bold text-blue-700" : "font-bold text-slate-600"}>{l.label}</span>
                   {l.state === "activo" && (
-                    <button onClick={() => revoke(l.id)} disabled={pending} className="min-h-11 px-2 font-bold text-pink-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 disabled:opacity-60">Revocar</button>
+                    <ConfirmButton label="Revocar" question="¿Revocar este enlace? El docente ya no podrá abrirlo." confirmLabel="Sí, revocar" onConfirm={() => revoke(l.id)} disabled={pending} className="min-h-11 px-2 font-bold text-pink-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 disabled:opacity-60" />
                   )}
                 </span>
               </li>
