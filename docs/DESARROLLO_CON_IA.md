@@ -1,6 +1,6 @@
 # Desarrollo asistido por IA — registro de decisiones, problemas y límites
 
-Documento exigido por la rúbrica del proyecto ("Documentar brevemente las herramientas utilizadas, sus aportes, limitaciones y decisiones técnicas"). Se actualiza a medida que avanza el desarrollo. Solo se anotan hechos comprobados en el trabajo.
+Documento exigido por la rúbrica del proyecto ("Documentar brevemente las herramientas utilizadas, sus aportes, limitaciones y decisiones técnicas"). Solo se anotan hechos comprobados en el trabajo.
 
 ## Herramientas
 
@@ -81,6 +81,7 @@ Errores míos de edición (código corrupto por reemplazos con scripts, un archi
 - El código entregado **no se ejecuta**; solo se analiza estáticamente (Python, notebooks, JavaScript y JSON). Otros lenguajes no se analizan.
 - La IA gratuita es **irregular**: latencias de hasta más de un minuto, saturación (503) y cuota diaria de 20 peticiones por modelo.
 - Algunos modelos usados son "preview" y pueden cambiar sin aviso.
-- El **informe PDF del semestre** y la **infografía descargada** se generan y pasan pruebas con datos sintéticos, pero no se han revisado visualmente; el **mapa mental** se probó en el navegador (funciona; se ajustaron los colores tras ese uso).
+- El **informe PDF del semestre**, las **infografías** y el **mapa mental** se generan y pasan pruebas con datos sintéticos; las integrantes los probaron en la URL pública y reportaron que funcionan (sin capturas guardadas). El **diseño** se comprobó con compilación, lint y un detector automático, y lo revisaron las integrantes en el navegador; no hubo una auditoría de accesibilidad con lector de pantalla.
 - El análisis del semestre usa pocos datos reales (2 laboratorios evaluados al probarlo): los patrones y tendencias todavía no son concluyentes.
-- Faltan por construir la página pública «Acerca del proyecto», audio y video, y el despliegue.
+- **Audio y video** no se analizan, por decisión: la cuota gratuita de IA no alcanza y son opcionales en el enunciado. La plataforma está desplegada (Vercel y Supabase) y la página pública «Acerca del proyecto» existe.
+- **Copias de seguridad:** el plan gratuito no las ofrece; hay una copia manual (`scripts/backup-datos.mts`) que debe ejecutarse a mano.
