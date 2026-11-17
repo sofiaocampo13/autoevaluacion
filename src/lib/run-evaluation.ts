@@ -284,6 +284,7 @@ export async function finalizeEvaluation(supabase: Supa, userId: string, evaluat
     const { data: lab } = await supabase.from("labs").select("*").eq("id", ev.lab_id).single();
     const provider = getProvider();
     const report = await generateFinalReport(provider, { lab: { name: lab?.name ?? "", objectives: lab?.objectives ?? "" }, overallPercent: percent, criteria: digest });
+    const summaryModel = provider.lastModelUsed ?? provider.model;
     const guide = lab ? await guideText(supabase, lab) : { text: "", material: null };
 
     const inv = (ev.evidence_inventory ?? []) as InventoryEntry[];
@@ -295,6 +296,7 @@ export async function finalizeEvaluation(supabase: Supa, userId: string, evaluat
       skipped.length ? `${skipped.length} archivo(s) no se pudieron analizar o se omitieron por límites de tamaño: ${skipped.slice(0, 5).map((s) => s.location).join(", ")}${skipped.length > 5 ? "…" : ""}.` : "",
       withWarnings ? `${withWarnings} criterio(s) tienen avisos que conviene revisar (ver su detalle).` : "",
       altModels.length ? `Algunos criterios se valoraron con un modelo alterno (${altModels.join(", ")}) por indisponibilidad del principal.` : "",
+      summaryModel !== provider.model ? `El resumen y la retroalimentación se redactaron con un modelo alterno (${summaryModel}) porque el principal no estaba disponible; la nota y los criterios no dependen de esa redacción.` : "",
     ]
       .filter(Boolean)
       .join(" ");

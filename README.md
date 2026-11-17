@@ -49,7 +49,7 @@ Requisitos: Node.js 22 o superior, un proyecto de Supabase y una clave de la API
    | `SUPABASE_SERVICE_ROLE_KEY` | **Solo servidor.** Escribe resultados que el estudiante no puede escribir |
    | `GEMINI_API_KEY` | **Solo servidor.** Clave de la API de IA |
    | `GEMINI_MODEL` | Modelo (por defecto `gemini-3.5-flash`) |
-   | `GEMINI_FALLBACK_MODEL` | Opcional: modelo alterno (queda registrado y avisado) |
+   | `GEMINI_FALLBACK_MODEL` | Modelo alterno que se usa solo si el principal está saturado o sin cuota (queda registrado y avisado). En producción: `gemini-3.5-flash-lite` |
    | `NEXT_PUBLIC_SITE_URL` | URL pública, para los enlaces de correo y de revisión |
    | `AI_USER_DAILY_UNITS`, `AI_GLOBAL_DAILY_UNITS` | Opcionales: topes de uso de la IA (por defecto 12 y 18) |
 
