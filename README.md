@@ -32,6 +32,7 @@ Costo actual: **$0** (capas gratuitas de Vercel Hobby, Supabase y la API de Gemi
 
 - [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md): arquitectura, modelo de datos, seguridad, flujo de evaluación, integración de IA (con la justificación de la elección, requisitos, limitaciones y costos).
 - [`docs/DESARROLLO_CON_IA.md`](docs/DESARROLLO_CON_IA.md): cómo se desarrolló con asistentes de IA, decisiones técnicas, problemas encontrados y lo que se comprobó y lo que no.
+- Versiones en Word para entregar: [`docs/Documentacion_Desarrollo_con_IA.docx`](docs/Documentacion_Desarrollo_con_IA.docx) (documentación del desarrollo asistido por IA) y [`docs/Resumen_del_Proyecto.docx`](docs/Resumen_del_Proyecto.docx) (resumen de dos páginas con el cumplimiento del enunciado).
 - [`docs/PRUEBAS_FUNCIONALES.md`](docs/PRUEBAS_FUNCIONALES.md): 20 pruebas funcionales con su estado real.
 - [`PLAN.md`](PLAN.md): plan por fases y matriz de cumplimiento.
 
